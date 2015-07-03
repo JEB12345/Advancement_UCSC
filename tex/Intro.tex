@@ -1,0 +1,178 @@
+\chapter{Introduction}
+
+As part of our research for the NASA Innovative Advanced
+Concepts  (NIAC)  program,  we  are  developing  the  SUPER-
+ball (Spherical Underactuated Planetary Exploration Robot),
+which is a compliant icosahedron tensegrity robot designed
+for   planetary   landing   and   exploration.   Tensegrity   robots
+are  soft  machines  which  are  uniquely  able  to  compliantly
+absorb  forces  and  interact  with  unstructured  environments.
+However, instead of engineering a single new robot, we have
+chosen  to  develop  a  fundamentally  reusable  component  for
+tensegrity  robots  by  creating  a  modular  robotic  tensegrity
+strut which contains an integrated system of power, sensing,
+actuation, and communications. The purpose is to enable the
+exploration of the wide range of possible tensegrity robotic
+morphologies  by  simply  combining  the  robotic  struts  into
+new systems.
+
+It is possible to design free-standing structures by arrang-
+ing  axially  loaded  compression  elements  in  a  well  crafted
+network of tensional elements. Such an arrangement is called
+a tensegrity structure (tensile integrity). Each element of the
+structure  experiences  either  pure  axial  compression  or  pure
+tension [1][2]. The absence of bending or shear forces allows
+for highly efficient use of materials, resulting in lightweight,
+yet robust systems.
+Because the struts are not directly connected, tensegrities
+have  the  unique  property  that  externally  applied  forces  dis-
+tribute  through  the  structure  via  multiple  load  paths.  This
+creates  a  soft  structure,  for  a  soft  robot,  out  of  inherently
+rigid  materials.  Since  there  are  no  rigid  connections  within
+the structure, there are also no lever arms to magnify forces.
+The  result  is  a  global  level  of  robustness  and  tolerance  to
+forces applied from any direction.
+This  makes  tensegrity  robots  inherently  compliant  and
+extremely well suited for physical interactions with complex
+and  poorly  modeled  natural  environments.  Active  motion
+in  tensegrity  robots  can  be  performed  by  changing  cable
+lengths in parallel, enabling the use of many small actuators
+that  work  together,  rather  than  individual  heavy  actuators
+which   work   in   series.   There   are   also   many   indications
+that tensegrity properties are prevalent throughout biological
+systems,  and  the  morphology  of  the  SUPERball  that  we
+are  studying,  especially  when  carrying  a  payload,  ends  up
+bearing  a  striking  resemblance  to  the  nucleated  tensegrity
+model of cell structure.
+
+Because  of  the  limited  research  into  actuated  tensegrity
+robotics,   many   design   aspects   have   yet   to   be   carefully
+studied. To date, the majority of constructed tensegrity robots
+have  been  simple  prototypes  using  servo  motors,  limited
+sensing,  and  are  often  tethered  for  power  and  control  [5].
+Others have had fewer limbs than the SUPER ball, or have
+been  secured  to  the  ground  as  opposed  to  free-standing
+[6][7]. Some related approaches utilize tensegrity as part of a
+larger, more complicated system, but not as the primary loco-
+motion method [8]. Others have created designs that do not
+use direct cable actuation, as in the SUPER ball, but instead
+have  more  limited  forms  of  locomotion  through  vibration
+[9][10]. Finally, the most similar designs to the SUPER ball
+have not been engineered to specific design requirements nor
+have  the  advanced  sensing  framework  needed  for  controls
+testing [11]
+
+The  high  strength-to-weight  ratio  of  tensegrity  structures
+is very attractive due to the impact of mass on mission launch
+costs.  Large  tensegrity  structures  have  been  shown  to  be
+deployable from small compact configurations which enable
+them to fit into space constrained launch fairings. While the
+above qualities have inspired studies of deployable antennae
+and  other  large  space  structures  [12],  it  is  in  the  realm
+of  planetary  exploration  that  we  see  the  most  significant
+role  for  many  of  the  unique  force  distribution  qualities  of
+tensegrity  robots.  A  recent  NIAC  project  [13]  specifically
+studies  landing  and  surface  mobility  of  tensegrities,  ex-
+ploiting  the  controllable  compliance  and  force  distribution
+properties which make for reliable and robust environmental
+interactions.
+The   main   goal   is   to   develop   tensegrity   probes   with
+an  actively  controllable  tensile  network  to  enable  compact
+stowage  for  launch,  followed  by  deployment  in  preparation
+for  landing.  Due  to  their  natural  compliance  and  structural
+force  distribution  properties,  tensegrity  probes  can  safely
+absorb significant impact forces, enabling high speed Entry,
+Descent, and Landing (EDL) scenarios where the probe itself
+acts  much  like  an  airbag.  However,  unlike  an  airbag  which
+must  be  discarded  after  a  single  use,  the  tensegrity  probe
+can  actively  control  its  shape  to  provide  compliant  rolling
+mobility  while  still  maintaining  the  ability  to  safely  absorb
+impact  shocks  that  might  occur  during  exploration.  This
+combination  of  functions  from  a  single  structure  enables
+compact and lightweight planetary exploration missions with
+the capabilities of traditional wheeled rovers, but with a mass
+and cost similar or less than a stationary probe.
+
+Therefore, a large fraction of the overall weight (as mea-
+sured  at  atmospheric  entry)  of  a  tensegrity  mission  can  be
+used  for  the  scientific  payload  due  to  the  dual  use  of  the
+structure  as  a  lander  and  a  rover.  This  allows  for  cheaper
+missions  and  enable  new  forms  of  surface  exploration  that
+utilize the natural tolerance to impacts of tensegrities [14].
+
+Buckminster Fuller [1] and the artist Kenneth Snelson [2]
+initially  explored  tensegrity  structures  in  the  1960s.  Until
+the  mid-1990s  the  majority  of  tensegrity  related  research
+was  concerned  with  form-finding  [15]  and  design  analysis
+of  static  structure  [16][17].  More  recently,  active  control
+efforts  for  tensegrities  began  to  emerge  [18],  as  well  as
+descriptions  of  the  dynamics  of  tensegrity  structures  taking
+the connectivity pattern into account [17].
+The tensegrity principle allows for compliance and multi-
+path load distribution, which is ideal for physical interaction
+with  the  environment.  However,  these  aspects  also  present
+significant  challenges  to  traditional  control  approaches.  A
+recent  review  [19]  shows  that  there  are  still  many  open
+problems in actively controlling tensegrities, especially when
+interacting  with  an  environment  during  locomotion  or  ma-
+nipulation  tasks.  Though  work  has  been  done  to  control  a
+tensegrity  to  change  into  a  specified  shape  [20],  practical
+determination  of  the  desired  shape  itself  is  an  ongoing
+challenge.  Recently,  locomotion  of  icosahedral  tensegrity
+robots  through  body  deformation  was  demonstrated  [21].
+Other work has addressed collision between rigid tensegrity
+elements during control generation [22][23].
+The  approach  taken  by  the  NASA  Dynamic  Tensegrity
+Robotics  Lab  builds  on  this  by  developing  body  defor-
+mation  control  algorithms  based  on  central  pattern  gen-
+erators  [24][25],  distributed  learning,  reservoir  computing,
+and  genetic  algorithms  [26],  instead  of  traditional  linear
+and  nonlinear  systems  approaches.  To  date,  our  approach
+has  shown  promising  results  at  productively  harnessing  the
+potential  of  complex,  compliant,  and  nonlinear  tensegrity
+structures.
+
+\section{Motivation}
+
+Though there is much prior work in a variety of theoretical
+areas for tensegrities, engineering knowledge of constructing
+practical  tensegrity  robots  is  limited.  Since  a  staggering
+variety  of  different  tensegrity  structures  can  be  constructed
+from  collections  of  simple  sticks  and  strings  (for  example,
+see the TensegriToy modeling kit), we have made it a priority
+to develop self-contained robotic tensegrity struts which can
+be  used  to  explore  and  build  a  wide  range  of  tensegrity
+robots  simply  by  combining  them  into  novel  structures.
+Our  designs  are  driven  by  experimental  results  obtained
+from  a  previous  prototype,  ReCTeR  (Reservoir  Compliant
+Tensegrity Robot) in combination with simulation results of
+our validated tensegrity simulator NTRT (NASA Tensegrity
+Robotics Toolkit) [27][28]
+
+\section{Application}
+
+
+\section{Goal}
+
+In  order  to  develop  SUPERball  from  ReCTeR’s  design
+limitations as well as our lab’s need for rapid experimentation
+of  various  tensegrity  configurations  and  morphologies,  we
+came  up  with  a  modular  tensegrity  platform  to  research
+large  scale  robotic  tasks;  e.g.  a  tensegrity  planetary  probe
+to explore Saturn’s moon Titan.
+A.  Design Requirements
+Our lab obtained design requirements through an iterative
+approach  involving  NTRT  and  ReCTeR.  As  we  recently
+validated  our  NTRT  simulator  by  experimental  validation
+with  ReCTeR  [28],  we  can  now  quickly  evaluate  various
+tensegrity  configurations  in  simulation  to  find  optimal  me-
+chanical  design  goals.  Next  to  the  NTRT  solver,  we  also
+incorporated  results  obtained  with  our  (open  source)  Euler
+Lagrange solver based on Skelton’s work [17] and measure-
+ments on ReCTeR.
+The design requirements obtained from the NTRT simula-
+tions are given in Table I. We are confident that a tensegrity
+robot achieving the following conditions will be capable of
+dynamic locomotion, as shown by our evaluation of control
+policies in Section V.
+

@@ -1,0 +1,100 @@
+\chapter{Mechatronic Design}
+
+An ideal tensegrity system, either robotic or static, is a collection of rigid compressive elements suspended within a network of tensioned cables. 
+For a robotic tensegrities without a payload, the actuation and supporting electronics would be logically designed into the compressive elements. 
+Making each compressive element identical will also make the over all design and support of the entire tensegrity robot simplier. 
+For SUPERball, each compressive element would be comprised of three parts: two identical end caps and a piece of tube stock. 
+The end cap was designed 
+
+\section{Mechanical}
+Write about the mechanical design of SUPERball. Make sure to give credit where credit is due.
+
+B.  Mechanical Design
+SUPERball  is  an  icosahedron  tensegrity  structure  com-
+prised  of  12  motors  at  the  end  of  the  robot’s  6  rods.  Each
+rod  is  comprised  of  three  main  elements,  2  modular  end
+cap  assemblies  containing  all  the  mechanical  and  electrical
+systems   and   a   connecting   aluminum   tube   as   a   support
+structure. The main structural elements of the end caps were
+kept  simple  and  in  sections  to  enable  each  end  cap  to  be
+modular  as  well  as  self  contained  so  that  the  end  cap  may
+be removed from the connecting rod as one whole unit. The
+end  caps  are  held  onto  the  connecting  rods  by  a  simple
+tube  collar  for  easy  removal.  There  are  5  sections  to  the
+modular end cap which are, a spring holder, battery holder,
+motor and electronics element, cable actuation section, and a
+ground contact section. These sections as they are designed
+for SUPERball are shown in Fig. 4. Each of these 5 sections
+can  be  removed  from  the  rod  as  a  full  sub-assembly  and
+replaced with a new component, increasing the versatility of
+each rod.
+A  lesson  learned  from  ReCTeR  was  that  externally  ex-
+posed springs are not ideal for a robotic system. The exposed
+springs get caught on objects and the assumption of massless
+cables  can  no  longer  be  applied.  On  the  modular  end  cap
+for SUPERball, an enclosed compression spring system was
+developed  to  alleviate  these  issues.  Compression  springs
+were chosen so that during any unknown impact, the springs
+would not plastically deform. For SUPERball, a spring with
+a spring constant of
+613
+N=m
+is attached to a passive cable
+element  and  a
+2850
+N=m
+spring  is  attached  to  an  actuated
+cable.  The  passive  spring  has  a  much  higher  compressive
+range to allow for pretension to be instated into the passive
+springs.  A  working  prototype  of  our  spring  holder  system
+can be seen in Fig. 5.
+
+\section{Electrical}
+Write about the electronic board used on SUPERball.\\
+
+SUPERball  was  developed  with  distributed  controls  in
+mind.  Each  rod  end  cap  houses  two  control  boards,  one
+for  motor  driving  and  one  for  handling  sensing  and  com-
+munications. Each board hosts a Microchip dsPIC33EP. The
+motor driver is a BLDC/PMSM driver board capable of block
+commutation and sensorless sinusoidal control. Each sensor
+board is equipped with an ADC
+(24bit Analog AD7193)
+and
+9 DOF IMU data
+(MPU6000 and MAG3110)
+.
+Two custom force sensors were developed for the SUPER-
+ball, a reaction torque sensor and a compression force sensor.
+Fig. 6 shows the reaction torque sensor. It is a symmetrical
+four  arm  cross  design  with  the  half  bridge  located  in  the
+center of each arm. This sensor, along with the compression
+sensors and current sensors allow us to implement high level
+control schemes such as impedance control in which the full
+state of the mechanical and electrical system must be known.
+
+- Untethered electronics
+- 
+
+To this end, we tried to develop electronics which where extensible for various communications
+Another driving parameter was the ability to drive the 100W BLDC Maxon motors chosen from the initial iterative design.
+These two main design criteria governed our prototype to implement four separate electronic boards per end cap.
+Three boards are custom designed PCBs and the fourth is an ARM based computer called Beagle Bone Black.
+Each custom PCB is designed for very different purposes: A board to condition sensor data and run real-time control loops, a board to condition and distribute a 5.5V electronic power rail and a 24V motor power rail, and a board to control the 100W BLDC motor. 
+The boards are simply named by their main purpose, thus Sensor, Power, and Motor board, respectively.
+
+\subsubsection{Sensor Board}
+The sensor board was originally designed as the main processing unit on an end cap for SUPERbal. 
+However, the design and building process has lead to the coupling of the sensor board with a Beagle Bone Black.
+These two versions are dubbed v1 and v2, respectively.
+I will first write about v1 of the sensor board, then follow up on how v2 was changed.\\
+
+The main processing unit on each sensor board is Microchip's dsPIC33EP128GP506, a 16 bit microcomputer running at 140MHz. 
+Besides the designer's familiarity with this family of microcomputers, the dsPIC33E chips feature multiple Universal Asynchronous Receiver/Transmitter (UART), Serial Peripheral Interface (SPI), and Inter-Integrated Circuit (I2C) communication modules. 
+The dsPIC33E also features an ECAN modules with 2.0B support, a 12 bit Analog to Digital Converter, and four Direct Memory Access (DMA) channels. 
+All these moudles coupled with almost complete pin to peripheral pin remapping made the microcomputer a solid choice for our sensor board. 
+
+\section{Communication and Data Flow}
+
+
+
