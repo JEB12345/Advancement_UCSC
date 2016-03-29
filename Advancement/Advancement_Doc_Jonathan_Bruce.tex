@@ -1,0 +1,45 @@
+\documentclass[11pt,oneside,a4paper,onecolumn]{report}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{setspace}
+\usepackage{hyperref}
+\usepackage{morefloats}
+\usepackage{amsmath}
+\usepackage{setspace}
+\usepackage{subcaption}
+\usepackage{enumitem}
+\usepackage{bm} %allows for bold mathematical symbols (e.g. \bm{X})
+\usepackage{siunitx} %correct typesetting for SI units (e.g. \SI{50}{\hertz})
+%\singlespacing
+\doublespacing
+\usepackage[margin=1in]{geometry}
+\setlength{\parindent}{20pt} % Do not automatically indent the paragraphs.
+
+\newcommand{\SB}{SUPERball} %use \SB{} to write "SUPERball" correctly
+
+\begin{document}
+
+\input{./tex/Title.tex}
+
+\input{./tex/TOC_Figures_Tables.tex}
+
+\input{./tex/Intro.tex}
+\input{./tex/LitReview.tex}
+\input{./tex/Modeling.tex}
+\input{./tex/Mechatronic.tex}
+%\input{./tex/Results.tex}
+\input{./tex/Future.tex}
+
+% Outline
+% Intro about tensegrities. Explain what the structure is and why it is important. Good to mention ideal tensegrities, class system, and prior robots and research.
+% Modeling: This section will be a short section on basic linear modeling of a tensegrity structure. Mention that this is not my work, but and explination of prior research. 
+% Mechatronics: This will be the longest section. Start off by talking about NIAC and the NASA proposal. Then move to how that directed over arching desgin goals. Move to then talk about the design matrix for SUPERball and how we choose some of the components that we did. Finish by explaining each major portion of the system.
+% Results: This section will talk about the itial results from SUPERball. Tension information, motor power and control, battery monitoring, communication (ROS, CAN), 
+% Future Work: Talk about where we are taking the project. Movement, learning, etc.
+
+% Bibliography:
+\clearpage
+\bibliographystyle{plain}
+\bibliography{Advancement_Doc_Jonathan_Bruce}
+
+\end{document}
