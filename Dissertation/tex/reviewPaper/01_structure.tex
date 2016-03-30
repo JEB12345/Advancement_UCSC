@@ -1,0 +1,98 @@
+Tensegrities are variable stiffness, structurally compliant systems,
+which distribute all forces into pure linear compression or tension
+elements. Thus, they physically change their structural expression
+based on experienced forces~\cite{skelton_tensegrity_2009}.
+Tensegrities were first explored in art and architecture, where they
+have been described as \emph{forces made
+visible}~\cite{snelson_forces}. They have also been called the
+fundamental building structures of life as they closely resemble the
+structure of spines \cite{Levin:2002aa} and the cytoskeletons of
+single-celled organisms, which are known to move \cite{Ingber:1998fk}.
+
+\begin{figure}[t]
+\includegraphics[width = \linewidth,trim={0cm 0 0
+0cm},clip]{figures/tensegrity_fig.png}
+\vspace{-.3in}
+\caption{Tensegrity robots examples: a) NASA SUPERball robot: an
+actuated tensegrity icosahedron with 6 compressive and 24 compliant
+elements in tension~\cite{sabelhaus2015system}.  b) The DuCTT v2 duct
+climbing robot: 2 linked tetrahedral frames connected by 8 actuated
+cables act as a compliant 6 DoF joint~\cite{6907473}.}
+\vspace{-.2in}
+\label{fig:tensPrinciple}
+\end{figure}
+
+Tensegrities inherently integrate structural design and
+control \cite{skelton_tensegrity_2009}. A tensegrity structure, such
+as the model of Fig.~\ref{fig:tensPrinciple}(a), keeps its shape due
+to the balance among tensile and compressive forces. This allows
+individual elements of the structure to be lightweight, as they do not
+independently need to resist bending or shear forces. Instead, such
+forces are distributed across the entire structure and they do not
+magnify around joints or other points of failure.  Furthermore, by
+equally changing the tension in the cables, the robot can change its
+structural stiffness without changing shape, allowing it to adapt to
+contact dynamics.  Thus, tensegrity structures are ideally suited for
+unstructured and dynamic environments, where contact forces cannot be
+easily predicted and traditional mechanisms are not as
+adaptive \cite{Zimmermann:2009cr}.  These benefits have motivated the
+development of hybrid-soft robots that actively utilize tensegrity
+principles, since they can safely operate in real world
+conditions~\cite{Trivedi:2008nx, Albu-Schaffer:2008oq}.
+
+\subsection{Applications}
+
+Given the above properties, tensegrity robots enable a wide range of
+applications, which involve complex contact dynamics and require
+low-weight, energy efficient, compliant platforms.  They can be
+designed with a wide variety of shapes and motion dynamics for
+different tasks. Multiple behaviors have already been demonstrated:
+crawling~\cite{Paul2006a,MirletzSoftRobotics},
+swimming~\cite{Bliss2013Central-Pattern}, rolling
+locomotion~\cite{iscen2014flop, kimrobust}, and deployment as
+compliant many-DoF joints as in Fig.~\ref{fig:tensPrinciple}(b).
+
+Example uses of tensegrities include search and rescue in disaster
+areas, the exploration of natural environments, such as volcanic
+surfaces and caves, exploration and cleaning of pipes,
+ducts \cite{6907473}, and space-related
+applications \cite{Furuya:1992dq}.  Especially in the context of
+planetary exploration, a tensegrity robot: i) introduces small weight
+overhead relative to a science payload, ii) protects sensitive
+instruments by acting as an air-bag, iii) provides surface mobility
+and iv) manipulation capabilities.  This implies that future space
+exploration missions can be cheaper and consider new ways of
+interacting with planetary surfaces that take advantage of the natural
+tolerance of tensegrity structures to
+impacts \cite{SunSpiral2013Tensegrity-Base}.
+
+\subsection{Hardware Prototypes}
+
+Early prototypes were focused on form finding or basic motion
+primitives and had limited to no sensor feedback~\cite{Paul2006a,
+Rovira2009Control-and-Sim, miratstur2011athree-dof, Shibata2009,
+bohm2013vibration}.  More recently, ReCTeR is an un-tethered
+tensegrity prototype that allows for closed-loop
+locomotion~\cite{Caluwaerts2013rsif}.  A similar geometry tensegrity
+robot is SUPERball, which is a prototype planetary exploration rover
+for NASA to study dynamic locomotion and path
+planning~\cite{bruce2014design,sabelhaus2015system}.
+Figure~\ref{fig:SB} illustrates the capabilities of the SUPERball.
+Table~\ref{tbl:resources} provides a more extensive list of tensegrity
+robot hardware designs.
+
+\begin{figure}[th]
+\vspace{-.1in}
+\centering
+\includegraphics[width=\columnwidth]{figures/fig2_combined.jpg}
+\vspace{-.3in}
+\caption{SUPERball tensegrity robot prototype: a) during a test
+      in the NASA Ames roverscape. b) active crouching by contracting
+      cables (background and cables removed) c) deformation during
+      droptest d) rolling from face to
+      face.}  
+\vspace{-.2in}
+\label{fig:SB}
+\end{figure}
+
+

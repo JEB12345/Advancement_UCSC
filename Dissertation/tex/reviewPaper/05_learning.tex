@@ -1,0 +1,132 @@
+%{\bf Model-free Task-Oriented Learning} \komment{Emphasize that the
+%above discussion has been mostly in the context of model-based
+%approaches - with the exception of work on gait generation that is
+%model-free, such as {\tt CPG}s. But given the complexity of the underlying
+%platform, one can look into recent developments in deep and
+%reinforcement learning, where controllers are developed by training
+%motion parameters given sensing data (e.g., work by Abbeel and Levine
+%at Berkeley - or work by Google DeepMind - or work by Knepper and
+%Saxena at Cornell). Question is whether these approaches can scale to
+%the complexity of tensegrity platforms as well as whether they can go
+%beyond learning a low-level controller and provide long-horizon type
+%solutions.
+
+%There are, however alternative ways of considering an integration
+%recent developments in learning with planning and controllers. One
+%can think of using learning tools in order to learn and adapt models
+%on the fly that can be used as propagation primitives in a planning
+%process, which do consider physical aspects of the underlying
+%challenge, i.e., use deep and reinforcement learning to learn the
+%physics engine for a tensegrity and a complex environment. If the
+%learning processes are able to adapt to real-world parameters on the
+%fly, then an additional benefit of this approach is that it provides
+%with significant computational benefits in the context of planning
+%with realistic physics.}
+
+The above model-based methods can be improved by integrating them with
+modern model-free and learning algorithms, especially with the recent
+numerous successes in deep and reinforcement learning.
+
+%This section discusses the challenges and opportunities that arise
+%when considering model-free learning approaches for controlling
+%tensegrity robots.
+
+%1. what has been done in this domain
+
+\subsection{Application of Deep and Reinforcement Learning}
+
+Deep learning is a set of related \emph{supervised} learning
+algorithms, but researchers have come up with clever ways of extending
+it to an \emph{unsupervised} methodology through the use of
+reinforcement learning.  An example of this is Guided Policy Search,
+which splits up a hard reinforcement learning problem into an optimal
+control problem based on sample-based learned
+models~\cite{levine2015learning}.  Trajectories generated through this
+optimal control are then used to train (deep) neural network policies.
+Google's Deepmind took a different and more classic approach in which
+batches of experiences are stored and replayed to train a deep neural
+network~\cite{mnih2015human}.  No explicit model is constructed in
+this case and the policy is directly optimized.  There are also
+approaches that combine model predictive control with a recurrent deep
+neural network that learns a model of the underlying
+dynamics~\cite{lenzdeepmpc}.
+
+%2. question one: does it scale Do these state-of-the-art methods in
+% reinforcement learning scale to the complexity of tensegrity robot
+% dynamics?
+
+A concern for the application of these approaches on tensegrity robots
+is whether they scale as the dynamics become more complex.  Deep
+learning algorithms are capable of combining vast amounts of sensor
+data in comparison to the number of learning trials.  This indicates
+that the dimensionality of the sensor space by itself does not
+constitute the largest problem.  While state estimation for tensegrity
+systems is non-trivial, learning based methods can provide ways to
+robustly provide proprioceptive state
+estimation~\cite{burms2015online}.
+
+Tensegrity robots often have a large number of degrees of freedom
+(cf. tensegrity spine-like robots~\cite{Mirletz2015}), which renders
+learning a complete dynamics model from a limited number of samples
+difficult.  There are recent examples of reinforcement learning for
+relatively high dimensional ($\approx 100$ DoF)
+systems~\cite{kumaroptimal}, which indicate that direct applications
+of state-of-the-art model-free learning is plausible.  
+
+Inferring structure from data is a key benefit of deep learning.  In
+the case of tensegrity robots, however, the known connections in the
+structure should be exploited to decrease learning time and improve
+generalization.  The basic concept of using the tensegrity connection
+pattern is not new and has been applied in low-level and {\tt CPG}
+control~\cite{iscen2014flop, MirletzSoftRobotics}.  In the case of
+deep-learning, this could be implemented as a prior on the dynamics of
+each common substructure or as shared hyper-parameters.
+
+%This approach would also prove beneficial in the case of
+%reconfiguring a structure.
+
+%3. question two: does it go beyond low-level control
+% A fundamental question is how model-free learning techniques can go
+% beyond low-level control?
+
+\subsection{Interaction with Planning}
+
+Enabling planning for high-level objectives, e.g., moving from A to B
+while avoiding obstacles and keeping energy usage below a set
+threshold, may be achieved by the model-based planning algorithms
+proposed in section~\ref{sec:planning}.  Yet, model-free approaches
+can compliment processes for achieving high-level goals and
+constraints for long-horizon flexible planning, even though model-free
+frameworks tend to be focused on addressing individual tasks.
+
+%4. how to interact with planning: provide motion primitives
+
+One direction is to use model-free approaches to learn motion
+primitives~\cite{schaal2003computational}, which then become available
+to a higher-level planner.  This is particularly helpful as it allows
+to combine different types of low-level controllers (e.g., a rhythmic
+and a high-precision, yet slow, kinematic controller).  In practice,
+the model-free algorithms can be used to learn motion primitives that
+make efficient use of sensor data and exploit body dynamics.  
+Low-level controllers are then robust and
+computationally efficient.
+This is in line with the concept of morphological
+computation~\cite{Rieffel2009}. %~\cite{2917079}.
+
+%5. how to interact with planning: learn physics engine
+
+A second way to provide adaptability to long-horizon flexible planning
+is to use deep and reinforcement learning to construct models, which
+are then used by a planning algorithm.  A learned model, such as a
+neural network, can in many cases be more computationally efficient
+than an analytical or simulated
+model~\cite{Kanchanasaratool2002Motion-Control-} and can be fit to the
+characteristics of a real-world platform.  A number of reinforcement
+learning algorithms construct task-specific
+models~\cite{levine2015learning, lenzdeepmpc}, but the key difference
+in order to enable flexible planning is that the learned models must
+be able to generalize over a large part of the state space.  By
+creating general learned models of the underlying dynamics and
+leveraging efficient high-level planning frameworks, the goal of long
+horizon planning for tensegrity robots appears to be within reach (see
+Figure~\ref{fig:overview} for the proposed interaction).

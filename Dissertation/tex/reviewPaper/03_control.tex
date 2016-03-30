@@ -1,0 +1,129 @@
+Early tensegrity research was mostly focused on modeling the statics
+~\cite{2003Tensegrity:-Str, Juan2008, Arsenault:2008bh} and dynamics
+of a structure, so as to provide effective equations of motion
+~\cite{Kanchanasaratool2002Motion-Control-, De-Oliveira:2006ys,
+skelton_tensegrity_2009}.  In specific cases, such as state
+estimation, modeling tensegrities as constrained mass-spring nets
+allows for highly efficient and sufficiently accurate
+implementations~\cite{Caluwaerts:2015aa}.  The mass-spring approach
+has also proven valuable in more theoretical studies of morphological
+computation~\cite{Hauser}. Nevertheless, there is a trade off between
+computational efficiency and high dynamic model fidelity during
+environment interaction modeling.  Table~\ref{tbl:resources}
+summarizes many of these contributions that can impact tensegrity
+control.
+
+%But the dynamics of tensegrities is an active research area being
+%approached by a variety of viewpoints~\cite{skelton_tensegrity_2009}.
+
+
+Many of the tensegrity hardware robots are tendon-driven or use
+pneumatic actuators, which are typically a burden to accurately model
+analytically. A learned model might increase the computational
+efficiency when trying to represent real-world hardware in changing
+environments.  Section~\ref{sec:learning} discusses the option of
+using learned models as a proxy to simulation or involved analytical
+models.
+
+%Given models of tensegrity structures, many interesting problems
+%regarding tensegrity structures correspond to their
+%control \cite{Tur:2009fu}.
+
+Given a dynamic model, it is possible to control a tensegrity
+structure along static equilibrium
+manifolds~\cite{Skelton1997Controllable-Te}.  Alternatively, feedback
+linearization control laws~\cite{Aldrich2003Control-Synthes} or
+Lyapunov-based controllers for 3D dynamic
+models~\cite{Wroldsen2006A-Discussion-on} have also been
+developed. Frequently, these approaches do not account for
+self-collisions or environmental contact dynamics, limiting their
+real-world applicability.  Planning processes for a real-world
+tensegrity structure need to utilize modeling and simulation tools
+that take collisions into account.
+
+%This is an important component of simulation tools, which can help to
+%study controlled actuation, as these collisions generate the forces
+%to propel the system~\cite{Rovira2009Control-and-Sim,
+%Wittmeier2011CALIPER:-A-univ}.
+
+Many efforts focus on generating efficient gaits, defined as rhythmic
+motions, which lead to nonzero movement of the center of
+mass~\cite{McIsaac:2003kl}.  Given the high-dimensional nature of the
+search space, genetic algorithms are frequently applied to achieve
+forward locomotion gaits~\cite{Paul2006a}. Evolutionary algorithms
+have been used for generating irregular locomotion and civil
+engineering structures~\cite{Rieffel2009Automated-Disco,
+veuve2015deployment}. Recently, evolutionary methods have been
+proposed that utilize a multi-agent learning
+approach~\cite{Iscen2013Controlling-Ten}.  Other biologically-inspired
+approaches based on Central Pattern Generators ({\tt CPG}s) have also
+been applied to tensegrity-based
+systems~\cite{Bliss2013Central-Pattern, MirletzSoftRobotics,
+Caluwaerts2013rsif}.  A recent overview of low-level tensegrity
+control approaches is available in the related literature~\cite[Table
+2]{Caluwaerts2013rsif}.
+
+% \begin{figure*}[t]
+% \includegraphics[width=0.235\textwidth]{figures/_0_1_extended.jpg}
+% \hspace{0.05in}
+% \includegraphics[width=0.235\textwidth]{figures/_0_3_extended.jpg}
+% \hspace{0.05in}
+% \includegraphics[width=0.235\textwidth]{figures/_0_5_extended.jpg}
+% \hspace{0.05in}
+% \includegraphics[width=0.235\textwidth]{figures/_0_7_extended.jpg}
+% \vspace{-.25in}
+% \caption{\footnotesize Resulting trajectory for a physically simulated
+%   tensegrity robot \cite{SunSpiralSoftware} using an asymptotically, 
+%   near-optimal kinodynamic planner
+%   \cite{Li2015Sparse-Methods-}.}
+%  \vspace{-.2in}
+% \label{fig:tens_example}
+% \end{figure*}
+
+%such as an experimental robotic
+%swimmer \cite{Bliss2013Central-Pattern}, spine-like
+%tensegrities~\cite{Tietz2013Tetraspine:-Rob} and the tensegrity
+%icosahedron~\cite{Caluwaerts2013rsif}.  
+
+%This line of work tries to take advantage of the fact that forces in tensegrity structures tend to propagate in a distributed way.
+
+%What should the future hold for low-level tensegrity control methods?
+
+The availability of simulation tools has offered researchers the
+possibility to develop a wide range of controllers.  Nevertheless,
+additional hardware validation results are needed to better support
+the claims regarding the efficacy of the developed
+solutions~\cite{Mirletz2015, Caluwaerts2013rsif}.  It is crucial to
+determine the feasibility of each method in terms of sensing and state
+estimation, their aptitude for distributed implementations and the
+minimum number of actuators required.
+
+Furthermore, hardware experiments have not typically utilized
+fundamental analytical control approaches (e.g.~\cite{sultan2002}),
+since they frequently depend on accurate state information, which is
+non-trivial to acquire.  Nevertheless, there has been recent progress
+on actuation, sensing, and state-estimation methods that are robust to
+noisy sensors and environments.  Thus, it may be time to revisit some
+of the earlier analytical control techniques. This will allow a
+thorough comparison with more modern methods that have reduced sensing
+and actuation requirements in simulation and hardware.
+
+%This will serve as a springboard for the
+%development of useful local maneuvers for tensegrity robots that can
+%be used for long-term mobility purposes in the context of realistic
+%terrains and for three-dimensional, large, irregular tensegrity
+%structures.
+
+%\komment{Ken: Do we need the above paragraph? Kostas: I personally like it
+%because it takes a stance. It is a reasonable recommendation.}
+
+%Low-level controllers can provide primitives that can be used as
+%building blocks for global path planning approaches.  For this to be
+%plausible, a common parametrization for low-level controllers is
+%needed and a method to predict the probability of success or the
+%region of attraction of a controller when a low-level controller is
+%activated to transition between desired states
+
+%\komment{Ken: I don't like the above sentence, but we need its message in
+%the paper Kostas: Since it is going to appear later, perhaps we do not
+%need to say it here.}
