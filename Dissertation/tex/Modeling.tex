@@ -168,6 +168,8 @@ This approach was then implemented in Python utilizing a 4th order Runge-Kutta f
 In order to implement a gravitational field, a force distribution function is applied along the length of each rod and calculated as a nodal force depending on the given density of the rod.
 This external force is then applied to the nodes during each time step, simulating a gravitational field.
 
+\section{\textcolor{red}{NASA Tensegrity Robotic Toolkit Model}}
+
 \section{Detailed Impact Simulations and Cross-Validation Using Two Simulators}
 The NTRT simulator is the most general purpose, allowing us to explore control algorithms and complex environmental interactions, but it is an iterative discrete solver that we were concerned might not be providing accurate answers.  The E-L solver, on the other hand, has a much stronger analytical basis and should provide very accurate answers, but is limited because some of the nodes (rod ends) must be constrained and locked into place.  This is unrealistic for the deformation caused during landing, and makes it an inappropriate choice for mobility and controls research.
 If ground contact forces are incorporated into the E-L solver and code optimization implemented, it could be used in conjunction with a unscented kalman filter for state estimation propogation.
