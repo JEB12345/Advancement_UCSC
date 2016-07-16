@@ -56,12 +56,16 @@ engineering structures~\cite{Rieffel2009Automated-Disco,
 veuve2015deployment}. Recently, evolutionary methods have been
 proposed that utilize a multi-agent learning
 approach~\cite{Iscen2013Controlling-Ten}.  Other biologically-inspired
-approaches based on Central Pattern Generators ({\tt CPG}s) have also
+approaches based on Central Pattern Generators (CPGs) have also
 been applied to tensegrity-based
 systems~\cite{Bliss2013Central-Pattern, MirletzSoftRobotics,
-Caluwaerts2013rsif}.  A recent overview of low-level tensegrity
+Caluwaerts2013rsif}. 
+A recent overview of low-level tensegrity
 control approaches is available in the related literature~\cite[Table
-2]{Caluwaerts2013rsif}.
+2]{Caluwaerts2013rsif}. 
+In this work, we train Artificial Neural Networks (ANNs) as open loop controllers for locomotion.
+Then use the ANNs to train closed looped CPGs to get controllable locomotion.
+Section~\ref{sec:NN_and_CPG_overview} gives a basic overview of ANNs and CPGs.
 
 % \begin{figure*}[t]
 % \includegraphics[width=0.235\textwidth]{figures/_0_1_extended.jpg}
