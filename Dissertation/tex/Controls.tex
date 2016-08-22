@@ -13,14 +13,18 @@ An regular convex icosahedron is a geometric shape consisting of eight equilater
 In a passively sable configuration, the bottom of an icosahedron will be resting on either an equilateral or a isosceles triangle.
 Utilizing this knowledge, the most simple method for moving the center of mass of an icosahedron can be obtained by changing the length of one side of the bottom triangle to near zero.
 This will always move the center of mass to an unstable configuration by effectively reducing the bottom triangle, as seen if figure~\ref{fig:single_flop}, which will cause the robot to transition to another face.
-\textcolor{red}{create a figure which shows how a SUPERball like structure can change faces by actuating only one cable.}
 However, this simple control method is not always obtainable on a real robotic system due to limitation on actuation or design methodology.
 
 \label{hand_stepwise}
 \begin{figure}[thpb]
       \centering
       \includegraphics[width=1\columnwidth]{tex/img/Single_flop_bottom_triangle}
-      \caption{Time based state machine which automates the our hand-tuned stepwise controller. Timers are used to allow for dynamic settling before the next action is taken.}
+      \caption{This is XY data of the bottom triangle of a NTRT simulation of \SB{} performing a single face transition by changing only one side of the bottom triangle.
+      No other cable on the system is being actuated during this simulation.
+      The red triangle is the bottom triangle at the start of the simulation. 
+      The centralized circle represents the center of mass (CoM) of the entire simulated \SB{}. 
+      The blue triangle is the configuration where the CoM moves out of the bottom triangle and the robot begins to transition to another face.
+      Thus, under ideal conditions and actuation limits, a \SB{} like structure can perform a face transition by the changing of a single cable.}
       \label{fig:single_flop}
 \end{figure}
 
@@ -56,7 +60,7 @@ The transition between each state is time based, where the timing between states
 \label{hand_stepwise}
 \begin{figure}[thpb]
       \centering
-      \includegraphics[width=0.7\columnwidth]{tex/img/Stepwise_state_machine/Slide1}
+      \includegraphics[width=0.7\columnwidth]{tex/img/Stepwise_state_machine/Slide1_fixed}
       \caption{Time based state machine which automates the our hand-tuned stepwise controller. Timers are used to allow for dynamic settling before the next action is taken.}
       \label{fig:stepwise_fsm}
 \end{figure}
@@ -65,7 +69,7 @@ The transition between each state is time based, where the timing between states
 \label{learned_controllers}
 
 
-\subsection{Central Pattern Generator Controller}
+\section{Central Pattern Generator Controller}
 \label{cpg_controller}
 
 \section{Dynamic Rolling}
