@@ -267,7 +267,9 @@ This enables for near real time data analysis and for time stamped data logging 
 
 \section{/SB{} v1 Design Evaluation and Future Work}
 Once /SB{} v1 was built and evaluated, the system performed mostly as designed.
-However, 
+Since this was an initial venture into building an untethered tensegrity robot, there were several design choices that ultimately impacted the system's performance negatively.
+In the following sections, I will try to summarize and evaluate how the mechanical, electrical, and communication systems performed.
+I will then try to make suggestions to improve upon these systems.
 
 \subsection{Mechanical Evaluation}
 \textcolor{red}{
@@ -278,6 +280,58 @@ However,
  - Heavier than original design specs
  - Torque and Force sensors never worked
 }
+
+\subsubsection{Cable Routing}
+Upon testing and using \SB{}, the limitations on the mechanical design became the largest hindrance to achieving consistent performance.
+A large majority of the mechanical limitations stemmed from the bowden cable routing, management, and material choices.
+The design of the MTR was focused around using a bowden system to route cables around components and features within the housing.
+This allowed for the cable routing to be secondary to the placement of components within the MTR, making the overall design easier, but increasing the number of bends in the bowden cable housing.
+As explained in section \ref{routing}, the internal cable material used was braided steel cable.
+The steel cable allowed for easy assembly and good wear resistance, however it has a minimum bend radius to keep the cable from plastically deforming.
+Our initial design took into account this limitation with a correctly sized roller guide (see figure \ref{fig:roller_guide}), though in practice the combination of the induced tension and the wrong type of groove in the roller guide leads to a slight plastic deformation of the steel cable in the form of kinks.
+Extra friction is then imparted into the bowden system as theses kinks try to slide inside the bowden housing.
+Friction between the cable and housing element was a known factor, however the amount of friction it induced is much larger than expected.
+Figure \ref{fig:cable_friction} shows a qualitative example of hysteresis in cable length due to the effect friction has on the system.
+
+\begin{figure}[thpb]
+      \centering
+      \includegraphics[width=0.6\columnwidth]{tex/img/cable_pulley_bearing_labelled_fixedfonts}
+      \caption{Temp. figure. Explain how the pictures show hysteresis due to cable friction.}
+      \label{fig:cable_friction}
+\end{figure}
+
+\subsubsection{Cable Tension}
+Another limitation on the system's performance is the larger than designed tensions seen on the individual cables.
+This caused a limit on the maximum length each actuator imposes on a cable. 
+Max cable tension on \SB{} was designed around a maximum continuous operating tension force of \(200N\) per cable.
+The system was also designed to take intermittent forces \(50-75N\) higher than this maximum that would be caused by rolling.
+These values were obtained through evaluating the tension forces derived from Atil et al's control work within the NASA Tensegrity Robotics Toolkit~\cite{iscen2014flop}.
+Atil used a simulated robot based on the initial design of \SB{}, which consisted of a total mass of \(18kg\) and each rod being \(1.5m\) in length. 
+Comparing these values to those in table~\ref{design_req}, the final \SB{} parameters were different than the ones used to determine the operating tensions.
+This was due to Atil's work was published quite early in the design process and not all the mechanical design aspects of the MTRs were finalized.
+This discrepancy in weight caused the actual nominal operating tension to be around \(240N\) and the maximum operational tension to be above \(400N\).
+
+The motors used in the final design of \SB{} were 100 watt Maxon motors as specified in table~\ref{motor_parameters}.
+Each motor has a Maxon gearbox with a maximum output torque of \(3Nm\) originally designed to be coupled to a spool with a diameter of \(30mm\).
+Using the spool's radius and the robot's operating tensions listed above, torques are calculated in equations~\ref{tau_nom} and~\ref{tau_max}.
+
+\begin{align}
+\tau_{nominal} = 240N \times 0.015m = 3.6Nm \label{tau_nom} \\
+\tau_{maximum} = 400N \times 0.015m = 6.0Nm \label{tau_max}
+\end{align}
+
+These values are well above the continuous torque that the motor's gearbox is rated to handle.
+To keep from breaking all the motors when operating the robot, smaller diameter spools were designed. 
+The trade off is that the cable change in length over time is decreased, forcing the robot to move slower.
+The new spindles were then reduced to a spool diameter of \(18mm\) and the new torques are shown in equations~\ref{new_nom} and~\ref{new_max}.
+
+\begin{align}
+\tau_{nominal, new spool} = 240N \times 0.009m = 2.7Nm \label{new_nom} \\
+\tau_{maximum, new spool} = 400N \times 0.009m = 3.6Nm \label{new_max}
+\end{align}
+
+This reduced spool is a compromise between lowering torque on the motor and actuation velocity.
+The torques induced onto the gearbox could still go over the rated value, but keeps the reduction in speed above \(50\%\).
 
 \subsection{Electrical Evaluation}
 \textcolor{red}{
