@@ -1,5 +1,18 @@
 all: paper
 
+chapters:
+	pdflatex Dissertation_chapters.tex
+	./bibtool -s -d -x Dissertation_chapters.aux ICRA_2016_SUPERball.bib Dissertation_Doc_Jonathan_Bruce.bib tensegrity_review.bib > final.bib
+	bibtex Dissertation_chapters
+	pdflatex Dissertation_chapters.tex
+	pdflatex Dissertation_chapters.tex
+	-rm *.aux
+	-rm *.bbl
+	-rm *.blg
+	-rm *.out
+	-rm *.lot
+	-rm *.toc
+	-rm *.lof
 paper:
 	pdflatex Dissertation_Doc_Jonathan_Bruce.tex
 	./bibtool -s -d -x Dissertation_Doc_Jonathan_Bruce.aux ICRA_2016_SUPERball.bib Dissertation_Doc_Jonathan_Bruce.bib tensegrity_review.bib > final.bib

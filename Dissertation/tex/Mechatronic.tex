@@ -141,11 +141,11 @@ Figure \ref{fig:motor_board} shows the current version of the motor board.
 }
 %\centering
 %\resizebox{\textwidth}{!}{%
-\begin{tabular}{|c|c|c|c|}
+\begin{tabular}{|c|c|c|c|c|}
 \hline
-\multicolumn{4}{|c|}{Gearbox} \\ \hline
-Reduction & Number of Stages & \begin{tabular}[c]{@{}c@{}}Max Continuous Torque \\ (Nm)\end{tabular} & Max Efficiency (\%) \\ \hline
-109:1 & 3 & 3 & 59 \\ \hline
+\multicolumn{5}{|c|}{Gearbox} \\ \hline
+Reduction & Number of Stages & \begin{tabular}[c]{@{}c@{}}Max Continuous \\ Torque (Nm)\end{tabular} & \begin{tabular}[c]{@{}c@{}}Max Peak Torque \\ (Nm)\end{tabular} & Max Efficiency (\%) \\ \hline
+109:1 & 3 & 3 & 3.5 & 59 \\ \hline
 \end{tabular}
 %}
 \end{table}
@@ -272,14 +272,11 @@ In the following sections, I will try to summarize and evaluate how the mechanic
 I will then try to make suggestions to improve upon these systems.
 
 \subsection{Mechanical Evaluation}
-\textcolor{red}{
- - Friction in bowden cable 
- - Spindle diameter to large for cable tensions 
- - Spring cable exit/entrance to MTR was poorly designed 
- - Large spring buckling under large deformations 
- - Heavier than original design specs
+\textcolor{red}{ 
  - Torque and Force sensors never worked
 }
+
+In this section, an evaluation of the \SB{} will be taken based on the three main subsystems outlined above.
 
 \subsubsection{Cable Routing}
 Upon testing and using \SB{}, the limitations on the mechanical design became the largest hindrance to achieving consistent performance.
@@ -296,8 +293,27 @@ Figure \ref{fig:cable_friction} shows a qualitative example of hysteresis in cab
 \begin{figure}[thpb]
       \centering
       \includegraphics[width=0.6\columnwidth]{tex/img/cable_pulley_bearing_labelled_fixedfonts}
-      \caption{Temp. figure. Explain how the pictures show hysteresis due to cable friction.}
+      \caption{\textcolor{red}{Temp. figure. Explain how the pictures show hysteresis due to cable friction.}}
       \label{fig:cable_friction}
+\end{figure}
+
+Another limitation imposed by the cable routing system was the lack of design effort that went into the cable exit system.
+Originally, it was designed to be a section of the nylon bowden cable housing sticking out of the robot to isolate the steel cable as it exited the MTR aluminum housing.
+However, the angle in which the cable exits the system was never considered in the original \SB{} design. 
+This failure meant that an exit angle of 90 degrees perpendicular to the rod as used for the cable exit.
+Comparing this to the actual cable exit angle of approximately 30 degrees from perpendicular during normal operation meant that more than \(60\%\) of the tension force is imparted into the nylon cable and the aluminum housing exit hole.
+When the cable would slide in and out of the exit point, the nylon tube quickly would sheer apart.
+This then caused the steel cable to rub on the aluminum housing, which then would slowly saw into the housing.
+Since there was not budget to redesign the whole routing system, a drop in replacement fix was required. 
+The solution was to use a "break noodle" steel cable router typically used in bicycle braking systems.
+This prevented the steel cable from cutting into to MTR housing, but it causes a bit more friction to get imparted into the whole cable system.
+Figure~\ref{fig:cable_output} shows the cable exit point on \SB{} with the "break noodle" fix.
+
+\begin{figure}[thpb]
+      \centering
+      \includegraphics[width=0.6\columnwidth]{tex/img/cable_pulley_bearing_labelled_fixedfonts}
+      \caption{\textcolor{red}{Temp. figure. Cable exit hacky fix. Show one that has a groove cut from cable rub.}}
+      \label{fig:cable_output}
 \end{figure}
 
 \subsubsection{Cable Tension}
@@ -305,33 +321,76 @@ Another limitation on the system's performance is the larger than designed tensi
 This caused a limit on the maximum length each actuator imposes on a cable. 
 Max cable tension on \SB{} was designed around a maximum continuous operating tension force of \(200N\) per cable.
 The system was also designed to take intermittent forces \(50-75N\) higher than this maximum that would be caused by rolling.
-These values were obtained through evaluating the tension forces derived from Atil et al's control work within the NASA Tensegrity Robotics Toolkit~\cite{iscen2014flop}.
+These values were obtained through evaluating the tension forces derived from Iscen et al's control work within the NASA Tensegrity Robotics Toolkit~\cite{iscen2014flop}.
 Atil used a simulated robot based on the initial design of \SB{}, which consisted of a total mass of \(18kg\) and each rod being \(1.5m\) in length. 
 Comparing these values to those in table~\ref{design_req}, the final \SB{} parameters were different than the ones used to determine the operating tensions.
 This was due to Atil's work was published quite early in the design process and not all the mechanical design aspects of the MTRs were finalized.
 This discrepancy in weight caused the actual nominal operating tension to be around \(240N\) and the maximum operational tension to be above \(400N\).
 
 The motors used in the final design of \SB{} were 100 watt Maxon motors as specified in table~\ref{motor_parameters}.
-Each motor has a Maxon gearbox with a maximum output torque of \(3Nm\) originally designed to be coupled to a spool with a diameter of \(30mm\).
-Using the spool's radius and the robot's operating tensions listed above, torques are calculated in equations~\ref{tau_nom} and~\ref{tau_max}.
+Each motor has a Maxon gearbox with a maximum continuous output torque of \(3Nm\) originally designed to be coupled to a spool with a diameter of \(30mm\).
+Using the spool's radius and the robot's operating tensions listed above, the reaction torques applied to the gearboxes are calculated in equations~\ref{tau_nom} and~\ref{tau_max}.
 
 \begin{align}
-\tau_{nominal} = 240N \times 0.015m = 3.6Nm \label{tau_nom} \\
-\tau_{maximum} = 400N \times 0.015m = 6.0Nm \label{tau_max}
+\tau_{nominal, 30mm} = 240N \times 0.015m = 3.6Nm \label{tau_nom} \\
+\tau_{maximum, 30mm} = 400N \times 0.015m = 6.0Nm \label{tau_max}
 \end{align}
 
-These values are well above the continuous torque that the motor's gearbox is rated to handle.
+These values are well above the continuous and peak torques that the motor's gearbox is rated to handle.
 To keep from breaking all the motors when operating the robot, smaller diameter spools were designed. 
-The trade off is that the cable change in length over time is decreased, forcing the robot to move slower.
+The trade off is that the cable actuation velocity is decreased, forcing the robot to move slower.
+Decreasing the cable actuation velocity too far will result in a robot which will be incapable of achieving a continuous average forward velocity.
+At the time, the only controller which moved a simulated \SB{} like robot with a continuous velocity was Iscen's work, which required a cable actuation velocity of \(30 cm/s\)~\cite{iscen2014flop}.
+Thus reducing the speed below \(50\%\) could potentially be too slow to achieve continuous forward velocity.
 The new spindles were then reduced to a spool diameter of \(18mm\) and the new torques are shown in equations~\ref{new_nom} and~\ref{new_max}.
 
 \begin{align}
-\tau_{nominal, new spool} = 240N \times 0.009m = 2.7Nm \label{new_nom} \\
-\tau_{maximum, new spool} = 400N \times 0.009m = 3.6Nm \label{new_max}
+\tau_{nominal, 18mm} = 240N \times 0.009m = 2.7Nm \label{new_nom} \\
+\tau_{maximum, 18mm} = 400N \times 0.009m = 3.6Nm \label{new_max}
 \end{align}
 
-This reduced spool is a compromise between lowering torque on the motor and actuation velocity.
-The torques induced onto the gearbox could still go over the rated value, but keeps the reduction in speed above \(50\%\).
+This design still is not ideal, but is a compromise between reducing the reaction torque on the gearboxes and not reducing the actuation velocity too low.
+The torques induced onto the gearbox could still go over the rated value during maximum tension scenarios, but reduces the actuation speed to \(47\%\) of the original value set by Iscen.
+To further reduce the reaction torques applied to the gearboxes, a maximum position of cable change was set to keep the reaction torque applied my any one motor to be within the nominal spool reaction torque in equation~\ref{new_nom}.
+Though experimentation, the limit was found to be \(40cm\) of cable change from a pretension value in each cable of \(100N\).
+
+\subsubsection{Cable Material}
+The choice of external cable material used on \SB{} made some complications in the long term use of the system.
+The material used is a \(1.3mm\) diameter braided hollow core Vectran cable.
+This cable has excellent material properties for a system which requires light and strong cables with near zero creep.
+However, the cable has a high coefficient friction and will undergo tensile fractures when exposed to large amounts of stress.
+This causes the many thin fibers to fray, eventually leading to loss in overall tensile strength and eventual failure. 
+In \SB{}, this usually occurs at the cabling closest to the spool. 
+Since this small length of cable always experiences high stress due to wrapping around the spool, the cables fray quite rapidly and break.
+The frequency of this happening depends on how many times that particular cable is used.
+On average it has become an expectation that a single cable will break after at least three hours of actuation on that single cable. 
+Figure~\ref{fig:cable_break} shows different stages of the vectran cable as it wears to breakage.
+
+\begin{figure}[thpb]
+      \centering
+      \includegraphics[width=0.6\columnwidth]{tex/img/cable_pulley_bearing_labelled_fixedfonts}
+      \caption{\textcolor{red}{Temp. figure. Explain how the pictures show the slow breakage of cable.}z]
+      \label{fig:cable_break}
+\end{figure}
+
+\subsubsection{Force Sensors}
+\SB{} was designed to have three force sensors per MTR system to sense forces being applied by the motor, the distal actuated cable, and the distal passive cable.
+Since the system had a constrained budget, purchasing off the shelf force sensors was out of the budget and custom sensors were implemented.
+Figure~\ref{fig:force_sensors} shows the designs for each force sensor.
+
+\begin{figure}[thpb]
+      \centering
+      \includegraphics[width=0.6\columnwidth]{tex/img/cable_pulley_bearing_labelled_fixedfonts}
+      \caption{\textcolor{red}{Temp. figure. Show each force sensor.}}
+      \label{fig:force_sensors}
+\end{figure}
+
+The force reaction sensor was the only custom sensor to accurately sense the forces applied.
+However, inconsistencies in manufacturing this sensor made calibration of each sensor extremely difficult.
+This coupled with not being robust to handling, it was extremely difficult to get all twelve sensors working at one time.
+A single sensor could be made, calibrated and functional for about a day or two after which the sensor's strain gages would shift.
+This either would making the calibration no longer valid or be such an shift, that the sensor would no longer be functional.
+Due to these set backs, the force sensors were disregarded as viable sensors to be used on the system.
 
 \subsection{Electrical Evaluation}
 \textcolor{red}{
