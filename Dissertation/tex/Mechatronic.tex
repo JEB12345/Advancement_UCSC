@@ -265,16 +265,13 @@ This enables for near real time data analysis and for time stamped data logging 
       \label{fig:ros_diagram}
 \end{figure}
 
-\section{/SB{} v1 Design Evaluation and Future Work}
-Once /SB{} v1 was built and evaluated, the system performed mostly as designed.
+\section{\SB{} v1 Design Evaluation \textcolor{red}{and Future Work}}
+Once \SB{} v1 was built and evaluated, the system performed mostly as designed.
 Since this was an initial venture into building an untethered tensegrity robot, there were several design choices that ultimately impacted the system's performance negatively.
 In the following sections, I will try to summarize and evaluate how the mechanical, electrical, and communication systems performed.
 I will then try to make suggestions to improve upon these systems.
 
 \subsection{Mechanical Evaluation}
-\textcolor{red}{ 
- - Torque and Force sensors never worked
-}
 
 In this section, an evaluation of the \SB{} will be taken based on the three main subsystems outlined above.
 
@@ -369,11 +366,12 @@ Figure~\ref{fig:cable_break} shows different stages of the vectran cable as it w
 \begin{figure}[thpb]
       \centering
       \includegraphics[width=0.6\columnwidth]{tex/img/cable_pulley_bearing_labelled_fixedfonts}
-      \caption{\textcolor{red}{Temp. figure. Explain how the pictures show the slow breakage of cable.}z]
+      \caption{\textcolor{red}{Temp. figure. Explain how the pictures show the slow breakage of cable.}}
       \label{fig:cable_break}
 \end{figure}
 
 \subsubsection{Force Sensors}
+\label{force_sensing_failure}
 \SB{} was designed to have three force sensors per MTR system to sense forces being applied by the motor, the distal actuated cable, and the distal passive cable.
 Since the system had a constrained budget, purchasing off the shelf force sensors was out of the budget and custom sensors were implemented.
 Figure~\ref{fig:force_sensors} shows the designs for each force sensor.
@@ -399,7 +397,6 @@ Due to these set backs, the force sensors were disregarded as viable sensors to 
    > large board with large connectors
    > not quite fast enough for FoC
  - Sensor Board desgin
-   > Communication lines were not correctly designed (impedance issues)
    > Wifi module never worked, became hack for DWM module - not enough clearance for antenna
    > ADC never used because of Torque and Force sensors not working
  - Power Board design
@@ -407,6 +404,27 @@ Due to these set backs, the force sensors were disregarded as viable sensors to 
    > Too many 5.5V outputs
    > nRF24 chip mounting is problematic 
 }
+
+For the most part, all the electronic boards on \SB{} functioned as designed with only the motor control board (motor board) having lasting issues that hindered the performance of the system.
+The motor board was suppose to be a low cost solution to achieve position, velocity, and torque control utilizing the Field Oriented Control (FOC) method to commutate our brushless DC motors.
+A third party start-up company was tasked with the design of the motor board.
+It took the company many attempts to get a working version for just position control, with the initial delivery causing motors to generate excessive heat due to shorting the windings during commutation.
+After a quick redesign and manufacturing new boards, position control was achieve with pretty good results.
+Figure~\ref{} shows the response of the motor's position controller.
+However, the company went out of business after delivering working motor control boards and never completed their implementation of the other control methods.
+Because of the issues stated in section~\ref{force_sensing_failure}, torque control could not have been implemented.
+
+% The main feature of the sensor board was to monitor and control any of the sensors required on \SB{} by a dedicated processor.
+% This was to insure that none of the critical safety features would be hindered by sensor tasks.
+% Most of the board's functions work as expected.
+% %However the analog to digital converter became useless after all the force sensors failed as explained in section~\ref{force_sensing_failure}.
+% The only real issue when using this board steams from the re-purposing of the XBee WiFi headers for controlling a DecaWave DWM1000 module.
+% This placed the module's antenna too close to the robot to effectively get ranging data in all directions.
+% A better design would have place the antenna such that one complete side of the sensor was not completely blocked by the MTR module. 
+
+
+% \subsubsection{Motor Board}
+% The motor control board for \SB{} never worked as designed and eventually limited the capabilities of the system.
 
 \subsection{Communications Evaluation}
 \textcolor{red}{
