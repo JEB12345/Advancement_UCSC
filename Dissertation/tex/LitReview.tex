@@ -100,6 +100,52 @@ Each sub-layer of the Hidden layer is comprised of a defined number of simple fu
 Changing how each function \(h \in H\) is connected to other functions, by the use of weights, allows for the ANN to map its inputs to a desired output~\cite{lippmann1987introduction}~\textcolor{red}{Probably should reference more}. For our application, machine learning is used to estimate the connection weights through the use of a cost function.
 The cost function is an equation which measures how close to a user defined goal an iteration during the learning process was able to achieve.
 
+\todo{incorporate this better}
+Robotic learning methods have previously produced successful policies for tasks
+such as locomotion for walking robots and
+quadrupeds~\cite{tzs-spgrl-04,kp-pgrlf-04,cspd-bolg-15,kn-ldquad-11,kbps-temp-09}.
+These methods, however, typically require hand-engineered policy classes, such
+as a linear function approximator using a set of hand-designed features as
+input~\cite{tzs-spgrl-04}.  For many tensegrity systems, it is difficult to
+design suitable policy classes, since the structure of a successful locomotion
+strategy might be highly complex. We illustrate this in
+Section~\ref{sec:results}, by demonstrating that it is desirable to have a
+representation that is closed-loop, since open-loop control, though simpler to
+design and implement, does not generalize as well to changes in terrain,
+gravity, and other environmental and robot parameters.
+
+Some more recent methods learn deep neural network policies that are successful
+for tasks such as grasping with robotic arms and bipedal
+locomotion~\cite{slmja-trpo-15,lhphe-ccdrl-16}, and such policies are more
+expressive and require less hand-engineering compared to policy classes used in
+previous methods. One such method, which we extend in this work, is mirror
+descent guided policy search (MDGPS), a recently developed algorithm that frames
+the guided policy search (GPS) alternating optimization framework as approximate
+mirror descent~\cite{ml-gpsam-16}. We choose MDGPS in our work because it allows
+us to learn deep neural network policies while maintaining sample efficiency,
+and it presents a natural extension to periodic locomotion tasks which we
+describe in Section~\ref{sec:chains}.
+
+A key problem for locomotion tasks is the difficulty of establishing stable
+periodic gaits, and this is exacerbated for tensegrity robots due to their
+complex dynamics and unusual control mechanisms. As shown in our experiments,
+near-stable behavior with even small inaccuracies can lead to compounding errors
+over time, and will not be successful in producing a continuous periodic gait.
+Previous algorithms have dealt with this problem by establishing periodicity
+directly through the choice of policy
+class~\cite{kp-pgrlf-04,gpw-fbwrc-06,emmnc-cpg-08}, utilizing a large number of
+samples~\cite{slmja-trpo-15}, or initializing from
+demonstrations~\cite{lk-gps-13,la-lnnpg-14}. Instead, we handle this challenge
+by sequentially training several simple policies that demonstrate good behavior
+from a wide range of states, and then learning a policy that reproduces the gait
+of all of the sequential policies for a successful periodic behavior. The
+resulting algorithm learns policies from scratch for robotic tasks that exhibit
+periodicity over long time horizons. We demonstrate through our experiments that
+a single learned policy for a tensegrity robot is capable of efficient,
+continuous locomotion in a range of different conditions by learning appropriate
+feedbacks from the robot's onboard sensors.
+
+
 \subsection{Central Pattern Generators}
 \label{sec:CPG_overview}
 Central Pattern Generators, or CPGs, are a set of two or more rhythmic processes connected such that each output interacts with the other process(es) to sequentially decrease and increase each process' output.

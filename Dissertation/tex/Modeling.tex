@@ -81,7 +81,7 @@ The initial design requirements obtained from the NTRT simulations, refined desi
 \fontsize{10pt}{12pt}\selectfont
 The variable $l_{strut}$ indicates the length of a strut, $\Delta l_{act}$ is the nominal spring-cable retraction length in tension, $k_{passive}$ is the linear stiffness coefficient of a passive spring-cable (or active spring-cable if fully actuated), tethered indicates if the robot is powered externally or by internal systems, control indicates whether sensor feedback is used, $f_{act}$ is the nominal actuated spring-cable tension and \#act. is the number of actuators. In the sensors column, F represents a linear force sensor (for cables), L is cable length sensor (in the form of motor encoders), $\tau$ represents a torque sensor for motors, and IMU represents an accelerometer/gyroscope inertial motion sensing unit. Actuators are specified as DC motors or brushless DC (BLDC) motors. The SUPERball 2014 values are revised original design requirements based on NTRT simulations, and changed to the 2015 values after additional detail design. %
 
-\vspace{-0.2cm}
+%\vspace{-0.2cm}
 
 %\end{minipage}
 \end{table*}
@@ -91,13 +91,6 @@ In order to achieve this, the group decided to use a \SB{} like structure with a
 This is believed to be closer to the proposed build profile of a real tensegrity probe, where the main science modules will be contained within the payload.
 Protecting this science payload is the main goal for and EDL scenario.
 Figure \ref{fig:NTRT_SB} shows a 3-D representation of \SB{} with a payload generated within NTRT.
-
-\begin{figure}[thpb]
-      \centering
-      \includegraphics[width=0.8\columnwidth]{tex/img/1.png}
-      \caption{SUPERball with a payload modeled within NTRT.}
-      \label{fig:NTRT_SB}
-\end{figure}
 
 \section{Euler-Lagrange Model}
 In order to verify the simulation results produced by our NTRT simulator, we decided to compare the behavior of the NTRT to a published analytic model for tensegrity systems.
@@ -168,21 +161,47 @@ This approach was then implemented in Python utilizing a 4th order Runge-Kutta f
 In order to implement a gravitational field, a force distribution function is applied along the length of each rod and calculated as a nodal force depending on the given density of the rod.
 This external force is then applied to the nodes during each time step, simulating a gravitational field.
 
-\section{\textcolor{red}{NASA Tensegrity Robotic Toolkit Model}}
+\section{NASA Tensegrity Robotic Toolkit Model}
+%\subsection{NASA Tensgrity Robotic Toolkit}
+The NASA Tensegrity Robotic Toolkit (NTRT) is a software suit which enables the easy modeling and control of tensegrity robotic structures in a real-time simulation environment.
+NTRT utilizes the Bullet physics engine to simulate ridged body interactions, which is a Cartesian space open source numerical solver~\cite{coumans2012bullet}.
+The toolkit also integrates builder tools, to simplify and standardize the construction of tensegrity structures, and a custom cable model, which more accurately simulates cable contact dynamics.
+Figure~\ref{fig:NTRT_SB} shows a model of \SB{} built in NTRT and using GLUT/FreeGLUT~\cite{baker2008freeglut} as the graphical output.
+
+\begin{figure}[th]
+      \centering
+      \includegraphics[width=0.8\columnwidth]{tex/img/1.png}
+      \caption{SUPERball with a payload modeled within NTRT.}
+      \label{fig:NTRT_SB}
+\end{figure}
+
+As of writing this document, there is a software bug in GLUT/FreeGLUT which affects NTRT and does not allow for the user to simultaneously display a graphical output and manually control the time step.
+This is not a limiting factor if the user is running thousands of Monte Carlo simulations and does not need to see each individual trial, as is the case for Mirletz and Iscen's papers~\cite{mirletz2015goal, iscen2014flop}.
+However for the machine learning utlizied on \SB{} and explained in section~\ref{learning_nn_gps}, learning is quite rapid and observing the progress as the learning algorithm is working helps determine if a usable controller is being learned.
+To enable this, NTRT is run in non-graphical mode and a modified class was implemented that took the bar positions at each time step and displays them in the open source 3D rendering program OpenSceneGraph~\cite{osfield2004open}.
+It was decided not to render the robot's cables in OpenSceneGraph due to the large amount of effort required to code and debug for marginal returns.
+Figure~\ref{fig:OSG_SB} shows an example of \SB{} in OpenSceneGraph.
+
+\begin{figure}[th]
+      \centering
+      \includegraphics[width=0.8\columnwidth]{tex/img/1.png}
+      \caption{\todo{place a OpenSceneGraph image of \SB{}}}
+      \label{fig:OSG_SB}
+\end{figure}
 
 \section{Detailed Impact Simulations and Cross-Validation Using Two Simulators}
-The NTRT simulator is the most general purpose, allowing us to explore control algorithms and complex environmental interactions, but it is an iterative discrete solver that we were concerned might not be providing accurate answers.  The E-L solver, on the other hand, has a much stronger analytical basis and should provide very accurate answers, but is limited because some of the nodes (rod ends) must be constrained and locked into place.  This is unrealistic for the deformation caused during landing, and makes it an inappropriate choice for mobility and controls research.
-If ground contact forces are incorporated into the E-L solver and code optimization implemented, it could be used in conjunction with a unscented kalman filter for state estimation propogation.
-This tool could then be used to develop online learning algorithms for mobility research.
+The NTRT simulator is the most general purpose tensegrity simulator available, allowing users explore control algorithms and complex environmental interactions, but it is an iterative discrete solver that has the potential of providing inaccurate answers.  The Euler-Lagrange (E-L) solver, on the other hand, has a much stronger analytical basis and should provide very accurate answers, but is limited because some of the nodes (rod ends) must be constrained and locked into place.  This is unrealistic for the deformation caused during landing, and makes it an inappropriate choice for mobility and controls research.
+%If ground contact forces are incorporated into the E-L solver and code optimization implemented, it could be used in conjunction with a unscented kalman filter for state estimation propogation.
+%This tool could then be used to develop online learning algorithms for mobility research.
 
-In this section, we compare the NTRT simulator and E-L solver at the moment of impact with the ground. 
-The simulations are compared at the moment of impact with the ground because our implementation of the analytic E-L solver requires select nodes to be constrained.
-We setup the structure so that it is barely in contact with the ground and is in balance at time equal to 0. 
+In this section, a comparison is shown between the NTRT simulator and E-L solver at the moment of impact with the ground. 
+The simulations are compared at this moment because our implementation of the analytic E-L solver requires select nodes to be constrained.
+The structure is setup so that time is equal to zero at the instantaneous moment it comes into contact with the ground. 
 In both simulations, we add an initial velocity equal to the terminal velocity of Titan, and compared each vertical trajectory, vertical velocity, and vertical acceleration of the payload. 
 Since the structure's horizontal speed is zero at the beginning and the structure is symmetrical, the payload's horizontal components of position, velocity and acceleration are zero. 
 As it can be seen in the Figures \ref{fig:vsPosition} and \ref{fig:vsVelocity}, both simulators closely match and generate the same results for position and velocity with the error margin close to zero. 
 Comparing the accelerations generated by two simulators (Figure \ref{fig:vsAccelerations}), it can be seen that there is a bigger difference. 
-The reason behind this difference is the fact that NTRT uses Bullet, which is a discrete time simulator and accelerations are calculated using two point estimations from velocities at the timestep before.  Yet, even with these differences in accelerations, our conclusion at the end of the comparison is that both simulators showed the same basic dynamics and their results were close enough that we could move forward using the more general purpose NTRT Simulator for our controls, mobility, and landing experiments.
+The reason behind this difference is the fact that NTRT uses Bullet, which is a discrete time simulator and accelerations are calculated using two point estimations from velocities at the timestep before.  Yet, even with these differences in accelerations, the conclusion at the end of the comparison is that both simulators showed the same basic dynamics and their results were close enough that it is conceivable to use the more general purpose NTRT Simulator for our controls, mobility, and landing experiments.
 
 
 \begin{figure}[htb]
@@ -208,7 +227,7 @@ The reason behind this difference is the fact that NTRT uses Bullet, which is a 
 
 \section{Simulated Drop Tests and Payload Protection}
 
-Finally, we performed extensive analysis on drop tests and the protection provided to a payload.   As expected, we found that by varying the rod lengths, which impacts the stroke distance for the payload to decelerate, we could control the maximum deceleration experienced by the payload while ensuring that it did not collide with the ground or structure.  For example, with rods of 1.5 meters in length, our payload experienced a max deceleration of 21.4G when landing at 15 m/s. In figure \ref{fig:rodvsG} we show the results of a series of drop tests with different rod lengths and show the resulting maximum deceleration and forces experienced in the tension members.   As can be seen from these graphs, even for reasonable rod lengths, the maximum G's are acceptable for most instruments, and the maximum forces experienced by the cables are easily within ranges that can be engineered for.  In all tests we kept the total system mass constant, at 100kg (which is 70kg for the payload and 5kg per rod) in order to highlight the impact of structural geometry and rod length.  For the tension members we used spring constants of 44 kN/m for the cables around the perimeter and 10 kN/m for the cables attached to the payload.  Also, the results in Figure \ref{fig:rodvsG} were found using the landing orientation of 35 degrees around X axis and 45 degrees around Z axis, which we selected from our orientation studies discussed below. 
+Finally, extensive analysis were performed on  various drop tests and the protection provided to a payload.   As one might expect, varying the rod lengths which impacts the stroke distance for the payload to decelerate, it is possible to control the maximum deceleration experienced by the payload while ensuring that it did not collide with the ground or structure.  For example, with rods of 1.5 meters in length, the payload experienced a max deceleration of 21.4G when landing at 15 m/s. Figure \ref{fig:rodvsG} shows the results of a series of drop tests with different rod lengths and shows the resulting maximum deceleration and forces experienced in the tension members.   As can be seen from these graphs, even for reasonable rod lengths, the maximum G's are acceptable for most instruments, and the maximum forces experienced by the cables are easily within ranges that can be engineered for.  In all tests, the total system mass is kept constant at 100kg (which is 70kg for the payload and 5kg per rod) in order to highlight the impact of structural geometry and rod length.  For the tension members, spring constants of 44 kN/m were used for the cables around the perimeter and 10 kN/m for the cables attached to the payload.  Also, the results in Figure \ref{fig:rodvsG} were found using the landing orientation of 35 degrees around X axis and 45 degrees around Z axis, which were selected from the orientation studies discussed below. 
 
 \begin{figure}[htbp]
 \centering
@@ -217,10 +236,10 @@ Finally, we performed extensive analysis on drop tests and the protection provid
 \label{fig:rodvsG}
 \end{figure}
 
-A very interesting point to consider is that the mass of our system will grow in a linear fashion with the length in the rods, while providing increasing payload protection.  On the other hand, the mass of airbags increases with the square of the radius, which is one of the reasons that the MSL rover, with its increased size and mass, had to switch from the airbag approach to the more complex Sky Crane approach.  While this study has focused on small light-weight mission concepts, we expect that there are compelling advantages to scaling up to handle larger payloads and we look forward to studying this further in the future.
+A very interesting point to consider is that the mass of a \SB{} like system will grow in a linear fashion with the length in the rods, while providing increasing payload protection.  On the other hand, the mass of airbags increases with the square of the radius, which is one of the reasons that the MSL rover, with its increased size and mass, had to switch from the airbag approach to the more complex Sky Crane approach.  While this study has focused on small light-weight mission concepts, there could be compelling advantages for scaling up to handle larger payloads.
 
 \section{Landing Orientation Studies}
-In order to study how landing orientation affects payload decelerations and impact events, we conducted a systematic study of landing orientations.  Since we wanted to get meaningful data, even for bad orientations, we used a larger tensegrity with 4 meter rods so the data wouldn't saturate.  Our success criteria for this study was that the decelerations had to stay under an upper limit of 25G deceleration of the payload, and the payload had to avoid collision with the ground or parts of the tensegrity structure.  Figure \ref{fig:landingHeatMapRot} shows the orientations that were safely within these criteria (black) or failed one or both of the criteria (colored).  By using a simple trailing streamer during descent it would be possible to control landing at an optimal orientation and enable the use of smaller structures with shorter rods because the orientation control would maximize the available stroke for the payload to decelerate within the structure.  Conversely, we can use these studies to know what the worst possible landing scenario will be and choose a structure size which will allow safe landing at any orientation.
+In order to study how landing orientation affects payload decelerations and impact events, a systematic study of landing orientations was conducted.  In order to get meaningful data, even for bad orientations, a larger tensegrity structure with 4 meter rods was used so the data wouldn't saturate.  The success criteria for this study was that the decelerations had to stay under an upper limit of 25G deceleration of the payload, and the payload had to avoid collision with the ground or parts of the tensegrity structure.  Figure \ref{fig:landingHeatMapRot} shows the orientations that landed safely within these criteria (black) or failed one or both of the criteria (colored).  By using a simple trailing streamer during descent it would be possible to control landing at an optimal orientation and enable the use of smaller structures with shorter rods because the orientation control would maximize the available stroke for the payload to decelerate within the structure.  Conversely, these studies could be used to know what the worst possible landing scenario will be and choose a structure size which will allow safe landing at any orientation.
 
 \begin{figure}[htbp]
    \centering
@@ -231,4 +250,4 @@ In order to study how landing orientation affects payload decelerations and impa
 
 
 \section{Conclusions from Simulation Experiments}
-In our landing analysis we developed and cross-validated two different simulation methods that allowed us to explore the capabilities of a tensegrity structure to absorb the forces of landing and to simultaneously protect a delicate payload.  This analysis confirmed that indeed it is possible to do so using a 6-bar tensegrity probe while maintaining maximum decelerations experienced by the instrument-containing payload to forces less than 25G, despite the structure landing at 15 m/s (which is greater than terminal velocity on Titan).   Comparing this to the Huygens probe's landing acceleration of \(32G\) \cite{lorenz1994huygens}, the tensegrtiy probe will have a \(43\% \) reduction in \(G\) forces experienced by the scientific payload, despite the Huygens probe's use of parachutes to land at 1/3 of the speed of our tensegrity probe.
+Using the scenario of free fall impacts, two different simulation methods were developed and cross-validated which enables the exploration into the capabilities of a tensegrity structure to absorb the forces of landing and to simultaneously protect a delicate payload.  This analysis confirmed that indeed it is possible to do so using a 6-bar tensegrity probe while maintaining maximum decelerations experienced by the instrument-containing payload to forces less than 25G, despite the structure landing at 15 m/s.   Comparing this to the Huygens probe's landing acceleration of \(32G\) \cite{lorenz1994huygens}, the tensegrtiy probe will have a \(43\% \) reduction in \(G\) forces experienced by the scientific payload, despite the Huygens probe's use of parachutes to land at 1/3 of the speed of our tensegrity probe.

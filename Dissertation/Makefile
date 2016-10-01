@@ -2,7 +2,7 @@ all: paper
 
 chapters:
 	pdflatex Dissertation_chapters.tex
-	./bibtool -s -d -x Dissertation_chapters.aux ICRA_2016_SUPERball.bib Dissertation_Doc_Jonathan_Bruce.bib tensegrity_review.bib > final.bib
+	./bibtool -s -d -x Dissertation_chapters.aux ICRA_2016_SUPERball.bib Dissertation_Doc_Jonathan_Bruce.bib tensegrity_review.bib references.bib > final.bib
 	bibtex Dissertation_chapters
 	pdflatex Dissertation_chapters.tex
 	pdflatex Dissertation_chapters.tex
