@@ -15,7 +15,7 @@ chapters:
 	-rm *.lof
 paper:
 	pdflatex Dissertation_Doc_Jonathan_Bruce.tex
-	./bibtool -s -d -x Dissertation_Doc_Jonathan_Bruce.aux ICRA_2016_SUPERball.bib Dissertation_Doc_Jonathan_Bruce.bib tensegrity_review.bib > final.bib
+	./bibtool -s -d -x Dissertation_Doc_Jonathan_Bruce.aux ICRA_2016_SUPERball.bib Dissertation_Doc_Jonathan_Bruce.bib tensegrity_review.bib references.bib > final.bib
 	bibtex Dissertation_Doc_Jonathan_Bruce
 	pdflatex Dissertation_Doc_Jonathan_Bruce.tex
 	pdflatex Dissertation_Doc_Jonathan_Bruce.tex

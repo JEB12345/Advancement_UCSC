@@ -1,7 +1,7 @@
 \chapter{State Estimation}
 \label{state_estimation}
 
-\textcolor{red}{TODO: Rewrite sections that don't flow and give credit where appropriate.}
+% \textcolor{red}{TODO: Rewrite sections that don't flow and give credit where appropriate.}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Ranging Setup and Calibration}
@@ -212,6 +212,7 @@ Additionally the EKF requires computation of time-derivatives through system dyn
 The sigma point UKF does not require derivatives through the system dynamics and is third order accurate when propagating Gaussian Random Variables through nonlinear dynamics \cite{wan2000unscented}. The computational cost of the UKF is comparable to that of the EKF, but for tensegrity systems which commonly have a large range of stiffnesses and a high number of state variables the time-update of the sigma points dominates computational cost. As such, the methods used to reduce computational cost of dynamic simulation will be described, then in the following section the outline of the specific UKF implementation for the \SB{} prototype.
 
 \subsection{Dynamic Modelling} 
+\label{sec:dynamic_modeling_sb}
 
 The UKF requires a dynamic model which balances model fidelity and computational efficiency since it requires a large number of simulations to be run in parallel. 
 The model implemented for the tensegrity system as a spring-mass net and the following incomplete list of simplifying assumptions where used:

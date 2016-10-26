@@ -8,18 +8,9 @@ Locomotion for tensegrity structures like \SB{} is achieved by deforming the str
 This deformation is usually achieved by either changing the length of the main cable network on the outside of the robot~\cite{sabelhaus2015system,kim2014rapid} or by adding additional cables which run through the structure connecting non-parallel rods~\cite{caluwaerts2014design}.
 For the rest of this section, deformation is assumed to be done by actuating the main cable network on the outside of the robot since this is how \SB{} is deformed.
 
-% \SB{} is a tensegrity structure is the shape of an icosahedron.
-An regular convex icosahedron is a geometric shape consisting of eight equilateral triangle interlaced with twelve isosceles triangles.
-In a passively sable configuration, the bottom of an icosahedron will be resting on either an equilateral or a isosceles triangle.
-Utilizing this knowledge, the most simple method for moving the center of mass of an icosahedron can be obtained by changing the length of one side of the bottom triangle to near zero.
-This will always move the center of mass to an unstable configuration by effectively reducing the bottom triangle, as seen if figure~\ref{fig:single_flop}, which will cause the robot to transition to another face.
-However, this simple control method is not always obtainable on a real robotic system due to limitation on actuation or design methodology.
-For \SB{}, this control method is obtainable when the system only has the battery mounted required to actuate the single motor reducing the overall system weight.
-Figure~\ref{fig:superball_flop_flat} shows this single motor face transition on a weight reduced \SB{}.
-
 \begin{figure}[thpb]
       \centering
-      \includegraphics[width=0.8\columnwidth]{tex/img/Single_flop_bottom_triangle}
+      \includegraphics[width=1\columnwidth]{tex/img/Single_flop_bottom_triangle}
       \caption{This is XY data of the bottom triangle of a NTRT simulation of \SB{} performing a single face transition by changing only one side of the bottom triangle.
       No other cable on the system is being actuated during this simulation.
       The red triangle is the bottom triangle at the start of the simulation. 
@@ -28,6 +19,15 @@ Figure~\ref{fig:superball_flop_flat} shows this single motor face transition on 
       Thus, under ideal conditions and actuation limits, a \SB{} like structure can perform a face transition by the changing of a single cable.}
       \label{fig:single_flop}
 \end{figure}
+
+% \SB{} is a tensegrity structure is the shape of an icosahedron.
+An regular convex icosahedron is a geometric shape consisting of eight equilateral triangle interlaced with twelve isosceles triangles.
+In a passively sable configuration, the bottom of an icosahedron will be resting on either an equilateral or a isosceles triangle.
+Utilizing this knowledge, the most simple method for moving the center of mass of an icosahedron can be obtained by changing the length of one side of the bottom triangle to near zero.
+This will always move the center of mass to an unstable configuration by effectively reducing the bottom triangle, as seen if figure~\ref{fig:single_flop}, which will cause the robot to transition to another face.
+However, this simple control method is not always obtainable on a real robotic system due to limitation on actuation or design methodology.
+For \SB{}, this control method is obtainable when the system only has the battery mounted required to actuate the single motor reducing the overall system weight.
+Figure~\ref{fig:superball_flop_flat} shows this single motor face transition on a weight reduced \SB{}.
 
 \begin{figure}[thbp]
     \centering
@@ -52,7 +52,7 @@ Figure~\ref{fig:actuator_pattern} (b) is a icosahedron rolled out to show the "w
 
 \begin{figure}[thbp]
     \centering
-    \includegraphics[width=0.6\linewidth]{tex/img/SB_RedvBlue_with_Walk}
+    \includegraphics[width=0.8\linewidth]{tex/img/SB_RedvBlue_with_Walk}
     \caption{This image shows the actuation pattern used on \SB{}. There are 8 equilateral triangles, shown in either red or blue. Each red triangle represents a face with only one of the three cable sides actuated. These actuated cables are noted by the yellow double arrows. Each blue triangle, which are not  has actuators on all three cable sides. The basic forward rolling of \SB{} has the robot landing with a red triangle fully on the ground during locomotion. Blue triangles don't touch the ground during this forward rolling pattern. Figure (a) shows each triangle highlighted on \SB{} and figure (b) shows the forward locomotion pattern, or walking pattern, of \SB{}.}
     \label{fig:actuator_pattern}
 \end{figure}
@@ -88,45 +88,67 @@ The transition between each state is time based, where the timing between states
 \begin{figure}[thpb]
       \centering
       \includegraphics[width=0.7\columnwidth]{tex/img/Stepwise_state_machine/Slide1_fixed}
-      \caption{Time based state machine which automates the our hand-tuned stepwise controller. Timers are used to allow for dynamic settling before the next action is taken.}
+      \caption{Time based state machine which automates the hand-tuned stepwise controller. Timers are used to allow for dynamic settling before the next action is taken.}
       \label{fig:stepwise_fsm}
 \end{figure}
 
-\section{Learned Neural Net Controller using Guided Policy Search}
-\label{learning_nn_gps}
+% \section{Learned Neural Net Controller using Guided Policy Search}
+% \label{learning_nn_gps}
 
 \todo{incorporate better}
 \subsection{Mirror Descent Guided Policy Search}
 \label{sec:mdgps}
 
-Policy search algorithms aim to find a good policy by directly searching through
-the space of policy parameters. Formally, we wish to find a setting of the
-policy parameters $\params$ to optimize the policy
-$\policy_{\params}(\at|\obs_t)$ with respect to the expected cost. In the
-finite-horizon episodic setting, the expected cost under the policy is given by
-$\return(\params)=\sum_{t=1}^{T}\mathbb{E}_{\policy_{\params}}[\cost(\st,\at)]$,
-where $\cost(\st,\at)$ is the cost function. Here $\st$ denotes the state of our
-system at time $t$, $\obs_t$ denotes the observation of the state at time $t$,
-and $\at$ denotes the action at time $t$.
-
-Guided policy search algorithms use supervised learning to train the policy,
-with supervision coming from several local policies $\trajdist_i(\at|\st)$ that
-are optimized to succeed only from a specific initial state of the task using
-full state information. This is much simpler than the goal of the global
-policy, which is to succeed under partial observability from any initial
-condition sampled from the initial state distribution. These simplifications
-allow the use of simple and efficient methods for training the local policies,
+%Policy search algorithms aim to find a good policy by directly searching through
+%the space of policy parameters. 
+Guided Policy Search utilizes supervised policy learning to leverage a series of non-generalized optimized local polices to learning a generalizable global policy~\cite{lk-gps-13}.
+These non-generalized optimized local policies, $\trajdist_i(\at|\st)$, only successfully work from specific initial states and require full state information.
+Guided Policy Search allows for the use of simple and efficient methods for training the local policies,
 such as trajectory optimization methods when there is a known model, or
-trajectory-centric reinforcement learning methods~\cite{la-lnnpg-14}. The
-specific algorithm used in this work is MDGPS, which interprets GPS as
-approximate mirror descent on $\return(\params)$~\cite{ml-gpsam-16}. The local
-policies are optimized to minimize $\return(\params)$ subject to a bound on the
-KL-divergence between the local policy $\trajdist_i$ and the linearization of
-the global policy $\bar\policy_{\params{i}}$, following previous
-work~\cite{bagnell2003covariant,ps-rlmsp-08,pma-reps-10,slmja-trpo-15}.
-Optimizing the global policy is done using the samples collected in the current
-iteration, which are used in a supervised fashion to approximately minimize the
-divergence between the global policy and the local policies.
+trajectory-centric reinforcement learning methods~\cite{la-lnnpg-14}.
+
+In this work, a modified version of Guided Policy Search is used based on mirror descent~\cite{ml-gpsam-16}, called Mirror Descent Guided Policy Search (MDGPS).
+This version optimizes the global policy by sampling the current iteration's local polices and approximates the minimum divergence between the global policy and the local policies.
+To optimize the local polices, $\return(\params)$ is minimized such that there is a bound on the Kullback–Leibler divergence (KL-divergence) between the local policy and the linearized global policy $\bar\policy_{\params{i}}$~\cite{bagnell2003covariant,ps-rlmsp-08,pma-reps-10,slmja-trpo-15}.
+For clarification, the KL-divergence is a measure of how much information is lost when using a probability distribution to approximate another distribution.
+A generic MDGPS algorithm is shown in Algorithm~\ref{alg:mdgps}.
+
+Policy learning machine learning algorithms, commonly called policy search algorithms, are used to directly search the policy parameter space and are alternatives to value function based reinforcement learning algorithms~\cite{bagnell2003policy}. 
+%Formally, we wish to find a setting of the
+This algorithm tries to find a set of
+policy parameters $\params$ which optimizes the policy
+$\policy_{\params}(\at|\obs_t)$ with respect to the expected cost. 
+%In the finite-horizon episodic setting,
+With a finite set of episodes, 
+the expected cost under the policy is given by
+$\return(\params)=\sum_{t=1}^{T}\mathbb{E}_{\policy_{\params}}[\cost(\st,\at)]$,
+where $\cost(\st,\at)$ is the cost function. 
+%Here $\st$ denotes the state of our
+$\st$ is the state of the
+system at time $t$, $\obs_t$ is the observation of the state at time $t$,
+and $\at$ is the action at time $t$.
+
+%Guided policy search algorithms use supervised learning to train the policy,
+%with supervision coming from several local policies $\trajdist_i(\at|\st)$ that
+%are optimized to succeed only from a specific initial state of the task using
+%full state information. 
+% This is much simpler than the goal of the global
+% policy, which is to succeed under partial observability from any initial
+% condition sampled from the initial state distribution. These simplifications
+% allow the use of simple and efficient methods for training the local policies,
+% such as trajectory optimization methods when there is a known model, or
+% trajectory-centric reinforcement learning methods~\cite{la-lnnpg-14}. 
+
+% In this work, the 
+% The specific algorithm used in this work is MDGPS, which interprets GPS as
+% approximate mirror descent on $\return(\params)$~\cite{ml-gpsam-16}. The local
+% policies are optimized to minimize $\return(\params)$ subject to a bound on the
+% KL-divergence between the local policy $\trajdist_i$ and the linearization of
+% the global policy $\bar\policy_{\params{i}}$, following previous
+% work~\cite{bagnell2003covariant,ps-rlmsp-08,pma-reps-10,slmja-trpo-15}.
+% Optimizing the global policy is done using the samples collected in the current
+% iteration, which are used in a supervised fashion to approximately minimize the
+% divergence between the global policy and the local policies.
 
 \setlength{\textfloatsep}{12pt}
 \begin{algorithm}[tb]
@@ -144,42 +166,47 @@ divergence between the global policy and the local policies.
     \end{algorithmic}
 \end{algorithm}
 
-The generic MDGPS algorithm is summarized in Algorithm~\ref{alg:mdgps}. On line
-2, samples are collected by running either the global policy or the local
-policies. This choice between ``on-policy'' and ``off-policy'' sampling is
-detailed in previous work~\cite{ml-gpsam-16}. On line 3, the algorithm improves
-the local policies using an LQR-based update using fitted local linear models:
-the samples are first used to fit time-varying linear dynamics for each local
-policy, and these fitted dynamics are then used with a KL-constrained LQR
-optimization to update the linear-Gaussian local policies. This corresponds to a
-simple model-based trajectory-centric reinforcement learning method, and further
-details can be found in prior work~\cite{la-lnnpg-14}. On line 4, the global
-policy $\policy_\params(\at|\st)$ is updated using supervised learning, with the
-training data corresponding to the states along the samples, with actions given
-by the new updated local policies. This causes the global policy to ``catch up''
-to the newly improved local policies, improving its behavior for the next
-iteration.
+% The generic MDGPS algorithm is summarized in Algorithm~\ref{alg:mdgps}. On line
+% 2, samples are collected by running either the global policy or the local
+% policies. This choice between ``on-policy'' and ``off-policy'' sampling is
+% detailed in previous work~\cite{ml-gpsam-16}. On line 3, the algorithm improves
+% the local policies using an LQR-based update using fitted local linear models:
+% the samples are first used to fit time-varying linear dynamics for each local
+% policy, and these fitted dynamics are then used with a KL-constrained LQR
+% optimization to update the linear-Gaussian local policies. This corresponds to a
+% simple model-based trajectory-centric reinforcement learning method, and further
+% details can be found in prior work~\cite{la-lnnpg-14}. On line 4, the global
+% policy $\policy_\params(\at|\st)$ is updated using supervised learning, with the
+% training data corresponding to the states along the samples, with actions given
+% by the new updated local policies. This causes the global policy to ``catch up''
+% to the newly improved local policies, improving its behavior for the next
+% iteration.
 
 
 \section{Optimizing Periodic Gaits with MDGPS}
 \label{sec:chains}
 
-The efficiency and speed of model-based policy optimization methods, such as the
-LQR-based method used to optimize the local policies in MDGPS, is due in large
-part to the fact that dynamic programming can allow for large changes to a
-policy that would be impractical with purely sample-based model-free
-methods~\cite{la-lnnpg-14}. However, in complex stochastic domains, such as the
-contact-rich dynamical system of a rolling tensegrity robot, the accumulation of
-uncertainty and variability under an unstable policy can make it difficult to
-apply dynamic programming over the long horizons needed to establish a periodic
-gait. We demonstrate this effect through our experimental results in
-Section~\ref{sec:simresults}. In this section, we describe how we can obtain a
-policy with stable periodic behavior by first splitting the task across multiple
-policies, each optimized over a smaller time segment where it is easier to apply
-dynamic programming, and establishing good behavior across the range of states
-visited by these policies. Following the framework of GPS algorithms, we
-subsequently learn a global policy that can generalize the behavior of the local
-policies and encapsulate a successful periodic gait into a single policy.
+Using the MDGPS method stated in section~\ref{sec:mdgps}, a periodic rolling gait for \SB{} was learned using single transitions between faces mentioned in section~\ref{basic_locomotion} as the local policies and how to transition between them using limited sensor data as the global policy. 
+In order to obtain this stable periodic rolling gait, the task is split across several policies, each optimized over a small time segment.
+After establishing a desired behavior across the states seen by the policies, a global policy is learned that can generalized the behavior of the local polices based on the Guided Policy Search framework.
+
+% The efficiency and speed of model-based policy optimization methods, such as the
+% LQR-based method used to optimize the local policies in MDGPS, is due in large
+% part to the fact that dynamic programming can allow for large changes to a
+% policy that would be impractical with purely sample-based model-free
+% methods~\cite{la-lnnpg-14}. However, in complex stochastic domains, such as the
+% contact-rich dynamical system of a rolling tensegrity robot, the accumulation of
+% uncertainty and variability under an unstable policy can make it difficult to
+% apply dynamic programming over the long horizons needed to establish a periodic
+% gait. We demonstrate this effect through our experimental results in
+% Section~\ref{sec:simresults}. 
+% In this section, we describe how we can obtain a
+% policy with stable periodic behavior by first splitting the task across multiple
+% policies, each optimized over a smaller time segment where it is easier to apply
+% dynamic programming, and establishing good behavior across the range of states
+% visited by these policies. Following the framework of GPS algorithms, we
+% subsequently learn a global policy that can generalize the behavior of the local
+% policies and encapsulate a successful periodic gait into a single policy.
 
 GPS algorithms such as MDGPS use supervised learning to learn a global policy,
 where the supervision comes from several local policies $\trajdist_i(\at|\st)$,
@@ -187,38 +214,42 @@ $i\in\{1,\ldots,C\}$. Each local policy is trained from a different initial
 state, where $C$ is the chosen number of initial states. Each local policy is
 optimized over $T^{\trajdist}$ time steps, and we wish to learn a global policy
 $\policy_{\params}(\at|\obs_t)$ that can succeed by generalizing the behavior of
-these local policies over an episode of length $T^{\policy}$. In manipulation
-tasks, we usually set $T^{\policy}=T^{\trajdist}$, depending on the horizon that
-we want the task to be accomplished by~\cite{lfda-eetdv-16}. In locomotion
+these local policies over an episode of length $T^{\policy}$.
+
+In locomotion
 tasks, we ideally want the global policy to exhibit continuous successful
 behavior, i.e., $T^{\policy}=\infty$, and we can empirically determine
 $T^{\trajdist}$ based on the amount of supervision the global policy needs to
-learn a continuous periodic gait. In our work, we simply initialize
-$T^{\trajdist}$ to a short horizon, and we continually increase $T^{\trajdist}$
+learn a continuous periodic gait.
+For \SB{}, $T^{\trajdist}$ is initialized to a short horizon, and continually increased 
 until the global policy learns a successful locomotion gait.
 
 If the required $T^{\trajdist}$ is long, as is the case for the \SB{} locomotion
 task, it is difficult to optimize a local policy over this time horizon due to
-the accumulation of uncertainty and errors described earlier. In our method, we
-instead learn $L$ local policies $\trajdist_i^1,\ldots,\trajdist_i^L$ for each
+the accumulation of uncertainty and errors. 
+However, $L$ local policies $\trajdist_i^1,\ldots,\trajdist_i^L$ can be learned for each
 initial state $i$, each optimized for $T^{\trajdist}/L$ time steps. For the
 local policies $\trajdist_i^j$, $j\in\{2,\ldots,L\}$, we set the initial state
 $\state_0^j$ to be the final state of the preceding local policy, i.e.,
 $\state_{T^{\trajdist}/L}^{j-1}$. This amounts to training local policies in a
 sequential fashion, where the $L$ local policies together are optimized over
 $T^{\trajdist}$ time steps.
+The algorithmic details using in learning a periodic stable gait for \SB{} can be seen in Algorithm~\ref{alg:mdgpsseq}.
+Note that on line 7, samples can be collected from either the local polices or the global policy.
+Initially, these samples are taken from the local polices, but are switched to the global policy based on a user's expert knowledge for how the local polices are performing.
 
-In previous work, the motivation behind choosing multiple initial states was so
-that the global policy could succeed from all of these initial states, and
-ideally generalize to other initial states as well~\cite{lfda-eetdv-16}. In our
-work, we found that choosing multiple initial states is also beneficial in
-learning a stable periodic gait compared to having just one initial state, and
-Section~\ref{sec:simresults} demonstrates this difference. The reason for this
-is that, to achieve the same amount of supervision using only one initial state,
-the sequence of local policies $\trajdist_1^1,\ldots,\trajdist_1^L$ must be much
-longer, and training a longer sequence increases the chances of divergence and
-instability in the behavior of the local policies compared to training shorter
-sequences from several stable initial states.
+% In previous work, the motivation behind choosing multiple initial states was so
+% that the global policy could succeed from all of these initial states, and
+% ideally generalize to other initial states as well~\cite{lfda-eetdv-16}. 
+% In our
+% work, we found that choosing multiple initial states is also beneficial in
+% learning a stable periodic gait compared to having just one initial state, and
+% Section~\ref{sec:simresults} demonstrates this difference. The reason for this
+% is that, to achieve the same amount of supervision using only one initial state,
+% the sequence of local policies $\trajdist_1^1,\ldots,\trajdist_1^L$ must be much
+% longer, and training a longer sequence increases the chances of divergence and
+% instability in the behavior of the local policies compared to training shorter
+% sequences from several stable initial states.
 
 \setlength{\textfloatsep}{12pt}
 \begin{algorithm}[tb]
@@ -246,79 +277,100 @@ sequences from several stable initial states.
     \end{algorithmic}
 \end{algorithm}
 
-Our method is detailed in Algorithm~\ref{alg:mdgpsseq}. On line 7, we collect
-samples from either the local policies or global policy. In our work, we start
-by sampling from the local policies, and we switch to sampling from the global
-policy after a fixed number of iterations, which we set empirically based on the
-performance and stability of the local policies. On line 8, we store the
-collected sample, and in order to run the policies sequentially, we set the
-starting state of the next policy to be the end state of the sample $\traj$
-collected from the current policy. Aside from this difference in sampling, the
-rest of the algorithm is identical to MDGPS.
+% Our method is detailed in Algorithm~\ref{alg:mdgpsseq}. On line 7, we collect
+% samples from either the local policies or global policy. In our work, we start
+% by sampling from the local policies, and we switch to sampling from the global
+% policy after a fixed number of iterations, which we set empirically based on the
+% performance and stability of the local policies. On line 8, we store the
+% collected sample, and in order to run the policies sequentially, we set the
+% starting state of the next policy to be the end state of the sample $\traj$
+% collected from the current policy. Aside from this difference in sampling, the
+% rest of the algorithm is identical to MDGPS.
 
 
-\section{Learning Locomotion for \SB{}}
-\label{sec:superball}
+% \section{Learning Locomotion for \SB{}}
+% \label{sec:superball}
 
-For \SB{} locomotion, we chose six initial states that correspond to the stable 
-ground faces that the robot traverses when rolling forward. These faces are natural 
-and stable initial states that the robot may start from. We set $T^{\trajdist}=100$ and
-$L=2$, so from each initial state $i$, two local policies $\trajdist_i^1$ and
-$\trajdist_i^2$ are optimized over 50 time steps each, where each time step is
-\SI{0.1}{\second}. We found that a fully optimized local policy can perform
-about two transitions from one ground face to the next face over 5 seconds. We
-also found it helpful in our work to not begin training $\trajdist_i^2$ until
-$\trajdist_i^1$ trains for several iterations, so that $\state_{50}^1$, which is
-$\state_0^2$, is more stable and has lower variance.  We show in
-Section~\ref{sec:simresults} that training two local policies in this fashion is
-much more sample efficient than training one local policy for 10 seconds, and
-produces smoother and faster rolling behavior. In total, in our work, 12 local
-policies are trained in sequences of two, and this provided the global policy
-the supervision required to learn to roll continuously.
+% For \SB{} locomotion, we chose six initial states that correspond to the stable 
+% ground faces that the robot traverses when rolling forward. These faces are natural 
+% and stable initial states that the robot may start from. We set $T^{\trajdist}=100$ and
+% $L=2$, so from each initial state $i$, two local policies $\trajdist_i^1$ and
+% $\trajdist_i^2$ are optimized over 50 time steps each, where each time step is
+% \SI{0.1}{\second}. We found that a fully optimized local policy can perform
+% about two transitions from one ground face to the next face over 5 seconds. We
+% also found it helpful in our work to not begin training $\trajdist_i^2$ until
+% $\trajdist_i^1$ trains for several iterations, so that $\state_{50}^1$, which is
+% $\state_0^2$, is more stable and has lower variance.  We show in
+% Section~\ref{sec:simresults} that training two local policies in this fashion is
+% much more sample efficient than training one local policy for 10 seconds, and
+% produces smoother and faster rolling behavior. In total, in our work, 12 local
+% policies are trained in sequences of two, and this provided the global policy
+% the supervision required to learn to roll continuously.
 
 \subsection{Kinematic Constraints for Safe Actions}
 
-One of the challenges with automated policy learning is that all requirements
-for the policy are generally encoded in the cost function, including task-level
-objectives such as desired rolling direction and hard constraints such as
-safety. Due to the structure of tensegrity systems, unsafe actuation of the
-motors can place the robot into configurations with unacceptable risk of cable
-or motor failure. The configurations associated with such high-tension
-conditions are difficult to encode analytically and even more difficult to
-balance against primary task objectives in the cost function. We therefore adopt
-a simple safety constraint approach to enable safe learning and policy execution
-on the \SB{} hardware. This approach is challenging to use with hand-engineered
-policies, which often exploit unsafe but effective actions to quickly yield a
-locomotion gait. However, the approach is much easier to adopt with learned
-policies, as it naturally embeds itself into the training procedure.
+A challenge for machine learning techniques is that policy requirements are usually encoded into the techniques unique cost function.
+This function not only needs to guide task level objectives, such as movement, but without any other external limits the cost function must also guide hard constraints like safety.
+Due to the fact that \SB{} only has position control, as outlined in section~\ref{sec:cable_tension}, a random sampling of motor position might cause the system to tension a cable beyond it's mechanical limit breaking the cable, the motor, or both.
+These configurations of tension limits are difficult to to embed analytically into the cost function and even harder to optimally balance with task level objectives.
+Thus, a simple global motor position safety constraint method was implemented that interfaces outside of the machine learning framework.
 
-Specifically, we estimate the cable tensions for a particular set of actuator
-positions using a simple forward kinematics model of \SB{}.  We repeat this
-process for many different randomly generated motor settings and store all sets
-of motor positions for which all cable tensions of the robot are below the
-acceptable threshold. Then, when the policy outputs an action, we use the Fast
-Library for Approximate Nearest Neighbors (FLANN)~\cite{flannsoftware} to compute
-and command the nearest ($\cost_1$ norm) safe action. Computing the cable tensions
-for a given set of motor positions takes a few milliseconds using forward
-kinematics. As this is easily parallelized, we constructed a database containing
-about 100 million motor positions deemed safe in a few hours. At runtime,
-finding the nearest neighbor action takes roughly \SI{200}{\micro\second} and is
+% One of the challenges with automated policy learning is that all requirements
+% for the policy are generally encoded in the cost function, including task-level
+% objectives such as desired rolling direction and hard constraints such as
+% safety. Due to the structure of tensegrity systems, unsafe actuation of the
+% motors can place the robot into configurations with unacceptable risk of cable
+% or motor failure. The configurations associated with such high-tension
+% conditions are difficult to encode analytically and even more difficult to
+% balance against primary task objectives in the cost function. We therefore adopt
+% a simple safety constraint approach to enable safe learning and policy execution
+% on the \SB{} hardware. This approach is challenging to use with hand-engineered
+% policies, which often exploit unsafe but effective actions to quickly yield a
+% locomotion gait. However, the approach is much easier to adopt with learned
+% policies, as it naturally embeds itself into the training procedure.
+
+Specifically, the cable tensions are estimated for a particular set of actuator positions using a simple forward kinematic model of \SB{}.
+This model is based the model outlined in section~\ref{sec:dynamic_modeling_sb} with the simplification of no gravity or ground contact.
+The limits are preset as a maximum tension value exerted on any cable based on a user defined maximum value.
+For \SB{}, this maximum value was experimentally found to be \SI{250}{\newton}.
+Computing the cable tensions for a given set of motor positions takes a few milliseconds using forward
+kinematics. As this is easily parallelized, a database was constructed containing
+about 100 million motor positions deemed safe in a few hours.
+Then, when the policy outputs an action, an efficient look up method called Fast
+Library for Approximate Nearest Neighbors (FLANN)~\cite{flannsoftware} is used to compute
+and command the nearest ($\cost_1$ norm) safe action.
+This ensures that even if the exact action isn't located in the table, an approximate action set is chosen.
+At runtime, finding the nearest neighbor action takes roughly \SI{200}{\micro\second} and is
 easily embedded into both training and testing without disrupting the command
 frequency of \SI{10}{\hertz}.
 
-By separating this safety constraint from the cost function, we avoid the need
-to tune the parameters of the cost function to weigh the opposing objectives of
-speed and hardware safety. Furthermore, we encode safety as a hard constraint
-using this method, and we directly prevent unsafe actions rather than just
-penalizing them. Utilizing these kinematic constraints is extremely helpful in
-transferring policies learned in simulation directly onto the real robot. In
-simulation, the physical limits are less restrictive, and going beyond the safe
-limits does not have any adverse effects, so it is possible to train a policy
-that exploits these inaccuracies in order to succeed. We can make sure this does
-not happen by enforcing stronger constraints of what actions the policy can
-output, and it is more likely that the policy trained with these constraints in
-simulation will not fail on the real robot, or even worse, cause damage and
-hardware problems.
+% Specifically, we estimate the cable tensions for a particular set of actuator
+% positions using a simple forward kinematics model of \SB{}.  We repeat this
+% process for many different randomly generated motor settings and store all sets
+% of motor positions for which all cable tensions of the robot are below the
+% acceptable threshold. Then, when the policy outputs an action, we use the Fast
+% Library for Approximate Nearest Neighbors (FLANN)~\cite{flannsoftware} to compute
+% and command the nearest ($\cost_1$ norm) safe action. Computing the cable tensions
+% for a given set of motor positions takes a few milliseconds using forward
+% kinematics. As this is easily parallelized, we constructed a database containing
+% about 100 million motor positions deemed safe in a few hours. At runtime,
+% finding the nearest neighbor action takes roughly \SI{200}{\micro\second} and is
+% easily embedded into both training and testing without disrupting the command
+% frequency of \SI{10}{\hertz}.
+
+% By separating this safety constraint from the cost function, we avoid the need
+% to tune the parameters of the cost function to weigh the opposing objectives of
+% speed and hardware safety. Furthermore, we encode safety as a hard constraint
+% using this method, and we directly prevent unsafe actions rather than just
+% penalizing them. Utilizing these kinematic constraints is extremely helpful in
+% transferring policies learned in simulation directly onto the real robot. In
+% simulation, the physical limits are less restrictive, and going beyond the safe
+% limits does not have any adverse effects, so it is possible to train a policy
+% that exploits these inaccuracies in order to succeed. We can make sure this does
+% not happen by enforcing stronger constraints of what actions the policy can
+% output, and it is more likely that the policy trained with these constraints in
+% simulation will not fail on the real robot, or even worse, cause damage and
+% hardware problems.
 
 \subsection{Generalization Across Domains}
 
@@ -623,8 +675,8 @@ simulation.
 %locomotion gait.
 
 
-\section{CPG or Other Controller}
-\label{cpg_controller}
+% \section{CPG or Other Controller}
+% \label{cpg_controller}
 
-\section{Dynamic Rolling}
-\label{dyncamic_rolling}
+% \section{Dynamic Rolling}
+% \label{dyncamic_rolling}

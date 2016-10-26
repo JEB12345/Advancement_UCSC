@@ -1,26 +1,28 @@
-\documentclass[11pt,oneside,a4paper,onecolumn]{report}
-\usepackage{graphicx}
-\usepackage{color}
-\usepackage[table,xcdraw]{xcolor}
-\usepackage{url}
-\usepackage{setspace}
-\usepackage{hyperref}
-\usepackage{morefloats}
-\usepackage{amsmath} % assumes amsmath package installed
-\usepackage{amssymb}  % assumes amsmath package installed
-\usepackage{setspace}
-\usepackage{subcaption}
-\usepackage{enumitem}
-\usepackage{bm} %allows for bold mathematical symbols (e.g. \bm{X})
-\usepackage[binary-units = true]{siunitx} %correct typesetting for SI units (e.g. \SI{50}{\hertz})
-\usepackage{algorithm}
-\usepackage{algorithmic}
-\include{defs}
-\usepackage{multirow}
+\input{macros}
+% \documentclass[11pt,oneside,a4paper,onecolumn]{report}
+
+% \usepackage{graphicx}
+% \usepackage{color}
+% \usepackage[table,xcdraw]{xcolor}
+% \usepackage{url}
+% \usepackage{setspace}
+% \usepackage{hyperref}
+% \usepackage{morefloats}
+% \usepackage{amsmath} % assumes amsmath package installed
+% \usepackage{amssymb}  % assumes amsmath package installed
+% \usepackage{setspace}
+% \usepackage{subcaption}
+% \usepackage{enumitem}
+% \usepackage{bm} %allows for bold mathematical symbols (e.g. \bm{X})
+% \usepackage[binary-units = true]{siunitx} %correct typesetting for SI units (e.g. \SI{50}{\hertz})
+% \usepackage{algorithm}
+% \usepackage{algorithmic}
+% \include{defs}
+% \usepackage{multirow}
 %\singlespacing
-\doublespacing
-\usepackage[margin=1in]{geometry}
-\setlength{\parindent}{20pt} % Do not automatically indent the paragraphs.
+% \doublespacing
+% \usepackage[margin=1in]{geometry}
+% \setlength{\parindent}{20pt} % Do not automatically indent the paragraphs.
 
 \newcommand{\SB}{SUPERball} %use \SB{} to write "SUPERball" correctly
 
@@ -29,6 +31,8 @@
 \input{./tex/Title.tex}
 
 \input{./tex/TOC_Figures_Tables.tex}
+
+\end{frontmatter}
 
 \input{./tex/Intro.tex}
 \input{./tex/LitReview.tex}
@@ -47,7 +51,7 @@
 
 % Bibliography:
 \clearpage
-\bibliographystyle{plain}
+\bibliographystyle{unsrt}
 \bibliography{final}
 
 \end{document}
