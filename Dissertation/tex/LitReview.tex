@@ -1,4 +1,5 @@
 \chapter{Literature Review}
+\label{chapter:litReview}
 
 \section{Tensegrity Structures}
 It is possible to design free-standing structures with axially loaded compression elements in a well crafted network of tensional elements.
@@ -58,7 +59,7 @@ The high strength-to-weight ratio of tensegrity structures is very attractive du
 Large tensegrity structures have been shown to be deployable from small compact configurations which enable them to fit into space constrained launch fairings.   
 While the above qualities have inspired studies of deployable antennae and other large space structures~\cite{Tibert2002}, 
 it is in the realm of planetary exploration that we see the most significant role for many of the unique force distribution qualities of tensegrity robots.  
-The NIAC project currently funding this research~\cite{NIACfinalreport} specifically studies landing and surface mobility of tensegrities,
+The project formally funded by the NASA Innovative Advanced Concepts (NIAC) program~\cite{NIACfinalreport} and currently NASA's Ground Changing Development (GCD) is funding this research to specifically study landing and surface mobility of tensegrities,
 exploiting the controllable compliance and force distribution properties which make for reliable and robust environmental interactions.  
 
 The main goal is to develop tensegrity probes with an actively controllable tensile network
@@ -87,8 +88,8 @@ This allows for cheaper missions and enable new forms of surface exploration tha
 \label{sec:control}
 \input{tex/reviewPaper/03_control}
 
-\section{Neural Net and Central Pattern Generators for Tensegrity Robots}
-\label{sec:NN_and_CPG_overview}
+\section{High Level Control for Tensegrity Robots}
+\label{sec:NN_and_Planning_overview}
 
 \subsection{Artificial Neural Networks}
 Artificial Neural Networks (ANNs) are a theoretical group of mathematical models loosely based on neural networks found in biology that can estimate usually unknown functions which map multiple inputs to a set of outputs.
@@ -97,10 +98,10 @@ In practice, layers are grouped into three main layers defined as 1) the Input l
 The Input and Output layers transfer data to and from the Hidden layer, respectively.
 The Hidden layer can be comprised of one ore more sub-layers and is where the input data is converted to the output data.
 Each sub-layer of the Hidden layer is comprised of a defined number of simple functions \(H_{i}\) for \(i \in n\), where \(n\) is total number of functions in a sub-layer.
-Changing how each function \(h \in H\) is connected to other functions, by the use of weights, allows for the ANN to map its inputs to a desired output~\cite{lippmann1987introduction}~\textcolor{red}{Probably should reference more}. For our application, machine learning is used to estimate the connection weights through the use of a cost function.
+Changing how each function \(h \in H\) is connected to other functions, by the use of weights, allows for the ANN to map its inputs to a desired output~\cite{lippmann1987introduction}. For our application, machine learning is used to estimate the connection weights through the use of a cost function.
 The cost function is an equation which measures how close to a user defined goal an iteration during the learning process was able to achieve.
 
-\todo{incorporate this better}
+\subsubsection{ANN for Locomotion}
 Robotic learning methods have previously produced successful policies for tasks
 such as locomotion for walking robots and
 quadrupeds~\cite{tzs-spgrl-04,kp-pgrlf-04,cspd-bolg-15,kn-ldquad-11,kbps-temp-09}.
@@ -108,49 +109,75 @@ These methods, however, typically require hand-engineered policy classes, such
 as a linear function approximator using a set of hand-designed features as
 input~\cite{tzs-spgrl-04}.  For many tensegrity systems, it is difficult to
 design suitable policy classes, since the structure of a successful locomotion
-strategy might be highly complex. We illustrate this in
-Section~\ref{sec:results}, by demonstrating that it is desirable to have a
-representation that is closed-loop, since open-loop control, though simpler to
-design and implement, does not generalize as well to changes in terrain,
-gravity, and other environmental and robot parameters.
+strategy might be highly complex. 
+% We illustrate this in
+% Section~\ref{sec:results}, by demonstrating that it is desirable to have a
+% representation that is closed-loop, since open-loop control, though simpler to
+% design and implement, does not generalize as well to changes in terrain,
+% gravity, and other environmental and robot parameters.
 
 Some more recent methods learn deep neural network policies that are successful
 for tasks such as grasping with robotic arms and bipedal
 locomotion~\cite{slmja-trpo-15,lhphe-ccdrl-16}, and such policies are more
 expressive and require less hand-engineering compared to policy classes used in
-previous methods. One such method, which we extend in this work, is mirror
-descent guided policy search (MDGPS), a recently developed algorithm that frames
+previous methods. One such method, which is used in this work in section~\ref{sec:mdgps}, is mirror
+descent guided policy search (MDGPS), an algorithm that frames
 the guided policy search (GPS) alternating optimization framework as approximate
-mirror descent~\cite{ml-gpsam-16}. We choose MDGPS in our work because it allows
-us to learn deep neural network policies while maintaining sample efficiency,
-and it presents a natural extension to periodic locomotion tasks which we
-describe in Section~\ref{sec:chains}.
+mirror descent~\cite{ml-gpsam-16}. MDGPS is was chosen for this work because it allows
+for deep neural network policies to be learned while maintaining sample efficiency,
+and it presents a natural extension to periodic locomotion tasks.
 
 A key problem for locomotion tasks is the difficulty of establishing stable
 periodic gaits, and this is exacerbated for tensegrity robots due to their
-complex dynamics and unusual control mechanisms. As shown in our experiments,
-near-stable behavior with even small inaccuracies can lead to compounding errors
+complex dynamics and unusual control mechanisms.
+Near-stable behavior with even small inaccuracies can lead to compounding errors
 over time, and will not be successful in producing a continuous periodic gait.
 Previous algorithms have dealt with this problem by establishing periodicity
 directly through the choice of policy
 class~\cite{kp-pgrlf-04,gpw-fbwrc-06,emmnc-cpg-08}, utilizing a large number of
 samples~\cite{slmja-trpo-15}, or initializing from
-demonstrations~\cite{lk-gps-13,la-lnnpg-14}. Instead, we handle this challenge
+demonstrations~\cite{lk-gps-13,la-lnnpg-14}. Instead, this challenge is handled
 by sequentially training several simple policies that demonstrate good behavior
 from a wide range of states, and then learning a policy that reproduces the gait
 of all of the sequential policies for a successful periodic behavior. The
 resulting algorithm learns policies from scratch for robotic tasks that exhibit
-periodicity over long time horizons. We demonstrate through our experiments that
+periodicity over long time horizons. 
+Section~\ref{sec:mdgps} demonstrates through experimentation that
 a single learned policy for a tensegrity robot is capable of efficient,
 continuous locomotion in a range of different conditions by learning appropriate
 feedbacks from the robot's onboard sensors.
 
+\subsection{Path Planning Through a Sampling-Based Motion Planner}
+\label{sec:belief}
 
-\subsection{Central Pattern Generators}
-\label{sec:CPG_overview}
-Central Pattern Generators, or CPGs, are a set of two or more rhythmic processes connected such that each output interacts with the other process(es) to sequentially decrease and increase each process' output.
-The benefit of such a network for rhythmic generators is that, once started, the network will have a series of rhythmic outputs that are phase offset from each other with no need for any external sensory input.
-Discovered over a hundred years ago~\cite{brown1911intrinsic} and formally observed and named in the early 1960's~\cite{wilson1961central}, CPGs have linked to many rhythmic biological systems e.g. vertebrate walking~\cite{brown1911intrinsic,grillner2006biological} and involuntary movements~\cite{janczewski2006distinct,robertson1981oscillatory}.
+Recently, Littlefield \etal~\cite{littlefieldintegrating} implemented a high level sampling-based motion planner on a simulated \SB{} robot in NTRT.
+This method, based on a kinodynamic planner published by Yanbo \etal~\cite{li2016asymptotically}, is able to converge to an asymptotically optimal solution on dynamic systems using only forward propagation and uses a novel parallel implementation to make the forward propagation step more computationally feasible.
+The whole process is done within the NTRT simulation environment, where each parallel process is a NTRT simulation of \SB{}.
+Figure~\ref{fig:particles} shows a visual representation of two forward propagation steps with their respective uncertainty shown as overlaid transparent robots.
+
+\begin{figure}[thpb]
+    \centering
+    %\setlength{\unitlength}{0.5\columnwidth}
+    \includegraphics[width=\linewidth]{tex/img/particles}
+    \caption{
+        \label{fig:particles}
+        An  example of a trajectory with two forward progagations and their uncertainty. 
+        Possible future configurations are shown as transparent versions of \SB{}.
+        (figure courtesy of Zakary Littlefield).
+            }
+\end{figure}
+
+The main control method for this process has been a random sample of individual low level motor commands to produce the desired motion.
+It has been shown with full actuation on the simulated \SB{} that path following over various terrains and obstacles are achievable with this method.
+However, this process only learns a set of open loop actions based on the simulation environment and requires \(20\)+ processing cores to have reasonable computation times.
+
+%% Do I still need this section????
+
+% \subsection{Central Pattern Generators}
+% \label{sec:CPG_overview}
+% Central Pattern Generators, or CPGs, are a set of two or more rhythmic processes connected such that each output interacts with the other process(es) to sequentially decrease and increase each process' output.
+% The benefit of such a network for rhythmic generators is that, once started, the network will have a series of rhythmic outputs that are phase offset from each other with no need for any external sensory input.
+% Discovered over a hundred years ago~\cite{brown1911intrinsic} and formally observed and named in the early 1960's~\cite{wilson1961central}, CPGs have linked to many rhythmic biological systems e.g. vertebrate walking~\cite{brown1911intrinsic,grillner2006biological} and involuntary movements~\cite{janczewski2006distinct,robertson1981oscillatory}.
 
 
 % Because  of  the  limited  research  into  actuated  tensegrity

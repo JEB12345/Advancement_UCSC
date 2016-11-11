@@ -1,11 +1,11 @@
 all: paper
 
 chapters:
-	pdflatex Dissertation_chapters.tex
-	./bibtool -s -d -x Dissertation_chapters.aux ICRA_2016_SUPERball.bib Dissertation_Doc_Jonathan_Bruce.bib tensegrity_review.bib references.bib > final.bib
+	pdflatex -shell-escape Dissertation_chapters.tex
+	./bibtool -s -d -x Dissertation_chapters.aux ICRA_2016_SUPERball.bib Dissertation_Doc_Jonathan_Bruce.bib tensegrity_review.bib references.bib atil_references.bib > final.bib
 	bibtex Dissertation_chapters
-	pdflatex Dissertation_chapters.tex
-	pdflatex Dissertation_chapters.tex
+	pdflatex -shell-escape Dissertation_chapters.tex
+	pdflatex -shell-escape Dissertation_chapters.tex
 	-rm *.aux
 	-rm *.bbl
 	-rm *.blg
@@ -14,11 +14,11 @@ chapters:
 	-rm *.toc
 	-rm *.lof
 paper:
-	pdflatex Dissertation_Doc_Jonathan_Bruce.tex
-	./bibtool -s -d -x Dissertation_Doc_Jonathan_Bruce.aux ICRA_2016_SUPERball.bib Dissertation_Doc_Jonathan_Bruce.bib tensegrity_review.bib references.bib > final.bib
+	pdflatex -shell-escape Dissertation_Doc_Jonathan_Bruce.tex
+	./bibtool -s -d -x Dissertation_Doc_Jonathan_Bruce.aux ICRA_2016_SUPERball.bib Dissertation_Doc_Jonathan_Bruce.bib tensegrity_review.bib references.bib atil_references.bib > final.bib
 	bibtex Dissertation_Doc_Jonathan_Bruce
-	pdflatex Dissertation_Doc_Jonathan_Bruce.tex
-	pdflatex Dissertation_Doc_Jonathan_Bruce.tex
+	pdflatex -shell-escape Dissertation_Doc_Jonathan_Bruce.tex
+	pdflatex -shell-escape Dissertation_Doc_Jonathan_Bruce.tex
 	-rm *.aux
 	-rm *.bbl
 	-rm *.blg
