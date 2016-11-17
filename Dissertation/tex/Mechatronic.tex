@@ -262,13 +262,13 @@ Figure \ref{fig:connection_diagram} shows how power and communication are connec
 A communication design was desired that would be robust, extensible, and work over long distances.
 A CAN bus fits these main requirements and was implemented to be the main communication between all controllers on a single rod.
 Since the CAN bus is a physical layer standard, a communication protocol is usually required to get a robust and extensible network.
-A widely accepted protocol that has been well tested and understood, is the CANOpen protocol \cite{boterenbrood2000canopen}.
+A widely accepted protocol that has been well tested and understood, is the CANOpen protocol~\cite{boterenbrood2000canopen}.
 CANOpen defines the addressing scheme, several small communication protocols and an application layer defined by a device profile.
 Some of the smaller communication protocols supported by CANOpen are device monitoring and communication between nodes, network management, and a simple transport layer for message processing.
 This open source protocol is freely distributed and has many open and closed source implementations.
 The CANOpen implementation used for \SB{} is the CANFestival project which focuses on implementing the basic protocol while maintaining a small code base and low computational load for embedded systems.
 Each mirco-controller and Bealge Bone Black are able to run the entire CANFestival project code in less than \(150 \mu s\) under worst case scenarios.
-The physical layer CAN bus is running at \(1 Mbit/s\) 
+The physical layer CAN bus is running at \(1 Mbit/s\).
 
 \subsection{WiFi and the Robot Operating System}
 The Robot Operating System, or ROS, is a collection of software to provide operating system functionality on a network linked computer cluster. 

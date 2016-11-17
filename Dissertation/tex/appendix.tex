@@ -145,8 +145,8 @@ Figure~\ref{fig:force_sensors} shows the designs for each force sensor.
 
 \begin{figure}[thpb]
       \centering
-      \includegraphics[width=0.6\columnwidth]{tex/img/cable_pulley_bearing_labelled_fixedfonts}
-      \caption{\textcolor{red}{Temp. figure. Show each force sensor.}}
+      \includegraphics[width=0.8\columnwidth]{tex/img/strain_gages}
+      \caption{This figure shows the designs for the motor mount strain gage and the spring strain gage. The motor mount is located on the left, and it functions when the arms of the cross beams deform due to the reaction torque caused by torque being applied to the motor. The right shows the original design for the spring sensors. This gage is suppose to sit between the spring and the ridged mount and compress due to spring force. However, the design never worked.}
       \label{fig:force_sensors}
 \end{figure}
 
@@ -190,27 +190,35 @@ This either would making the calibration no longer valid or be such an shift, th
 Due to these set backs, the force sensors were disregarded as viable sensors to be used on the system.
 
 \section{Electrical Evaluation}
-% \textcolor{red}{
-%  - Motor Board design
-%    > lacked fully functionality
-%    > large board with large connectors
-%    > not quite fast enough for FoC
-%  - Sensor Board desgin
-%    > Wifi module never worked, became hack for DWM module - not enough clearance for antenna
-%    > ADC never used because of Torque and Force sensors not working
-%  - Power Board design
-%    > Large design and no connectors for main power inputs
-%    > Too many 5.5V outputs
-%    > nRF24 chip mounting is problematic 
-% }
 
-For the most part, all the electronic boards on \SB{} functioned as designed with only the motor control board (motor board) having lasting issues that hindered the performance of the system.
-The motor board was suppose to be a low cost solution to achieve position, velocity, and torque control utilizing the Field Oriented Control (FOC) method to commutate our brushless DC motors.
+\subsection{Sensor Board}
+The sensor board eventually functioned as designed.
+All major functions that were set out in its inception were implemented.
+It was able to deliver the CAN physical layer for the Beagle Bone Black, interpret and condition sensor data, and enable the addition of the DWM module (which was not in the initial design).
+The only caveat in its sound function was driver code developed for the DWM module.
+If the DWM module crashed, usually due to the inability to handle soft system resets, the SPI communication line would block the sensor board code.
+This was a rare occurrence, but would require a full power cycle of the sensor board to recover.
+The correct fix is to implement the DWM module's SPI code to be non-blocking, however this was not a higher priority than finishing other higher level control experiments.
+
+\subsection{Power Board}
+This board was the "heart" of \SB{} and functioned extremely well.
+It distributed conditioned power to all electronics and sensors on \SB{} as well as managed many of the safety features on \SB{}.
+One down side to this board was its size.
+Since it has many complex features implemented in discrete logic, the board has 136 components.
+This made the board expensive and large, with some extra features which were never utilized in the final implementation of \SB{}.
+To improve upon this, designing the board as a two sided PCB would reduce the size dramatically.
+Furthering reducing the size and complexity would be to not support 6 power lines.
+These were originally implemented to support expansion boards.
+However, this feature was never utilized and in hind sight would never need to support that many extra boards.
+
+\subsection{Motor Board}
+For the most part, all the electronic boards on \SB{} functioned as designed with only the motor control board having lasting issues that hindered the performance of the system.
+The motor board was suppose to be a low cost solution to achieve position, velocity, and torque control utilizing the Field Oriented Control (FOC) method to commutate the brushless DC motors.
 A third party start-up company was tasked with the design of the motor board.
 It took the company many attempts to get a working version for just position control, with the initial delivery causing motors to generate excessive heat due to shorting the windings during commutation.
 After a quick redesign and manufacturing new boards, position control was achieve with pretty good results.
-However, the company went out of business after delivering working motor control boards and never completed their implementation of the other control methods.
-Because of the issues stated in section~\ref{force_sensing_failure}, torque control could not have been implemented.
+However, the company went out of business after their delivery of working motor control boards and never completed their implementation of the other control methods.
+This in conjunction with the issues stated in section~\ref{force_sensing_failure}, torque control was never implemented.
 
 % The main feature of the sensor board was to monitor and control any of the sensors required on \SB{} by a dedicated processor.
 % This was to insure that none of the critical safety features would be hindered by sensor tasks.
@@ -225,6 +233,30 @@ Because of the issues stated in section~\ref{force_sensing_failure}, torque cont
 % The motor control board for \SB{} never worked as designed and eventually limited the capabilities of the system.
 
 \section{Communications Evaluation}
+There were two main types of data communication on \SB{}, a CAN bus and the wireless WiFi network enabled on each rod.
+
+\subsection{CAN Bus}
+Since \SB{} was designed to have multiple boards communicating on a single network over distances greater than one meter, a CAN bus was implemented to achieve these goals.
+For the most part, this network along with the CANOpen standard met all of the initial design criteria.
+However, sending a small number of messages at \(\SI{1}{\kilo\hertz}\) would over flow the bus at the maximum network speed of \(1 Mbit/s\).
+This is in part due to the large CANOpen message header and the large data types bing transmitted.
+The protocol also uses a lot of system resources to manage.
+It was measured that approximately \(10\%\) of the micro controllers' total computation went into handling CAN messages.
+
+\subsection{WiFi Network}
+\SB{} relied upon standard WiFi communication through ROS to transmit data from the robot to an external computer on the network.
+ROS messaging is extremely convenient for data logging, management, and conditioning all shared over a common network.
+The main issue experienced with this implementation on \SB{} is due to the ARM based network driver support and WiFi dongles used.
+These issues result in unexpected network lags and connection issues to the network.
+Several driver and module addition were required to get the WiFi communication on the Beagle Bone Blacks to be stable and with a relative low network latency.
+However, these fixes never solved the network connection issue.
+
+The maximum range of the system was also limited due to the budget home router used.
+Since purchasing though a government entity put limits on computer hardware, it was difficult to find a good wireless router which fit the design needs and budget.
+Therefore, a budget router was purchase and the routing feature on the wireless router was disabled.
+In its place, a Linux computer was setup as the router.
+The budge wireless router (now a wireless access point), had a very weak signal and limited the systems range to about \(\SI{12}{\meter}\) in an open space.
+
 % \textcolor{red}{
 %  - CAN Bus 
 %    > too slow for fast control and lots of data
