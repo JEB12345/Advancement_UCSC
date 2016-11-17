@@ -104,6 +104,7 @@ It should be noted that for \SB{}, a single face transition requires more than t
 This non ideal behavior is caused by many factors, but a major factor is the maximum tension a single cable should experience during actuation.
 
 \section{Machine Learning Enabled Controllers}
+\label{sec:machine_learning}
 The previous sections in this chapter dealt with locomotion controllers that are idealistically simple as in section~\ref{basic_locomotion} or completely derived by human experimentation as in section~\ref{hand_stepwise}.
 Thus, these controllers do not leverage any inherent properties within the tenesgrity structure or have the ability to optimize around any limitations in the structure's design.
 One property that will be leveraged in the following sections is global force distribution.
@@ -116,12 +117,17 @@ Figure~\ref{fig:nonlinear} shows how the tensioning on a single cable affects al
 \label{fig:nonlinear}
 \end{figure}
 
-\section{Other Learned Locomotion Behaviors}
-\label{sec:otherControllers}
-Along side the basic forward locomotion controllers discussed above, other locomotion controllers which enable specific tasks are being developed for \SB{} like tensegrity structures.
-A path planning controller based on belief spaces was discussed in section~\ref{sec:belief} of chapter~\ref{chapter:litReview}.
-In this section, an early stage controller for escaping crater like scenarios will be shown which was developed in collaboration with Steve Lessard~\cite{lessard2015robust}.
-Also briefly discussed is an early method on how to steer with the locomotion policy developed in section~\ref{sec:mdgps}.
+The majority of the learned controllers discussed in this section will be implemented in the NTRT simulation environment with the final locomotion controller implemented on the \SB{} hardware.
+The first section will discuss a two stage Monte Carlo method for maneuvering \SB{} out of craters/holes.
+This if followed by an open loops learned controller for forward navigation.
+Finally, the last section discusses a closed loop locomotion controller developed in simulation and implemented on the physical \SB{} hardware.
+
+% \section{Other Learned Locomotion Behaviors}
+% \label{sec:otherControllers}
+% Along side the basic forward locomotion controllers discussed above, other locomotion controllers which enable specific tasks are being developed for \SB{} like tensegrity structures.
+% A path planning controller based on belief spaces was discussed in section~\ref{sec:belief} of chapter~\ref{chapter:litReview}.
+% In this section, an early stage controller for escaping crater like scenarios will be shown which was developed in collaboration with Steve Lessard~\cite{lessard2015robust}.
+% Also briefly discussed is an early method on how to steer with the locomotion policy developed in section~\ref{sec:mdgps}.
 %In the following sections, two controllers in early stages of their research are shown, one for escaping crater like scenarios and one for high level path planning.
 %These were conducted in collaboration with Steve Lessard~\cite{lessard2015robust} and Zakary Littlefield~\cite{littlefieldintegrating}, respectively. 
 

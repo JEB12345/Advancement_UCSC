@@ -85,27 +85,51 @@ Figure~\ref{fig:sbv2} shows what the new design concept looks like.
 \hline
 \textbf{}                                                      & \cellcolor[HTML]{EFEFEF}\textbf{\begin{tabular}[c]{@{}c@{}}Number of\\ Actuators\end{tabular}} & \textbf{Size / Weight} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Motor Controls}} & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}\textbf{Sensors}}                                                                       & \textbf{\begin{tabular}[c]{@{}c@{}}Maximum Length for\\ Change in Cable Length*\end{tabular}} \\ \hline
 \textbf{\begin{tabular}[c]{@{}c@{}}\SB{} \\ v1\end{tabular}} & \cellcolor[HTML]{EFEFEF}12                                                                     & \(\SI{1.75}{\meter} \text{/} \SI{21}{\kilo\gram}\)                      & \cellcolor[HTML]{EFEFEF}Position                                     & \begin{tabular}[c]{@{}l@{}}Motor Encoders\\ Accelerometer, Gyro, Magnetometer \\ Ranging / localization Sensors\end{tabular}        & \(\SI{0.4}{\meter}\)                                                                                             \\ \hline
-\textbf{\begin{tabular}[c]{@{}c@{}}\SB{} \\ v2\end{tabular}} & 24                                                                                             & \(\SI{1.8}{\meter} \text{/} \SI{30}{\kilo\gram}\)                      & \begin{tabular}[c]{@{}l@{}}Position\\ Velocity\\ Torque\end{tabular} & \begin{tabular}[c]{@{}l@{}}Motor Encoders\\ Motor Torque Sensor\\ Accelerometer, Gyro\\ Ranging / localization Sensors\end{tabular} & \(\SI{1.5}{\meter}\)                                                                                             \\ \hline
+\textbf{\begin{tabular}[c]{@{}c@{}}\SB{} \\ v2\end{tabular}} & 24                                                                                             & \(\SI{1.8}{\meter} \text{/} \SI{30}{\kilo\gram}\)                      & \begin{tabular}[c]{@{}l@{}}Position\\ Velocity\\ Torque\end{tabular} & \begin{tabular}[c]{@{}l@{}}Motor Encoders\\ Motor Torque Sensor\\ Accelerometer, Gyro\\ Ranging / localization Sensors\\ Linear Cable Sensors\end{tabular} & \(\SI{1.5}{\meter}\)                                                                                             \\ \hline
 \end{tabular}
 }
 \raggedright{\footnotesize * This is the total length a single motor can pull starting with no cable wound on the spool. For \SB{} v2 this means the start length of cable will mean the robot will be in a collapsed state initially.}
 \end{table}
 
-The redesign of \SB{} is still in very early stages of developement, however table~\ref{sb_versions_compare} shows some of the differences in base physical properties and features between the two versions.
+The redesign of \SB{} is still in very early stages of development, however table~\ref{sb_versions_compare} shows some of the differences in base physical properties and features between the two versions.
 
 \subsection{Extending Controls for a Fully Actuated \SB{} v2}
 \label{sec:future_controls}
 
-Since \SB{} v2 will have actuators on all cables, the control techniques developed and implemented on the existing \SB{} should still be valid.
-One of the first step
+In chapter~\ref{controls}, there was a focus on learning a forward locomotion gait for a hardware system that had very limited actuation.
+\SB{} v2 aims to address these limitations and expand the robustness of the system, which will open up new areas of research.
+This system will allow for forward locomotion to be achieved through the "basic" gait as outlined in section~\ref{basic_locomotion}.
+Using this control method as well as the basic steering from section~\ref{sec:steering} as priors for the learning method outlined in section~\ref{sec:mdgps}, highly optimized gaits for navigation should be rapidly achieved.
 
-\begin{itemize}
-% \item Building of \SB{} v2
-\item With \SB{} v2, control methods using 24 actuation will be implemented on hardware
-\item Use Guided Policy Search algorithm to learn CPG parameters for rolling and other manuvering tasks
-\item Combine state estimation with locomotion tasks to implement Belief Space motion planning
-\item Use machine learning techniques to find "packing" controllers
-\end{itemize}
+\subsubsection{Decentralized Control}
+One limitation with the controllers developed so far for \SB{} is their reliance on centralized controllers for basic locomotion.
+A computer connects to \SB{}'s network in order to receive and send data over a standard 802.11~\cite{ieee1997wireless} wireless protocol using the ROS UDP messaging protocol.
+This allows for easy communication between the robot and the control computer, however large amounts of data can be lost from this network structure.
+Hight data loss dramatically affects the performance of a controller and may even cause the controller to fail.
+Utilizing a decentralized control method will allow the individual actuators to adapt without this wireless network layer.
+Mirletz \etal developed a control scheme which uses Central Pattern Generator on each actuator to achieve decentralized locomotion for a snake like tensgerity structure~\cite{mirletz2015goal}.
+Taking this approach and replacing the learning method with the guided policy search method shown in section~\ref{sec:mdgps}, a controller could be learned in a fraction of the time that may require no hand tuning to implement on hardware.
+This will enable \SB{} to learn gaits optimized for various terrains which requires no external centralized control input.
+
+\subsubsection{Path Planning}
+Having basic locomotion controls achieved, high level navigation and path planning techniques can be researched and demonstrated.
+The path planning method discussed in section~\ref{sec:belief}, currently relies on random actuator commands to actuate the simulated \SB{} like robot along a given path.
+The author directly states that faster and more computationally efficient paths will be generated if the algorithm can assume some level of confidence when selecting a control input~\cite{littlefieldintegrating}.
+Using a method like the guided policy search (GPS) method mentioned above, a list of control inputs for various scenarios may be compiled.
+It may also be possible to integrate the GPS algorithm into the path planning method, enabling the creation of efficient gaits when new environments are encountered.
+
+\section{Conclusion}
+
+This works hopes to inform and further future research into tensegrity and highly compliant cable driven robotics, especially for use in terrestrial exploration.
+The future of terrestrial robotics will utilize passive compliance to adapt and perform in scenarios such as rocky and icy terrain, surviving high falls, and navigating through extreme conditions where it will be difficult for non-passively compliant robots to perform.
+
+% \begin{itemize}
+% % \item Building of \SB{} v2
+% % \item With \SB{} v2, control methods using 24 actuation will be implemented on hardware
+% % \item Use Guided Policy Search algorithm to learn CPG parameters for rolling and other manuvering tasks
+% % \item Combine state estimation with locomotion tasks to implement Belief Space motion planning
+% \item Use machine learning techniques to find "packing" controllers
+% \end{itemize}
 
 
 % \color{red}

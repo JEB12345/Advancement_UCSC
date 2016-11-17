@@ -23,11 +23,41 @@ Extra friction is then imparted into the bowden system as theses kinks try to sl
 Friction between the cable and housing element was a known factor, however the amount of friction it induced is much larger than expected.
 Figure \ref{fig:cable_friction} shows a qualitative example of hysteresis in cable length due to the effect friction has on the system.
 
-\begin{figure}[thpb]
-      \centering
-      \includegraphics[width=0.6\columnwidth]{tex/img/cable_pulley_bearing_labelled_fixedfonts}
-      \caption{\textcolor{red}{Temp. figure. Explain how the pictures show hysteresis due to cable friction.}}
-      \label{fig:cable_friction}
+% \begin{figure}[thpb]
+%       \centering
+%       \includegraphics[width=0.6\columnwidth]{tex/img/cable_pulley_bearing_labelled_fixedfonts}
+%       \caption{\textcolor{red}{Temp. figure. Explain how the pictures show hysteresis due to cable friction.}}
+%       \label{fig:cable_friction}
+% \end{figure}
+
+\begin{figure}[htp] % not h only
+\centering
+\begin{subfigure}{.5\textwidth}
+\centering
+\includegraphics[width=0.9\linewidth]{tex/img/ruler_6}%
+\label{fig:ruler_6}%
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+\centering
+\includegraphics[width=0.9\linewidth]{tex/img/ruler_8}%
+\label{fig:ruler_8}%
+\end{subfigure}%
+
+\begin{subfigure}{.5\textwidth}
+\centering
+\includegraphics[width=0.9\linewidth]{tex/img/full_sb_up}%
+\label{fig:sb_up}%
+\caption{}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+\centering
+\includegraphics[width=0.9\linewidth]{tex/img/full_sb_down}%
+\label{fig:sb_down}%
+\caption{}
+\end{subfigure}%
+
+\caption{These figures show the hystresis effect due to friction on the \SB{}. \SB{} in the (a) figures has been lifted off the ground and gently placed back down so that all the springs in the system are allowed to reach equilibrium due to gravity. No extra force has been placed on the robot other than gravity. \SB{} in the (b) figures was arbitrarily pushed downwards on two of the top endcaps with enough force to deform the robot. It can easily been seen the that the internal friction does not allow for the robot to return to it's original state.}
+\label{fig:cable_friction}
 \end{figure}
 
 Another limitation imposed by the cable routing system was the lack of design effort that went into the cable exit system.
@@ -44,8 +74,8 @@ Figure~\ref{fig:cable_output} shows the cable exit point on \SB{} with the "brea
 
 \begin{figure}[thpb]
       \centering
-      \includegraphics[width=0.6\columnwidth]{tex/img/cable_pulley_bearing_labelled_fixedfonts}
-      \caption{\textcolor{red}{Temp. figure. Cable exit hacky fix. Show one that has a groove cut from cable rub.}}
+      \includegraphics[width=0.8\columnwidth]{tex/img/bracket_cut}
+      \caption{This figure shows the original exit point for the steel cable on \SB{} with the "break noodle" fix. The point of entry of the "break noodle" is can be seen where the aluminum of the bracket has been cut by the steel cable before the fix was applied.}
       \label{fig:cable_output}
 \end{figure}
 
@@ -102,8 +132,8 @@ Figure~\ref{fig:cable_break} shows different stages of the vectran cable as it w
 
 \begin{figure}[thpb]
       \centering
-      \includegraphics[width=0.6\columnwidth]{tex/img/cable_pulley_bearing_labelled_fixedfonts}
-      \caption{\textcolor{red}{Temp. figure. Explain how the pictures show the slow breakage of cable.}}
+      \includegraphics[width=0.8\columnwidth]{tex/img/broken_cable}
+      \caption{This figure shows how wear on the cable. The vectran cable's protective outer coating wears off during use which then allows for the individual fibers to break weakening the entire cable. Eventually this wear will degrade the max holding tension to the point of failure. The black cable is a new vectran cable and the cable below shows the black coating worn away and a breakage point. The bottom cable is from an actual failure on the system during a run. Since the system can absorb forces, when the cable breaks the stored energy gets distributed into the robot and no violent backlash is experienced.}
       \label{fig:cable_break}
 \end{figure}
 
@@ -179,7 +209,6 @@ The motor board was suppose to be a low cost solution to achieve position, veloc
 A third party start-up company was tasked with the design of the motor board.
 It took the company many attempts to get a working version for just position control, with the initial delivery causing motors to generate excessive heat due to shorting the windings during commutation.
 After a quick redesign and manufacturing new boards, position control was achieve with pretty good results.
-Figure~\ref{} shows the response of the motor's position controller.
 However, the company went out of business after delivering working motor control boards and never completed their implementation of the other control methods.
 Because of the issues stated in section~\ref{force_sensing_failure}, torque control could not have been implemented.
 

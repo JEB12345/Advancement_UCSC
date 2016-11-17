@@ -177,7 +177,7 @@ Figure~\ref{fig:NTRT_SB} shows a model of \SB{} built in NTRT and using GLUT/Fre
 
 As of writing this document, there is a software bug in GLUT/FreeGLUT which affects NTRT and does not allow for the user to simultaneously display a graphical output and manually control the time step.
 This is not a limiting factor if the user is running thousands of Monte Carlo simulations and does not need to see each individual trial, as is the case for Mirletz and Iscen's papers~\cite{mirletz2015goal, iscen2014flop}.
-However for the machine learning utlizied on \SB{} and explained in section~\ref{learning_nn_gps}, learning is quite rapid and observing the progress as the learning algorithm is working helps determine if a usable controller is being learned.
+However for the machine learning utlizied on \SB{}, learning is quite rapid and observing the progress as the learning algorithm is working helps determine if a usable controller is being learned.
 To enable this, NTRT is run in non-graphical mode and a modified class was implemented that took the bar positions at each time step and displays them in the open source 3D rendering program OpenSceneGraph~\cite{osfield2004open}.
 It was decided not to render the robot's cables in OpenSceneGraph due to the large amount of effort required to code and debug for marginal returns.
 Figure~\ref{fig:OSG_SB} shows an example of \SB{} in OpenSceneGraph.
