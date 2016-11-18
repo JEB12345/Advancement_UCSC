@@ -27,6 +27,20 @@ paper:
 	-rm *.toc
 	-rm *.lof
 
+linux:
+	pdflatex -shell-escape Dissertation_Doc_Jonathan_Bruce.tex
+	bibtool -s -d -x Dissertation_Doc_Jonathan_Bruce.aux ICRA_2016_SUPERball.bib Dissertation_Doc_Jonathan_Bruce.bib tensegrity_review.bib references.bib atil_references.bib > final.bib
+	bibtex Dissertation_Doc_Jonathan_Bruce
+	pdflatex -shell-escape Dissertation_Doc_Jonathan_Bruce.tex
+	pdflatex -shell-escape Dissertation_Doc_Jonathan_Bruce.tex
+	-rm *.aux
+	-rm *.bbl
+	-rm *.blg
+	-rm *.out
+	-rm *.lot
+	-rm *.toc
+	-rm *.lof
+
 clean:
 	-rm *.aux
 	-rm *.log
