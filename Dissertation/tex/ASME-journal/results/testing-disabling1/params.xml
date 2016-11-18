@@ -1,0 +1,9 @@
+<!-- configuration file for parameters evolution
+     syntax: <parameter> NAME MIN MAX </parameter>  -->
+
+<configuration>
+	<input> x 4.0 5.0  </parameter>
+	<input> y 0.0 1.0  </parameter>
+	<input> z 0.0 2.0   </parameter>
+</configuration>
+
