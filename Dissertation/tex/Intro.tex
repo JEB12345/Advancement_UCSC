@@ -4,6 +4,11 @@
 % My dissertation proposal draws heavily from this project and was funded by this grant.}
 % \end{singlespace}
 
+With the advent of NASA Mars rovers, e.g. Spirit and Opportunity~\cite{maimone2007overview} and MSL~\cite{grotzinger2012mars}, exploration through semi-autonomous robots has been shown to be an effective way to conduct meaningful science on extraterrestrial bodies. 
+However in order to go further into our solar system and onto other extraterrestrial bodies with more hostile or unmapped surfaces than Mars, completely new types of robotic rovers need to be developed.
+One such innovative system which may enable exploration on these planetary surfaces is the development of tensegrity robotics.
+Motivated by this idea, the work presented is the first step into realizing this goal.
+
 \section{Motivation}
 
 \begin{figure}[htb]
@@ -31,23 +36,33 @@ Once on the surface, tensegrity robots can perform an array of scientific analys
    \label{fig:basic_diagram1}
 \end{figure}
 
-\section{Goals}
+\section{Scope of Dissertation}
 \label{goal}
-The main goals my project seeks to accomplish:
+Below is an outline of the goals achieved in this work to evaluate and develop tensegrity robotic system. 
 
 \begin{enumerate}[leftmargin=.5cm]
 \item \textbf{Build a rolling tensegrity robot}\\
 A physical hardware prototype of an untethered tensegrity robot to explore locomotion.
 The robot will not only need to perform the basics for rolling, but will need to enable the next two goal items.
 To achieve this, the robot will need significant mechanical power, distributed computation, and wireless communication.
+This robot is presented in section~\ref{design}.
 
 \item \textbf{Open loop locomotion control}\\
 Once the hardware prototype is built, an open loop control scheme will be developed.
 The open loop algorithm will not change the control inputs to the system based on sensing outside of the robot.
-This will demonstrate the system's ability to coordinate motion between it's distributed computation and collect data wirelessly.
+This will demonstrate the system's ability to coordinate motion between it's distributed computation and collect data.
+This work is presented in sections~\ref{hand_stepwise} and \ref{sec:openLoopControl}.
 
 \item \textbf{Closed loop "gait" control}\\
 Once the system has proven the ability to locomote open loop, a closed loop algorithm will be developed.
 The closed loop control will change the "gait", or locomotion pattern, of the robot to cope with sensed variations in terrain, e.g. changes in terrain grade or climbing over an obstacles.
 To achieve this, research into the how much of the robot state is needed as well as various techniques to model and predict the environment by using the on board sensors.
+This work is presented in section~\ref{sec:mdgps}.
+
+\item \textbf{GPS-less State Estimation}\\
+In order to enable further research into path planning and system evaluations, a GPS-less state estimator will be developed.
+This method will track the full state of our system through sensors on board the robot as well as randomly placed ranging sensors.
+These randomly placed sensors could be automatically used to build a world frame relative to each other.
+To achieve this, research  into sensor fusion and automatic calibration is needed.
+This work is presented in section~\ref{state_estimation}.
 \end{enumerate}

@@ -193,7 +193,7 @@ On top of this kernel, the Beagle Bone Black is running a ROS (Robot Operating S
 A new feature developed is the integration of DecaWave's DWM1000 module for relative distance measurements.
 Legacy components no longer utilized on the sensor board for mounting an XBee device are being used with a custom DWM1000 breakout board.
 The small breakout was designed to integrate the DWM1000 module into where the XBee device was originally mounted.
-Figure \ref{fig:sensor_board} shows a prototype of the sensor board mounted to a Beagle Bone Black.
+Figure \ref{fig:sensor_board} shows a sensor board mounted on \SB{}.
 
 \subsection{Power Board}
 \label{power_board}
@@ -210,9 +210,9 @@ If any one of these conditions go false, the entire 24V rail is disabled.
 There are also fuses on both the 24V and 5.5V line to protect all the micro-controller circuits from shorts.
 Figure \ref{fig:connection_diagram} shows a basic connection diagram for the power lines.
 
-The main processing unit on the power board is Microchip's 16-bit dspicPIC33ep128mc506 mirco-controller.
+The main processing unit on the power board is Microchip's 16-bit mirco-controller, dsPIC33ep128mc506. % be careful of the long random strings. they can run over margins
 The wireless "kill switch" monitoring mirco-controller is Mircochip's 8-bit PIC12(L)F1571/2 mirco-controller.
-This chip monitors a known pulse width being communicated by a Nordic Semiconductor nRF24L01 breakout board with antenna.
+This chip monitors a known pulse width being communicated by a Nordic Semiconductor board nRF24L01 with antenna.
 The pulsed signal is sent by a hand held unit off the robot.
 When a shut off command is sent or the PIC12's watchdog timer is triggered from a loss in wireless signal, the logic signal sent from the PIC12 is turned to false disabling the 24V power rail. 
 5.5V power is either supplied by the back-up battery or the main battery using a custom boost or buck switching circuit, receptively.
@@ -220,25 +220,26 @@ The 24V rail is supplied directly from the main 6-cell battery when all input lo
 Figure \ref{fig:power_board} shows the power board. 
 
 \begin{figure}[thpb]
+\centering
 \begin{subfigure}{.3\textwidth}
       \centering
       \includegraphics[width=\columnwidth]{tex/img/motor_board}
-      \caption{Motor Board}
+      \caption{}
       \label{fig:motor_board}
 \end{subfigure}
 \begin{subfigure}{.3\textwidth}
       \centering
-      \includegraphics[width=\columnwidth]{tex/img/sensor_board}
-      \caption{Early Prototype of the \\Sensor Board}
+      \includegraphics[width=\columnwidth]{tex/img/sensor_board_new}
+      \caption{}
       \label{fig:sensor_board}
 \end{subfigure}
 \begin{subfigure}{.3\textwidth}
       \centering
       \includegraphics[width=\columnwidth]{tex/img/power_board}
-      \caption{Power Board without nRF24l01 wireless chip}
+      \caption{}
       \label{fig:power_board}
 \end{subfigure}
-\caption{Pictures of each of the main micro-controller boards on an MTR.}
+\caption{Pictures of each of the main micro-controller boards on an MTR. (a) Motor Board, (b) Sensor Board with DWM module, (c) Power Board without nRF24l01 wireless chip.}
 \label{fig:MTR_uC_boards}
 \end{figure}
 
