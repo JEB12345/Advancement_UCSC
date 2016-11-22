@@ -15,7 +15,7 @@ By employing ultra wideband technology, the low-cost DWM1000 modules provide wir
 This allows the distance between two DWM1000 modules to be estimated by computing the time-of-flight of exchanged messages without the need for synchronized clocks.
 %We opted for this technology because it allows proprioceptive state estimation (distances between end caps), which 
 %cannot be easily tracked directly via motor encoders.~\cite{ledergerber2015}   Furthermore, we 
-Using DWM1000 modules external to /SB{} as "fixed anchors" and placing them around the testing area, a world reference frame for
+Using DWM1000 modules external to \SB{} as "fixed anchors" and placing them around the testing area, a world reference frame for
  ground truth and generation of a reward signal for the machine learning algorithms used for learning locomotion is obtained.  
  %Our intention is that the fixed anchors will not be required in the final deployed 
  %version of the robot, and are primarily for use during algorithm development.
@@ -33,10 +33,10 @@ In this mode, the modules exchange $3$ packets to estimate the time-of-flight be
 While the time-of-flight of unsynchronized modules can be estimated with the exchange of only $2$ packets, the employed mode can significantly reduce measurement noise~\cite{decawave}.
 
 The basic ranging packet exchange is shown in Fig.~\ref{fig:bidirectional_ranging}.
-One module sends out a \emph{poll} message containing an emission timestamp ($t_{SP}$) using its local clock.
-A second module receives this message and timestamps the time of arrival using its local clock ($t_{RP}$).
-The second module then sends out a \emph{response} packet at time $t_{SR}$ (module 2's clock).
-The first module receives this packet at time $t_{RR}$  (module 1's clock).
+Module 1 sends out a \emph{poll} message containing an emission timestamp ($t_{SP}$) using its local clock.
+Module 2 receives this message and timestamps the time of arrival using its local clock ($t_{RP}$).
+Then, module 2 sends out a \emph{response} packet at time $t_{SR}$ (module 2's clock).
+Module 1 receives this packet at time $t_{RR}$  (module 1's clock).
 Module 1 now sends out a final message containing $t_{RR}$ and the emission time of the final message ($t_{SF}$, clock of module 1).
 Module 2 receives this information and timestamps it ($t_{RF}$). 
 
@@ -59,7 +59,7 @@ d_{i,j} &=& t_{SF}^i-t_{RR}^{i,j} %i receives from j
 \end{eqnarray}
 \begin{eqnarray}
 {TOF}_{j,i}  &\approx& \frac{1}{2}\left(c_{j,i}-d_{i,j}\frac{b_{j,i}}{a_i} \right)-\delta_{j,i}\\
-\|\bm{N}_j - \bm{N}_i\| &\approx& \frac{1}{2\bm{c}}\left(c_{j,i}-d_{i,j}\frac{b_{j,i}}{a_i} \right)-o_{j,i} \label{eq:distance_estimation}\\
+\|\bm{N}_j - \bm{N}_i\| &\approx& \frac{1}{2\bm{C}}\left(c_{j,i}-d_{i,j}\frac{b_{j,i}}{a_i} \right)-o_{j,i} \label{eq:distance_estimation}\\
 &\doteq& m_{j,i}-o_{j,i} .
 \end{eqnarray}
 The variables $a$, $b$, $c$, and $d$ are also visualized in Fig.~\ref{fig:bidirectional_ranging}.
@@ -68,7 +68,7 @@ This offset is due to antenna delays and other discrepancies  between the timest
 Whereas this offset is expected to be unique to each module, it was found that it is necessary to estimate this offset pairwise for closely located modules.
 The hypothesis is that the proximity of the robot's motors and the sensor's position near the end cap's metal structure influence the antenna characteristics between pairs of modules.
 
-Eq.~\ref{eq:distance_estimation} estimates the distances between the modules based on the time-of-flight calculation ($\bm{c}$ is the speed of light).
+Eq.~\ref{eq:distance_estimation} estimates the distances between the modules based on the time-of-flight calculation ($\bm{C}$ is the speed of light).
 Rewriting the time offset $\delta_{j,i}$ as a distance offset $o_{j,i}$ (with $o_{j,i}=o_{i,j}$).
 Here $\bm{N}_i$ and $\bm{N}_j$ refer to the positions of nodes $i$ and $j$ respectively (see Section~\ref{txt:ukf}).
 The variables $m_{j,i}$ represent the uncorrected distance estimates.
@@ -104,7 +104,9 @@ Broadcast ranging is illustrated in Fig.~\ref{fig:broadcast_ranging}.
 
 \begin{figure}[tpbh]
  \centering
-  \includegraphics[width=.8\linewidth]{tex/img/broadcast_ranging.pdf}
+  \begin{turn}{270}
+  \includegraphics[width=.6\linewidth]{tex/img/broadcast_ranging.pdf}
+  \end{turn}
  \caption{Packet exchange between 4 modules for bidirectional pairwise and broadcast ranging. 
  Timed broadcast messages allow for efficient ranging with a large number of modules.
   }
@@ -160,13 +162,13 @@ The \emph{final} packet becomes longer as each module needs to transmit the \emp
 
 \subsection{Ranging Setup}
 Each end cap of SUPERball was fitted with a DWM1000 module located approximately \SI{0.1}{\metre} from the end of the strut.
-To simplify the notation, the top cap positions of the MTRs (ends of the struts) and the positions ranging sensor locations.
+To simplify the notation, the top of the MTRs (ends of the struts) and the position of the ranging sensor are assumed the same.
 In practice, this offset is taken into account in the output function of the filter (see Section~\ref{txt:ukf}).
 
 The broadcasting algorithm runs at \SI{15}{\hertz} and packet transmissions are spaced \SI{1}{\milli\second} apart.
 This allows for over $20$ modules to range.
 After one ranging iteration, each end cap transmits its measurements over WiFi to the ROS network. 
-A ROS node then combines measurements from all MTRs into a single ROS message at  \SI{10}{\hertz}.
+A ROS node then combines measurements from all MTRs, along with encoder and IMU data, into a single ROS message at  \SI{10}{\hertz}.
 
 The fixed anchors operate in a similar way to the end caps, but are not connected to a ROS node and can not directly transmit data to the ROS network.
 This means that two measurements are obtained (one in each direction) for each pair of modules on the robot, 
@@ -192,7 +194,7 @@ In Eq.~\ref{eq:l_full}, $i$ iterates over anchors, $j$ iterates over moving node
 The indicator variables $\alpha_{j,t}$ are equal to $1$ when for sample $t$ there are at least $4$ valid measurements to the fixed module for moving module $j$ (i.e. the number of DOFs reduces).
 
 In practice, constraints are added on the bar lengths, which take the same form as Eq.~\ref{eq:l_single} with the offsets set to $0$.
-BFGS is used to minimize Eq.~\ref{eq:l_full} with  a dataset containing approximately $400$ timesteps selected randomly from a few minutes of movement of the robot.
+BFGS~\cite{battiti1990bfgs} is used to minimize Eq.~\ref{eq:l_full} with  a dataset containing approximately $400$ timesteps selected randomly from a few minutes of movement of the robot.
 Although the algorithm works without prior knowledge, providing the relative positions of $3$ fixed nodes ($3$ manual measurements) significantly improves the success rate as there are no guarantees on global convergence.
 
 Once the external offsets (between the anchors and moving nodes) and the module positions are known, the offsets can be estimated between moving nodes in a straightforward way by computing the difference between the estimated internal distances and the uncorrected distance measurements.
@@ -209,13 +211,13 @@ Tensegrity systems are nonlinear and exhibit hybrid dynamics due to cable slack 
 The commonly used Extended Kalman Filter (EKF) does not perform well on highly nonlinear systems where first-order approximations offer poor representations of the propagation of uncertainties.
 Additionally the EKF requires computation of time-derivatives through system dynamics and output functions which is challenging for a model with complex hybrid dynamics. 
 
-The sigma point UKF does not require derivatives through the system dynamics and is third order accurate when propagating Gaussian Random Variables through nonlinear dynamics \cite{wan2000unscented}. The computational cost of the UKF is comparable to that of the EKF, but for tensegrity systems which commonly have a large range of stiffnesses and a high number of state variables the time-update of the sigma points dominates computational cost. As such, the methods used to reduce computational cost of dynamic simulation will be described, then in the following section the outline of the specific UKF implementation for the \SB{} prototype.
+The sigma point Unscented Kalman Filter (UKF) does not require derivatives through the system dynamics and is third order accurate when propagating Gaussian Random Variables through nonlinear dynamics~\cite{wan2000unscented}. The computational cost of the UKF is comparable to that of the EKF, but for tensegrity systems which commonly have a large range of stiffnesses and a high number of state variables the time-update of the sigma points dominates computational cost. As such, the methods used to reduce computational cost of dynamic simulation will be described, then in the following section the outline of the specific UKF implementation for the \SB{} prototype.
 
 \subsection{Dynamic Modelling} 
 \label{sec:dynamic_modeling_sb}
 
 The UKF requires a dynamic model which balances model fidelity and computational efficiency since it requires a large number of simulations to be run in parallel. 
-The model implemented for the tensegrity system as a spring-mass net and the following incomplete list of simplifying assumptions where used:
+The model implemented for the tensegrity system is a spring-mass net and the following incomplete list of simplifying assumptions where used:
 \begin{itemize}
   \item Only point masses located at each node point
   \item All internal and external forces are applied at nodes
@@ -256,7 +258,7 @@ Thus this matrix of member forces can be easily applied to the nodes using:
 $$
 \boldsymbol{F_m} = \boldsymbol{C}^{T} \boldsymbol{U}^q.
 $$
-One now have a method for computing nodal forces exerted by the members and need only compute ground interaction forces, which will be denote as $\boldsymbol{F}_g$.
+A method for computing nodal forces exerted by the members is now obtained, and only ground interaction forces need to be computed, which will be denote as $\boldsymbol{F}_g$.
 Ground interaction forces were computed using the numerical approach in~\cite{yamane2006stable}. The nodal accelerations can then be written as:
 $$
 \frac{d^2\boldsymbol{N}}{dt^2} = \boldsymbol{M}^{-1}(\boldsymbol{F}_m+ \boldsymbol{F}_g) -  \boldsymbol{G},
@@ -277,9 +279,17 @@ Hand tuning obtained these parameters to the values $\alpha = 0.0139$, $\beta = 
 Defining state variables as $\boldsymbol{N}$ and $\frac{d\boldsymbol{N}}{dt}$ stacked in a vector $\boldsymbol{y}\in\mathbb{R}^{L}$ where $L = 6n$ is the number of state variables. 
 Also, independent state noise is assumed with variance $\lambda_y = 0.4$ thus with covariance $\boldsymbol{R} = \lambda_y\bm{I}_L$.
 
+\begin{figure}[tpbh]
+ \centering
+  \includegraphics[width=0.7\linewidth]{tex/img/flow_chartSB.pdf}
+ \caption{Block diagram of data flow within the system. Red signals are passed as ROS messages and blue signals are passed using the ranging modules. Note that each rod contains two ranging sensors located at each end of the rod. The gray control strategy block represents a to-be-designed state-feedback control strategy.}
+\label{fig:UKFflowChart}
+ \end{figure}
+
 %For measurements we take the minimum angle between each bar vector and the z-axis, $\theta\in\mathbb{R}^{b}$ where $b$ is the number of bar angles available at the given time step and all ranging measures, $\boldsymbol{r}\in\mathbb{R}^{a}$, where $a$ is the number of ranging measures available at a given time step.
 The measurement data used is estimated orientation data from the robot's IMUs using a gradient descent AHRS algorithm based on~\cite{madgwick2011estimation}, $\theta\in\mathbb{R}^{b}$ where $b$ is the number of bar angles available at the given time step and all ranging measures, $\boldsymbol{r}\in\mathbb{R}^{a}$, where $a$ is the number of ranging measures available at a given time step.
-Independent noise is again assumed with $\lambda_\theta = 0.1$ and $\lambda_r = 0.029$ the measurement covariance matrix is then defined as:
+Independent noise is again assumed and represented by $\lambda_\theta$ and $\lambda_r$. 
+The measurement covariance matrix is then defined as:
 $$
 \boldsymbol{Q} =  \left[ \begin{array}{ccc} \lambda_\theta\bm{I}_b & \boldsymbol{0} \\
                          \boldsymbol{0}        & \lambda_r\bm{I}_a  \end{array} \right].
@@ -287,25 +297,8 @@ $$
 These user defined variables are then used within the framework of the UKF to forward propagate both the current expected value of the state as well as its covariance. 
 Fig.~\ref{fig:UKFflowChart} shows an overview of the complete state estimation setup. 
 
-
-
-\begin{figure}[tpbh]
- \centering
-  \includegraphics[width=0.85\linewidth]{tex/img/flow_chartSB.pdf}
- \caption{Block diagram of data flow within the system. Red signals are passed as ROS messages and blue signals are passed using the ranging modules. Note that each rod contains two ranging sensors located at each end of the rod. The gray control strategy block represents a to-be-designed state-feedback control strategy.}
-\label{fig:UKFflowChart}
- \end{figure}
-
 \section{Filter Evaluation}
 \subsection{Experimental Setup}
-
-\begin{figure}[tpbh]
- \centering
-  \includegraphics[width=\linewidth]{tex/img/matlab_figure_ranging_b45.pdf}
- \caption{Visualization of the UKF output. \SB{} sits in the middle of the plot surrounded by 8 ranging base stations. Lines between the robot and the base stations indicate valid ranging measures during this timestep.}
-\label{fig:SUPERballMATLAB}
- \end{figure}
- 
 To evaluate the performance of the UKF, eight "fixed anchor" ranging base stations are used and calibrated as detailed in Section~\ref{txt:calib}.
 Each end cap of \SB{} was then able to get a distance measurement to each base station.
 This information was sent over ROS along with IMU data (yaw,pitch,roll) and cable rest lengths to the UKF.
@@ -314,6 +307,13 @@ Each base station's relative location to each other may be seen in Fig.~\ref{fig
 \SB{} and the base stations were then used to show the UKF tracking a local trajectory of end caps and a global trajectory of the robotic system.
 In each of these experiments, the UKF was allowed time to settle from initial conditions upon starting the filter.
 This ensured that any erroneous states due to poor initial conditioning did not affect the filter's overall performance. 
+
+\begin{figure}[tpbh]
+ \centering
+  \includegraphics[width=\linewidth]{tex/img/matlab_figure_ranging_b45.pdf}
+ \caption{Visualization of the UKF output. \SB{} sits in the middle of the plot surrounded by 8 ranging base stations. Lines between the robot and the base stations indicate valid ranging measures during this timestep.}
+\label{fig:SUPERballMATLAB}
+ \end{figure}
 
 \subsection{Local Trajectory Tracking}
 In order to track a local trajectory, \SB{} remained stationary while two of its actuators tracked phase shifted stepwise sinusoidal patterns.

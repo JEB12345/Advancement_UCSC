@@ -1,11 +1,10 @@
 Presented in this work are the concepts to build, sense and control a completely untethered tensegrity robotic system called \SB{} (Spherical Underactuated Planetary Exploration Robot), which is a compliant icosahedron tensegrity robot designed to enable research into tensegrity robots for planetary landing and exploration as part of a NASA funded program.
-Tensegrity robots are soft machines which are uniquely able to compliantly absorb forces and interact with unstructured environments through the use of multiple rigid bodies stabilized by a network of cables.
-However, instead of engineering a single new robot, a fundamentally reusable component for tensegrity robots was developed by creating a modular robotic tensegrity strut which contains an integrated system of power, sensing, actuation, and communications.
-SUPERball utilizes six of these modular struts.
+Tensegrity robots are structurally compliant machines, uniquely able to absorb forces and interact with unstructured environments through the use of multiple rigid bodies stabilized by a network of cables.
+However, instead of engineering a single new robot, a fundamentally reusable component for tensegrity robots was developed by creating a modular tensegrity robotic strut which contains an integrated system of power, sensing, actuation, and communications.
+\SB{} utilizes six of these modular struts, making the \SB{} system analogous to a swarm of 6 individual robots, mutually constrained by a cable network.
 
-Since many of the applications this type of system will eventually encounter might be in remote and GPS denied locations, state estimation and control policies need to only utilize the sensors on board the robotic system.
-If eternal sensors are use, they must be able to account for imprecise placement and automatic calibration.
-Using this framework as the basis and through the open source NASA Tensegrity Robotics Toolkit (NTRT), a state estimation technique as well as multiple control policies are presented.
-Finally, these systems are tested and evaluated on the physical \SB{}.
-
-%Presented will be SUPERball (Spherical Underactuated Planetary Exploration Robot), which is a compliant icosahedron tensegrity robot designed for planetary landing and exploration which is part of a NASA Innovative Advanced Concepts (NIAC) program. Tensegrity robots are soft machines which are uniquely able to compliantly absorb forces and interact with unstructured environments. However, instead of engineering a single new robot, a fundamentally reusable component for tensegrity robots was developed by creating a modular robotic tensegrity strut which contains an integrated system of power, sensing, actuation, and communications. SUPERball utilizes six of these modular struts, and the main focus of this presentation will be the mechatronic design of the modular strut, initial testing of SUPERball, and how the system will enable further exportation into tensegrity robotic locomotion.
+Since \SB{} is intended for use on planetary surfaces without the support of GPS, state estimation and control policies only utilize the sensors on board the robotic system.
+When external sensors are used, they must be able to account for imprecise placement and automatic calibration.
+Also, dynamic tensegrity systems do not exhibit continuous dynamics due to nonlinear cable conditions and interactions with the environment, thus non-traditional control development methods are implemented.
+In this work, control polices are developed using Monte Carlo, evolutionary algorithms, and advanced supervised learning through Guided Policy Search.
+Each system is evaluated in simulation, while state estimation and the Guided Policy Search method are additionally evaluated on the physical \SB{} robotic system.
