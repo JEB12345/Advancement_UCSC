@@ -43,7 +43,7 @@ Module 2 receives this information and timestamps it ($t_{RF}$).
 
 \begin{figure}[tpbh]
  \centering
-  \includegraphics[width=.6\linewidth]{tex/img/bidirectional_ranging.pdf}
+  \includegraphics[width=.8\linewidth]{tex/img/bidirectional_ranging.pdf}
  \caption{Basic symmetric double-side two-way ranging packet exchange. 
  Modules 1 and 2 exchange 3 packets (\emph{poll}, \emph{response}, and \emph{final}). Module 2 then estimates the distance between the modules based on the local timestamps.}
 \label{fig:bidirectional_ranging}
@@ -299,6 +299,13 @@ Fig.~\ref{fig:UKFflowChart} shows an overview of the complete state estimation s
 
 \section{Filter Evaluation}
 \subsection{Experimental Setup}
+\begin{figure}[tpbh]
+ \centering
+  \includegraphics[width=\linewidth]{tex/img/matlab_figure_ranging_b45.pdf}
+ \caption{Visualization of the UKF output. \SB{} sits in the middle of the plot surrounded by 8 ranging base stations. Lines between the robot and the base stations indicate valid ranging measures during this timestep.}
+\label{fig:SUPERballMATLAB}
+ \end{figure}
+ 
 To evaluate the performance of the UKF, eight "fixed anchor" ranging base stations are used and calibrated as detailed in Section~\ref{txt:calib}.
 Each end cap of \SB{} was then able to get a distance measurement to each base station.
 This information was sent over ROS along with IMU data (yaw,pitch,roll) and cable rest lengths to the UKF.
@@ -308,21 +315,7 @@ Each base station's relative location to each other may be seen in Fig.~\ref{fig
 In each of these experiments, the UKF was allowed time to settle from initial conditions upon starting the filter.
 This ensured that any erroneous states due to poor initial conditioning did not affect the filter's overall performance. 
 
-\begin{figure}[tpbh]
- \centering
-  \includegraphics[width=\linewidth]{tex/img/matlab_figure_ranging_b45.pdf}
- \caption{Visualization of the UKF output. \SB{} sits in the middle of the plot surrounded by 8 ranging base stations. Lines between the robot and the base stations indicate valid ranging measures during this timestep.}
-\label{fig:SUPERballMATLAB}
- \end{figure}
-
 \subsection{Local Trajectory Tracking}
-In order to track a local trajectory, \SB{} remained stationary while two of its actuators tracked phase shifted stepwise sinusoidal patterns.
-During the period of actuation, two end cap trajectories were tracked on \SB{} and compared to the trajectory outputs of the UKF.
-One end cap was directly connected to an actuated cable (end cap 2), while the other end cap had no actuated cables affixed to it (end cap 1).
-To obtain a ground truth for the position trajectory, a camera that measured the position of each end cap was positioned next to the robot.
-Both end caps started at the same relative height and the majority of movement of both fell within the plane parallel to the camera.
-Fig.~\ref{fig:smalldisplacement} shows the measured and UKF global positions of the two end caps through time.
-
 \begin{figure}[tpbh]
   \centering
   \includegraphics[width=1\linewidth]{tex/img/Node_tracking_1-11.pdf}
@@ -330,6 +323,12 @@ Fig.~\ref{fig:smalldisplacement} shows the measured and UKF global positions of 
   \label{fig:smalldisplacement}
 \end{figure}
 
+In order to track a local trajectory, \SB{} remained stationary while two of its actuators tracked phase shifted stepwise sinusoidal patterns.
+During the period of actuation, two end cap trajectories were tracked on \SB{} and compared to the trajectory outputs of the UKF.
+One end cap was directly connected to an actuated cable (end cap 2), while the other end cap had no actuated cables affixed to it (end cap 1).
+To obtain a ground truth for the position trajectory, a camera that measured the position of each end cap was positioned next to the robot.
+Both end caps started at the same relative height and the majority of movement of both fell within the plane parallel to the camera.
+Fig.~\ref{fig:smalldisplacement} shows the measured and UKF global positions of the two end caps through time.
 
 % For this experiment, the cables between end caps 1 and 11 and end caps 12 and 8 were actuated.
 % The UKF is able to track the end cap movements quite well with some displacement error in the Y position for end cap 1.
@@ -337,13 +336,6 @@ Fig.~\ref{fig:smalldisplacement} shows the measured and UKF global positions of 
 % This coupled with a mismatched base model, might be the cause for this error.
 
 \subsection{Global Trajectory Tracking}
-For global trajectory tracking, \SB{} was actuated to induce a transition from one base triangle rolling through to another base triangle as presented in \cite{sabelhaus2015system}.
-%The state of \SB{} was tracked using the UKF.
-Ground truth for this experiment was ascertained by marking and measuring the positions of each base triangle's end caps before and after a face transition.
-%Fig.~\ref{fig:3roll_perspective} shows a 3D plot of the UKF generated states for the beginning and end of the experiment.
-%Each colored triangle represents a base triangle and the robot implements two full transitions starting from the red triangle and ending on the blue.
-4 settings of the state estimator were evaluated. \emph{Full}: The state estimator as described in Section~\ref{txt:ukf} with all IMU and ranging sensors. \emph{no IMU}: Only the ranging sensors are enabled. \emph{full w. cst. offset}: Same as \emph{full}, but the offsets $\bm{o}$ are set to a constant instead of optimized individually. \emph{4 base station ranging sensors}: 50\% of the base station ranging sensors are disabled. 
-The results of this experiment are presented in Fig.~\ref{fig:3roll_triangles}~and~\ref{fig:3roll_xz_position}.
 \begin{figure}[tpbh]
  \centering
   \includegraphics[width=\linewidth]{tex/img/top_view.pdf}
@@ -352,6 +344,15 @@ Finding the initial position (origin) is hard for all settings, and without the 
 After a first roll, tracking becomes more accurate. The offsets $\bm{o}$ have a minimal impact, which indicates that the calibration routine is sufficiently accurate.   }
 \label{fig:3roll_triangles}
  \end{figure}
+ 
+For global trajectory tracking, \SB{} was actuated to induce a transition from one base triangle rolling through to another base triangle as presented in \cite{sabelhaus2015system}.
+%The state of \SB{} was tracked using the UKF.
+Ground truth for this experiment was ascertained by marking and measuring the positions of each base triangle's end caps before and after a face transition.
+%Fig.~\ref{fig:3roll_perspective} shows a 3D plot of the UKF generated states for the beginning and end of the experiment.
+%Each colored triangle represents a base triangle and the robot implements two full transitions starting from the red triangle and ending on the blue.
+4 settings of the state estimator were evaluated. \emph{Full}: The state estimator as described in Section~\ref{txt:ukf} with all IMU and ranging sensors. \emph{no IMU}: Only the ranging sensors are enabled. \emph{full w. cst. offset}: Same as \emph{full}, but the offsets $\bm{o}$ are set to a constant instead of optimized individually. \emph{4 base station ranging sensors}: 50\% of the base station ranging sensors are disabled. 
+The results of this experiment are presented in Fig.~\ref{fig:3roll_triangles}~and~\ref{fig:3roll_xz_position}.
+ 
 \begin{figure}[tpbh]
   \centering
   \includegraphics[width=\linewidth]{tex/img/roll_x_z_zoom.pdf}

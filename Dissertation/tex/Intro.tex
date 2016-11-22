@@ -47,6 +47,13 @@ The robot will not only need to perform the basics for rolling, but will need to
 To achieve this, the robot will need significant mechanical power, distributed computation, and wireless communication.
 This robot is presented in section~\ref{design}.
 
+\item \textbf{GPS-less State Estimation}\\
+In order to enable further research into path planning and system evaluations, a GPS-less state estimator will be developed.
+This method will track the full state of our system through sensors on board the robot as well as randomly placed ranging sensors.
+These randomly placed sensors could be automatically used to build a world frame relative to each other.
+To achieve this, research  into sensor fusion and automatic calibration is needed.
+This work is presented in section~\ref{state_estimation}.
+
 \item \textbf{Open loop locomotion control}\\
 Once the hardware prototype is built, an open loop control scheme will be developed.
 The open loop algorithm will not change the control inputs to the system based on sensing outside of the robot.
@@ -58,11 +65,4 @@ Once the system has proven the ability to locomote open loop, a closed loop algo
 The closed loop control will change the "gait", or locomotion pattern, of the robot to cope with sensed variations in terrain, e.g. changes in terrain grade or climbing over an obstacles.
 To achieve this, research into the how much of the robot state is needed as well as various techniques to model and predict the environment by using the on board sensors.
 This work is presented in section~\ref{sec:mdgps}.
-
-\item \textbf{GPS-less State Estimation}\\
-In order to enable further research into path planning and system evaluations, a GPS-less state estimator will be developed.
-This method will track the full state of our system through sensors on board the robot as well as randomly placed ranging sensors.
-These randomly placed sensors could be automatically used to build a world frame relative to each other.
-To achieve this, research  into sensor fusion and automatic calibration is needed.
-This work is presented in section~\ref{state_estimation}.
 \end{enumerate}

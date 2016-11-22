@@ -189,7 +189,7 @@ Figure~\ref{fig:OSG_SB} shows an example of \SB{} in OpenSceneGraph.
       \label{fig:OSG_SB}
 \end{figure}
 
-\section{Detailed Impact Simulations and Cross-Validation Using Two Simulators}
+\section{Detailed Impact Simulations and Cross Validation Using Two Simulators}
 The NTRT simulator is the most general purpose tensegrity simulator available, allowing users explore control algorithms and complex environmental interactions, but it is an iterative discrete solver that has the potential of providing inaccurate answers.  The Euler-Lagrange (E-L) solver, on the other hand, has a much stronger analytical basis and should provide very accurate answers, but is limited because some of the nodes (rod ends) must be constrained and locked into place.  This is unrealistic for the deformation caused during landing, and makes it an inappropriate choice for mobility and controls research.
 %If ground contact forces are incorporated into the E-L solver and code optimization implemented, it could be used in conjunction with a unscented kalman filter for state estimation propogation.
 %This tool could then be used to develop online learning algorithms for mobility research.
