@@ -213,7 +213,7 @@ Additionally the EKF requires computation of time-derivatives through system dyn
 
 The sigma point Unscented Kalman Filter (UKF) does not require derivatives through the system dynamics and is third order accurate when propagating Gaussian Random Variables through nonlinear dynamics~\cite{wan2000unscented}. The computational cost of the UKF is comparable to that of the EKF, but for tensegrity systems which commonly have a large range of stiffnesses and a high number of state variables the time-update of the sigma points dominates computational cost. As such, the methods used to reduce computational cost of dynamic simulation will be described, then in the following section the outline of the specific UKF implementation for the \SB{} prototype.
 
-\subsection{Dynamic Modelling} 
+\subsection{Dynamic Modeling} 
 \label{sec:dynamic_modeling_sb}
 
 The UKF requires a dynamic model which balances model fidelity and computational efficiency since it requires a large number of simulations to be run in parallel. 
@@ -224,7 +224,7 @@ The model implemented for the tensegrity system is a spring-mass net and the fol
   \item Members exert only linear stiffness and damping
   \item Unilateral forcing in cables
   \item Flat ground at a known height with Coulomb friction
-  \item No bar or string collision modelling
+  \item No bar or string collision modeling
 \end{itemize}
 %This is a common approach for modeling tensegrity systems, and force density approaches for this problem are described in \textcolor{red}{cite}. Below we describe some careful manipulation of the equations within this force density framework which allowed us to run the parallel simulations while leaving computational bandwidth for other requisite operations such as communication and data visualization. 
 

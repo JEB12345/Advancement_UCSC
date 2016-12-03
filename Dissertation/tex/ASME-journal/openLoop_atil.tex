@@ -108,13 +108,13 @@ The algorithm used can be found in Algorithm~\ref{Alg:CCEA-AA}.
  \SetAlgoLined
  \KwData{Population of $n$ elements for each agent}
  \For{i=1..$k$}{
-  $random team \leftarrow \emptyset$ \;
+  $random_{team} \leftarrow \emptyset$ \;
   \ForAll{Populations} 
   {
-  	$random_team \leftarrow random_agent$\;
+  	$random_{team} \leftarrow random_{agent}$\;
   }
-  score = evaluate($random_team$) \;
-  \ForAll { agents $\in$ $random_team$}
+  score = evaluate($random_{team}$) \;
+  \ForAll { agents $\in$ $random_{team}$}
   {
   	agent.history $\leftarrow$ score \;
 %  	\If{score $>$ agent.score}
@@ -127,7 +127,7 @@ The algorithm used can be found in Algorithm~\ref{Alg:CCEA-AA}.
  {
    \ForAll { agents}
    {
-   	   agent.fitness = average(agent.history) \;
+   	   agent.fitness $= \text{average}$(agent.history) \;
    }
  	order population according to the fitness\;
  	eliminate the last $z$ members\;

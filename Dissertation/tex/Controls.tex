@@ -83,10 +83,11 @@ It has been shown in literature that a simulated fully actuated (24 actuators) \
     \centering
     \includegraphics[width=0.8\linewidth]{tex/img/left_right_paths}
     \caption{
-    This figure shows the tracked center of mass of a simulated \SB{} utlizing the basic steering controller.
+    This figure shows the tracked center of mass of a simulated \SB{} utilizing the basic steering controller.
+    Each fully actuated equilateral triangle was squeezed the same amount for the left and right steering.
     This controller has no feed back and does have a slight bias toward turning right more than left.
-    It is assumed this is because of the modeled issues issues outlined in appendix~\ref{app:evalutation}.
     Also, it is noted that the unbiased controller tends to the left, because of no optimization on direction was used during the learning of the controller.
+    It should be noted that this figure only shows an academic example and not a fully functional controller.
     }
     \label{fig:turning}
     \vspace{-0.1in}
@@ -121,7 +122,8 @@ This ensured correct detection and transition time for the next cycle.
 The hand-tuned stepwise controller has two main states, a detect and move state and a relax state as seen in~\ref{fig:stepwise_fsm}.
 The transition between each state is time based, where the timing between states was empirically obtained to ensure transition and dynamic settling.
 It should be noted that for \SB{}, a single face transition requires more than the single motor command as stated in section~\ref{basic_locomotion}.
-This non ideal behavior is caused by many factors, but a major factor is the maximum tension a single cable should experience during actuation.
+This non ideal behavior is caused by many factors, and these factors mainly affect the maximum tension a single cable should experience during actuation.
+Limiting actuation to a value less than the required to move the CoM outside the bottom triangle.
 
 \section{Machine Learning Enabled Controllers}
 \label{sec:machine_learning}
@@ -177,20 +179,24 @@ Since NTRT is a numerical solver, stability issues can arise when using small nu
 To mitigate this, all values inside the simulator were increased by a factor of \(100\), e.g. \SB{}'s rod length increase from \(\SI{1.75}{\meter} \text{to} \SI{175}{\meter}\) and the hole/crater is increased from \(\SI{0.5}{\meter} \text{to} \SI{50}{\meter}\).
 Following the escape criterion set in the previous section, the robot escapes the hole/creater when a linear distance of \(\SI{25}{meter}\) is reached in the simulation environment.
 
-\begin{figure}[thpb]
+\begin{figure}
+\vspace{-0.4in}
 \centering
-\includegraphics[width=0.8\textwidth]{tex/ARMS_2015/Pictures/gen0distances.jpg}
-\caption{Generation 0}
-\label{gen0scatter}
-\caption{Generations 0 for the escape hole/crater policy. The displacements reached in 1000 independent samples using Monte Carlo generated control policies.}
-\end{figure}
-
-\begin{figure}[thpb]
-\centering
-\includegraphics[width=0.8\textwidth]{tex/ARMS_2015/Pictures/gen1distances.jpg}
-\caption{Generation 1}
-\label{gen1scatter}
-\caption{Generations 1 for the escape hole/crater policy. The displacements reached in 1100 independent samples using control policies dictated by the successful samples from Generation 0. The values in the set of sine wave parameters from Generation 1 samples were each centered around one of the successful corresponding sine wave parameters in Generation 0 control policies. These Generation 1 values were then modified to be within 0.5\% of their respective Generation 0 values with the goal of optimizing Generation 0 control policies.}
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{tex/ARMS_2015/Pictures/gen0distances.jpg}
+  \caption{}
+  \label{gen0scatter}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{tex/ARMS_2015/Pictures/gen1distances.jpg}
+  \caption{}
+  \label{gen1scatter}
+\end{subfigure}
+\caption{(a) Generations 0 for the escape hole/crater policy. The displacements reached in 1000 independent samples using Monte Carlo generated control policies. (b) Generations 1 for the escape hole/crater policy. The displacements reached in 1100 independent samples using control policies dictated by the successful samples from Generation 0. The values in the set of sine wave parameters from Generation 1 samples were each centered around one of the successful corresponding sine wave parameters in Generation 0 control policies. These Generation 1 values were then modified to be within 0.5\% of their respective Generation 0 values with the goal of optimizing Generation 0 control policies.}
+\vspace{-0.1in}
+\label{fig:genScatter}
 \end{figure}
 
 Figure~\ref{gen0scatter} shows the simulated robot's CoM displacement for each of the \(1000\) samples in generation 0 of the learning process.
@@ -202,25 +208,48 @@ As a control, \(100\) samples are taken with all actuators functioning, shown in
 Then another set of \(100\) samples are taken where only 12 of the actuators are responding to the sine wave command, shown in figure~\ref{robust12scatter}.
 The other actuators are modeled as passive linear springs.
 
-\begin{figure}[thpb]
+% \begin{figure}[thpb]
+% \vspace{-0.3in}
+% \centering
+% {\includegraphics[width=0.8\linewidth]{tex/ARMS_2015/Pictures/dists100.jpg}} 
+% \caption{100 Samples of Tensegrity Structures with 24 Actuators. By reducing the number of functioning actuators on our simulated tensegrity, the limitations of tensegrity escape can be better explored.
+% With all 24 actuators on the tensegrity functioning correctly, a successful escape is relatively easy ($9\%$ success rate).}
+% \vspace{-0.1in}
+% \label{robust24scatter}
+% \end{figure}
+
+\begin{figure}
 \centering
-{\includegraphics[width=0.8\linewidth]{tex/ARMS_2015/Pictures/dists100.jpg}} 
-\caption{100 Samples of Tensegrity Structures with 24 Actuators. By reducing the number of functioning actuators on our simulated tensegrity, the limitations of tensegrity escape can be better explored.
-With all 24 actuators on the tensegrity functioning correctly, a successful escape is relatively easy ($9\%$ success rate).}
-\label{robust24scatter}
-\end{figure}
-                       
-\begin{figure}[thpb]
-\centering
-{\includegraphics[width=0.8\linewidth]{tex/ARMS_2015/Pictures/dists50.jpg}} 
-\caption{100 Samples of Tensegrity Structures with 12 Actuators. With just half of the original actuators functioning correctly, a successful escape is even more difficult (see Figure $7$).
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{tex/ARMS_2015/Pictures/dists100.jpg}
+  \caption{}
+  \label{robust24scatter}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{tex/ARMS_2015/Pictures/dists50.jpg}
+  \caption{}
+  \label{robust12scatter}
+\end{subfigure}
+\caption{(a) 100 Samples of Tensegrity Structures with 24 Actuators. By reducing the number of functioning actuators on our simulated tensegrity, the limitations of tensegrity escape can be better explored. With all 24 actuators on the tensegrity functioning correctly, a successful escape is relatively easy ($9\%$ success rate). (b) 100 Samples of Tensegrity Structures with 12 Actuators. With just half of the original actuators functioning correctly, a successful escape is even more difficult (see Figure $7$).
 In this generation, $4\%$ of tensegrity rovers were still able to escape the ditch in the allotted time.}
-\label{robust12scatter}
+\label{fig:robustScatter}
 \end{figure}
 
 The result of this policy only showed limited success with the second generation only achieving \(24\%\) success.
 However, the policy is still able to achieve success even when half of the actuators are turned off.
 These preliminary results demonstrate that it is possible to actuate a \SB{} like system out of hole/craters it may be stuck within.
+
+% \begin{figure}[thpb]
+% \vspace{-0.3in}
+% \centering
+% {\includegraphics[width=0.8\linewidth]{tex/ARMS_2015/Pictures/dists50.jpg}} 
+% \caption{100 Samples of Tensegrity Structures with 12 Actuators. With just half of the original actuators functioning correctly, a successful escape is even more difficult (see Figure $7$).
+% In this generation, $4\%$ of tensegrity rovers were still able to escape the ditch in the allotted time.}
+% \vspace{-0.1in}
+% \label{robust12scatter}
+% \end{figure}
 
 \subsection{Co-Evolutionary Learning for an Open Loop Controller}
 \label{sec:openLoopControl}
@@ -243,7 +272,7 @@ trajectory-centric reinforcement learning methods~\cite{la-lnnpg-14}.
 
 In this work, a modified version of Guided Policy Search is used based on mirror descent~\cite{ml-gpsam-16}, called Mirror Descent Guided Policy Search (MDGPS).
 This version optimizes the global policy by sampling the current iteration's local polices and approximates the minimum divergence between the global policy and the local policies.
-To optimize the local polices, $\return(\params)$ is minimized such that there is a bound on the Kullback–Leibler divergence (KL-divergence) between the local policy and the linearized global policy $\bar\policy_{\params{i}}$~\cite{bagnell2003covariant,ps-rlmsp-08,pma-reps-10,slmja-trpo-15}.
+To optimize the local polices, $\return(\params)$ is minimized such that there is a bound on the Kullback-Leibler divergence (KL-divergence) between the local policy and the linearized global policy $\bar\policy_{\params{i}}$~\cite{bagnell2003covariant,ps-rlmsp-08,pma-reps-10,slmja-trpo-15}.
 For clarification, the KL-divergence is a measure of how much information is lost when using a probability distribution to approximate another distribution.
 A generic MDGPS algorithm is shown in Algorithm~\ref{alg:mdgps}.
 
@@ -563,7 +592,11 @@ This trains the policy to favor faster rolling behavior.
 \label{sec:simresults}
 
 \begin{table*}[t]
-    \centering
+    \begin{center}
+    \caption{
+        Average distances in meters traveled using the policies learned with varying observation representations and local policy
+        training schemes.
+    }
     \resizebox{\textwidth}{!}{%
         \begin{tabular}{|llrrrrr|}
             \hline
@@ -592,24 +625,17 @@ This trains the policy to favor faster rolling behavior.
             \hline
         \end{tabular}%
     }
-    \caption{
-        \label{table:distance}
-        Average distances in meters traveled using the policies learned with varying observation representations and local policy
-        training schemes, the open-loop mean actions from the learned policy
-        that performs best under training conditions, and the hand-engineered
-        open-loop policy. Results are averaged across five trials of one minute
-        each for a variety of terrain, gravity, noise, and robot settings.
-        ``Normal Conditions'' are the training conditions, which are flat
-        terrain, 100\% gravity, 10\% added noise to the input, and normal robot
-        parameters. When varying one setting, all other settings remain the same
-        as during training time. The open-loop controllers are not shown with
-        varying input noise, because these controllers do not have any input.
-        Bolded numbers indicate the farthest distance traveled for any given
-        condition, and italicized numbers are the second farthest. Note that the
-        first two learned policies generally outperform all other controllers,
-        demonstrating the benefits of this method and using multiple initial
-        states in learning efficient and generalizable locomotion.
-    }
+    \label{table:distance}
+    \end{center}
+    \vspace{-0.1in}
+    \fontsize{10pt}{12pt}\selectfont
+The open-loop mean actions from the learned policy that performs best under training conditions, and the hand-engineered open-loop policy. 
+Results are averaged across five trials of one minute each for a variety of terrain, gravity, noise, and robot settings.
+``Normal Conditions'' are the training conditions, which are flat terrain, 100\% gravity, 10\% added noise to the input, and normal robot parameters. 
+When varying one setting, all other settings remain the same as during training time. 
+The open-loop controllers are not shown with varying input noise, because these controllers do not have any input.
+Bolded numbers indicate the farthest distance traveled for any given condition, and italicized numbers are the second farthest. 
+Note that the first two learned policies generally outperform all other controllers, demonstrating the benefits of this method and using multiple initial states in learning efficient and generalizable locomotion.
 \end{table*}
 
 % The \SB{} simulation that we use is built off of the NTRT open-source project.
@@ -687,6 +713,23 @@ The addition of input noise during training encourages this generalization, and 
 
 \subsubsection{Results in the Real World}
 \label{sec:realresults}
+\begin{figure}[thpb]
+    \vspace{-0.1in}
+    \centering
+    %\setlength{\unitlength}{0.5\columnwidth}
+    \includegraphics[width=\linewidth]{tex/img/plot_motor}
+    \caption{
+        \label{fig:commands}
+        This plot shows actual motor positions, target motor positions, and 
+        single axis accelerometer data over the first 40 seconds of a trial
+        for two rod ends which are not connected via cables and not attached
+        to the same rod. The commanded positions change based on
+        the accelerometer feedback, showing the controller working as the robot
+        changes orientation by rolling. The actual motor position  
+        lags behind the target motor position due to motor dynamics and network UDP packet loss.
+    }
+    \vspace{-0.1in}
+\end{figure}
 
 We compared the learned policy with limited observation, trained in simulation, against an open-loop policy that outputs the mean actions from this learned policy under training conditions. Both policies were run on the physical \SB{} robot on flat terrain. 
 % Videos of the training process and experiments can be
@@ -704,22 +747,6 @@ Over three trials of 100 seconds each, using the learned policy, \SB{} rolled ap
 Also, a cable malfunction cut the last trial short by about 20 seconds, which was on track to reach the \SI{12}{\meter} limit. 
 Despite these issues and the differences between the simulated and physical robot, the policy was able to successfully produce a gait on \SB{} that is more reliable, and less risky for the hardware, than any previous locomotion controller.
 The learned policy is able to adapt to the physical \SB{} robot by using feedback from the accelerometers, as seen in figure~\ref{fig:commands}.
-
-\begin{figure}[thpb]
-    \centering
-    \setlength{\unitlength}{0.5\columnwidth}
-    \includegraphics[width=\linewidth]{tex/img/plot_motor}
-    \caption{
-        \label{fig:commands}
-        This plot shows actual motor positions, target motor positions, and 
-        single axis accelerometer data over the first 40 seconds of a trial
-        for two rod ends which are not connected via cables and not attached
-        to the same rod. The commanded positions change based on
-        the accelerometer feedback, showing the controller working as the robot
-        changes orientation by rolling. The actual motor position  
-        lags behind the target motor position due to motor dynamics and network UDP packet loss.
-    }
-\end{figure}
 
 The open-loop policy was not able to produce any reasonable behavior on the real robot, and we ran it only once due to concerns about hardware safety. 
 %The lack
