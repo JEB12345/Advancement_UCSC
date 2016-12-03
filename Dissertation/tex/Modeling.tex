@@ -38,7 +38,7 @@ our validated tensegrity simulator NTRT (NASA Tensegrity
 Robotics Toolkit)~\cite{2917079}\cite{Caluwaerts2013rsif}.
 
 In  order  to  develop  SUPERball  from  ReCTeR's  design
-limitations as well as our lab’s need for rapid experimentation
+limitations as well as our lab's need for rapid experimentation
 of  various  tensegrity  configurations  and  morphologies,  we
 came  up  with  a  modular  tensegrity  platform  to  research
 large  scale  robotic  tasks;  e.g.  a  tensegrity  planetary  probe
@@ -57,7 +57,6 @@ The initial design requirements obtained from the NTRT simulations, refined desi
 \begin{table*}[ht]
 %\begin{minipage}[t][\linewidth]{
 \caption{\SB{} and Related Robots Design Overview.} 
-\label{design_req}
 
 \begin{center}%
 \resizebox{\columnwidth}{!}{%
@@ -77,7 +76,8 @@ The initial design requirements obtained from the NTRT simulations, refined desi
 \end{tabular}
 }
 \end{center}
-\bigskip
+\label{design_req}
+%\bigskip
 \fontsize{10pt}{12pt}\selectfont
 The variable $l_{strut}$ indicates the length of a strut, $\Delta l_{act}$ is the nominal spring-cable retraction length in tension, $k_{passive}$ is the linear stiffness coefficient of a passive spring-cable (or active spring-cable if fully actuated), tethered indicates if the robot is powered externally or by internal systems, control indicates whether sensor feedback is used, $f_{act}$ is the nominal actuated spring-cable tension and \#act. is the number of actuators. In the sensors column, F represents a linear force sensor (for cables), L is cable length sensor (in the form of motor encoders), $\tau$ represents a torque sensor for motors, and IMU represents an accelerometer/gyroscope inertial motion sensing unit. Actuators are specified as DC motors or brushless DC (BLDC) motors. The SUPERball 2014 values are revised original design requirements based on NTRT simulations, and changed to the 2015 values after additional detail design. %
 
@@ -86,8 +86,8 @@ The variable $l_{strut}$ indicates the length of a strut, $\Delta l_{act}$ is th
 %\end{minipage}
 \end{table*}
 
-The work presented here is work verifying our in house tensegrity simulators.
-In order to achieve this, the group decided to use a \SB{} like structure with a center payload.
+Presented here is work verifying our in house tensegrity simulators.
+In order to achieve this, a \SB{} like structure with a center payload was used.
 This is believed to be closer to the proposed build profile of a real tensegrity probe, where the main science modules will be contained within the payload.
 Protecting this science payload is the main goal for and EDL scenario.
 Figure \ref{fig:NTRT_SB} shows a 3-D representation of \SB{} with a payload generated within NTRT.

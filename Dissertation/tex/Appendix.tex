@@ -165,13 +165,6 @@ The trajectory of sensor torque values reasonably tracks the position square wav
 The overshoot on the torque sensor measurements is due to the system inertia and spring dynamics.
 
 \paragraph{Global Force Redistribution Sensor Testing}
-\begin{figure}[thpb]
-      %\vspace{-0.5cm}
-      \centering
-      \includegraphics[width=0.55\columnwidth]{tex/img/sensor2_original}
-      \caption{Global force redistribution test. Yellow marks are the means of roughly 5,000 tension sensor measurements of \emph{cable 2} opposite that which is actuated (\emph{cable 1}.) The black line shows the linear interpolation between points, with the red boundary as standard deviation. The pretension in the sensed cable is adjusted in each test, showing measurement sequences at increasing pretensions.}
-      \label{fig:sensor2data_forcedistribution}
-\end{figure}
 
 A test was performed to validate the distribution of tension throughout the system, and to show that all sensors can work in conjunction simultaneously.
 Figure~\ref{fig:sensor2data_forcedistribution} shows tension readings from a different motor-mount torque sensor on the opposite side of \SB{} (Cable 2) from a cable which is being retracted (Cable 1.)
@@ -180,6 +173,14 @@ For each plot in Figure~\ref{fig:sensor2data_forcedistribution}, the actuated ca
 Each data point in this figure (yellow) was collected by averaging data from the sensor board for a total of 5 seconds at 1 kHz, after waiting 2 seconds after the step input actuation to avoid dynamic effects.
 These tests were done with different levels of pretension on the sensed cable: this pretension was adjusted by changing the length of the sensed cable.
 Though the lower-pretension tests show smaller changes in readings, the higher pretensions show increasing readings which demonstrate the ability to sense forces throughout the tension network in pseudo-equilibrium states, as well as \SB{}'s passive force redistribution properties.
+
+\begin{figure}[thpb]
+      %\vspace{-0.5cm}
+      \centering
+      \includegraphics[width=0.55\columnwidth]{tex/img/sensor2_original}
+      \caption{Global force redistribution test. Yellow marks are the means of roughly 5,000 tension sensor measurements of \emph{cable 2} opposite that which is actuated (\emph{cable 1}.) The black line shows the linear interpolation between points, with the red boundary as standard deviation. The pretension in the sensed cable is adjusted in each test, showing measurement sequences at increasing pretensions.}
+      \label{fig:sensor2data_forcedistribution}
+\end{figure}
 
 \paragraph{Force Sensing Viability}
 The force reaction sensor was the only custom sensor to accurately sense the forces applied.
