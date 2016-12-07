@@ -5,7 +5,7 @@ An ideal tensegrity system, either robotic or static, is a collection of rigid c
 For robotic tensegrities without a payload, the actuation and supporting electronics would be logically designed into the compressible elements. 
 For the inception of \SB{}, this compressible element called a struct was further dissected into three parts: two identical ends called Modular Tensegrity Robots (MTR) and a section of tube stock connecting the MTRs.
 Connecting six of these struts into an icosahedron geometric pattern will create \SB{}.
-Modular Tensgrity Robot is a loose label given to the self-contained robotic element which when connected with multiple MTRs may make up a tensegrity robot.
+Modular Tensegrity Robot is a loose label given to the self-contained robotic element which when connected with multiple MTRs may make up a tensegrity robot.
 The current version of a MTR can be seen in figure \ref{fig:fully_assembled_endcap} and the following subsections will explain the mechanical and electrical make up of an MTR.
 
 \begin{figure}[thpb]
@@ -21,7 +21,7 @@ The current version of a MTR can be seen in figure \ref{fig:fully_assembled_endc
       \caption{MTR back side.}
       \label{fig:endcap_upclose_back}
 \end{subfigure}
-\caption{Fully assembled Modular Tensegrity Robot images on SUPERball}
+\caption{Fully assembled Modular Tensegrity Robot images on SUPERball, except for the ground contact caps which will mount to the every end of each rod.}
 \label{fig:fully_assembled_endcap}
 \end{figure}
 
@@ -57,7 +57,7 @@ From the inception of \SB{}, enabling a self-contained power source which was ea
 During the initial design and build of the \SB{}, it was known that the batteries would probably be 24 volt lithium polymer but optimal size and shape of the battery was unknown due to a changing power profile.
 Therefore, a battery holder with a simple securing mechanism which can handle a wide range of battery sizes was utilized.
 Two hook and loop straps were used with simple slot cutouts to enable cinching around a generic lithium polymer battery.
-The holder was also made large enough to hold the Power Board PCB board opposite of the battery.
+The holder was also made large enough to hold the Power Board PCB opposite of the battery.
 As shown in section \ref{power_board}, the Power Board was designed to have a low profile in order to allow for a large battery within the holder.
 
 \subsection{Motor and Electronics}
@@ -83,7 +83,7 @@ Due to space limitations, these brackets are also load bearing components for th
 A simple spool design was implemented to directly actuate the cable. 
 The spool directly couples to the motor shaft by sliding onto the D shaft.
 A radial bearing supports the top of the spool and since the force vector applied to the spool by the actuated cable will never be just perpendicular to the spool, a thrust bearing was embedded into the bottom of the spool.
-The thrust bearing sinks the trust force into the motor mount and each spool has the ability to slide along the the shaft's main axis. 
+The thrust bearing sinks the trust force into the motor mount and each spool has the ability to slide along the shaft's main axis. 
 Since this thrust force is perpendicular to the torque of the motor, this force is not induced into the torque sensor built into the motor mount.
 
 There are three other cables that connect to a MTR on \SB{}, though the device may support more with slight additions not explained here.
@@ -102,7 +102,6 @@ Once the cables reach their respective spring within the spring tube holder, the
 \end{figure}
 
 \subsection{Ground Contact} 
-This final section of the MTR is the simplest. 
 To protect the MTR during locomotion, a 3D printed cap was manufactured to cover the end.
 This part is designed with a diameter of \(80mm\) so that it is the only part of the MTR that contacts the ground during normal locomotion.
 To decrease the impact shocks as the rod contacts a surface, compliant foam sheets are place between the 3D printed cap and the MTR.
@@ -182,10 +181,10 @@ For a detailed explanation of why the Beagle Bone Black was integrated into the 
 The current version of the sensor board was developed as a daughter board for the Beagle Bone Black.
 The board mates to the Beagle Bone Black through two double row 46 pin headers and provides power and CAN communication to the ARM board.
 The main processing unit on the sensor board is Microchip's 16-bit dsPIC33ep128gp506 micro-controller.
-Environmental sensing is enabled by a 9DOF inertial measurement unit (IMU) and a 24-bit analog to digital converter (ADC) configured in a half wheat-stone bridge configuration.
+Environmental sensing is enabled by a 9DOF inertial measurement unit (IMU) and a 24-bit analog to digital converter (ADC) configured in a half Wheatstone bridge configuration.
 The IMU is comprised of Invensense's MPU6000 mastered to Freescale's MAG3110 magnetometer, and the ADC is Analog Device's AD7193.
 
-The Beagle Bone Black is a open-source hardware single-board computer inspired by the BealgBoard, the larger predecessor developed by Texas Instruments as an educational tool.
+The Beagle Bone Black is an open-source hardware single-board computer inspired by the Beagle Board, the larger predecessor developed by Texas Instruments as an educational tool.
 The main processor on the board is a Sitara ARM Cortex-A8 processor running at 1Ghz and capable of running a full ARM based operating system (OS).
 The processor is also able to interface directly with low level communication protocols such as CAN, UART, SPI, and I2C.
 To meet our memory and speed requirements, a custom kernel was built with only the modules needed by our system.
@@ -198,7 +197,7 @@ Figure \ref{fig:sensor_board} shows a sensor board mounted on \SB{}.
 
 \subsection{Power Board}
 \label{power_board}
-The power board was design to enable safety, both for a person working near \SB{} and for the electronics, as well as conditioning input power to both a 5.5V and a 24V rail.
+The power board was designed to enable safety, both for a person working near \SB{} and for the electronics, as well as conditioning input power to both a 5.5V and a 24V rail.
 The board was also designed with a minimal height profile allowing for larger batteries to be placed near the board.
 See section \ref{battery_holder}, to view the section which houses the power board.
 The main idea of safety is focused around operating the 100W BLDC motors, thus a two battery system was implemented.
@@ -277,7 +276,7 @@ The Robot Operating System, or ROS, is a collection of software to provide opera
 Message-passing and packet management works agnostic to the network layer, allowing information to be passed from one ROS enabled node to any other ROS enabled node on a network.
 Figure \ref{fig:ros_diagram} shows a basic representation of how this message-passing works on the \SB{} ROS network.
 
-As explained in section \ref{sensor_bbb}, enabling each rod is a ROS node was the driving reason to have at least one ARM based chip on every rod.
+As explained in section \ref{sensor_bbb}, enabling each rod as a ROS node was the driving reason to have at least one ARM based chip on every rod.
 Since the Beagle Bone Black is also on the CAN bus, it's main function is to sniff the CAN network and send new information out to the ROS network.
 This enables for near real time data analysis and for time stamped data logging on \SB{}.
 

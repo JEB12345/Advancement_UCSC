@@ -49,7 +49,7 @@ Module 2 receives this information and timestamps it ($t_{RF}$).
 \label{fig:bidirectional_ranging}
  \end{figure}
 
-Module 2 can now estimate the time-of-flight and the distance between itself and module 1 based on the 6 timestampes.
+Module 2 can now estimate the time-of-flight and the distance between itself and module 1 based on the 6 timestamps.
 The basic equations to estimate the distance between module $i$ and module $j$ (module $i$ initiates the ranging and module $j$ computes the distance) are given by:
 \begin{eqnarray} %ranging between i and j (j computes distance)
 a_{i} &=& t_{SF}^i-t_{SP}^i\\
@@ -66,7 +66,7 @@ The variables $a$, $b$, $c$, and $d$ are also visualized in Fig.~\ref{fig:bidire
 The time-of-flight calculation between two modules $i$ and $j$ ($TOF_{j,i}=TOF_{i,j}$) is hindered by a fixed measurement offset ($\delta_{j,i}=\delta_{i,j}$).
 This offset is due to antenna delays and other discrepancies  between the timestamps and actual packet reception or emission.
 Whereas this offset is expected to be unique to each module, it was found that it is necessary to estimate this offset pairwise for closely located modules.
-The hypothesis is that the proximity of the robot's motors and the sensor's position near the end cap's metal structure influence the antenna characteristics between pairs of modules.
+The hypothesis is that the proximity of the robot's motors and the sensor's position near the end cap's metal structure influences the antenna characteristics between pairs of modules.
 
 Eq.~\ref{eq:distance_estimation} estimates the distances between the modules based on the time-of-flight calculation ($\bm{C}$ is the speed of light).
 Rewriting the time offset $\delta_{j,i}$ as a distance offset $o_{j,i}$ (with $o_{j,i}=o_{i,j}$).
@@ -161,7 +161,7 @@ The \emph{final} packet becomes longer as each module needs to transmit the \emp
 
 
 \subsection{Ranging Setup}
-Each end cap of SUPERball was fitted with a DWM1000 module located approximately \SI{0.1}{\metre} from the end of the strut.
+Each MTR of SUPERball was fitted with a DWM1000 module located approximately \SI{0.1}{\metre} from the end of the strut.
 To simplify the notation, the top of the MTRs (ends of the struts) and the position of the ranging sensor are assumed the same.
 In practice, this offset is taken into account in the output function of the filter (see Section~\ref{txt:ukf}).
 
@@ -258,7 +258,7 @@ Thus this matrix of member forces can be easily applied to the nodes using:
 $$
 \boldsymbol{F_m} = \boldsymbol{C}^{T} \boldsymbol{U}^q.
 $$
-A method for computing nodal forces exerted by the members is now obtained, and only ground interaction forces need to be computed, which will be denote as $\boldsymbol{F}_g$.
+A method for computing nodal forces exerted by the members is now obtained, and only ground interaction forces need to be computed, which will be denoted as $\boldsymbol{F}_g$.
 Ground interaction forces were computed using the numerical approach in~\cite{yamane2006stable}. The nodal accelerations can then be written as:
 $$
 \frac{d^2\boldsymbol{N}}{dt^2} = \boldsymbol{M}^{-1}(\boldsymbol{F}_m+ \boldsymbol{F}_g) -  \boldsymbol{G},

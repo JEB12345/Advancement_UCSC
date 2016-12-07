@@ -34,8 +34,8 @@ Thus, a simplistic example where \(n = 2\) would have the form
 \begin{align}
 F(t') =
   \begin{cases}
-    y1       & \quad \text{for} t' \in [0, t_{1}]\\
-    y2       & \quad \text{for} t' \in (t_{1}, t]\\
+    y1       & \quad \text{for}~ t' \in [0, t_{1}]\\
+    y2       & \quad \text{for}~ t' \in (t_{1}, t]\\
   \end{cases}
 \end{align}
 
@@ -53,10 +53,10 @@ When the function is expanded to \(n = k\) it takes the form of
 \begin{align}
 F(t') =
   \begin{cases}
-    y1       & \quad \text{for} t' \in [0, t_{1}]\\
-    y2       & \quad \text{for} t' \in (t_{1}, t_{2}]\\
+    y1       & \quad \text{for}~ t' \in [0, t_{1}]\\
+    y2       & \quad \text{for}~ t' \in (t_{1}, t_{2}]\\
     \vdots   & \quad \vdots \\
-    yk       & \quad \text{for} t' \in (t_{k-1}, t]\\
+    yk       & \quad \text{for}~ t' \in (t_{k-1}, t]\\
   \end{cases}
 \end{align}
 
@@ -151,7 +151,7 @@ The algorithm used can be found in Algorithm~\ref{Alg:CCEA-AA}.
 An example learning session is shown using signals with complexity ($n$) of 5 and period ($t$) of 4 seconds.  
 Figure \ref{fig:learning} illustrates the distance rolled by the robots over the course of learning. 
 Starting with 0 meters, the robots converge to rolling over 32 meters in 60 seconds. 
-This result shows that successful learning of rolling locomotion using CCEA is possible. 
+This result shows that successful learning of rolling locomotion using this method is possible. 
 % In Section \ref{sec:platform} WE discussed when a policy is labeled as unfeasible during learning.  
 The second line at the same Figure (Figure \ref{fig:learning}) shows the rate of unfeasible policies that are tried while learning to roll. 
 While converging to rolling locomotion, unfeasible policies drop to 0. 

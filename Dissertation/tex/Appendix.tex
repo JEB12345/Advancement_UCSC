@@ -4,7 +4,7 @@
 
 Once \SB{} v1 was built and evaluated, the system performed mostly as designed.
 Since this was an initial venture into building an untethered tensegrity robot, there were several design choices that ultimately impacted the system's performance negatively.
-In the following sections, I will try to summarize and evaluate how the mechanical, electrical, and communication systemnjous performed.
+In the following sections, I will try to summarize and evaluate how the mechanical, electrical, and communication subsystems performed.
 I will then try to make suggestions to improve upon these systems.
 
 \section{Mechanical Evaluation}
@@ -63,7 +63,7 @@ Figure \ref{fig:cable_friction} shows a qualitative example of hysteresis in cab
 Another limitation imposed by the cable routing system was the lack of design effort that went into the cable exit system.
 Originally, it was designed to be a section of the nylon bowden cable housing sticking out of the robot to isolate the steel cable as it exited the MTR aluminum housing.
 However, the angle in which the cable exits the system was never considered in the original \SB{} design. 
-This failure meant that an exit angle of 90 degrees perpendicular to the rod as used for the cable exit.
+This failure meant that an exit angle of 90 degrees perpendicular to the rod was used for the cable exit.
 Comparing this to the actual cable exit angle of approximately 30 degrees from perpendicular during normal operation meant that more than \(60\%\) of the tension force is imparted into the nylon cable and the aluminum housing exit hole.
 When the cable would slide in and out of the exit point, the nylon tube quickly would sheer apart.
 This then caused the steel cable to rub on the aluminum housing, which then would slowly saw into the housing.
@@ -86,9 +86,9 @@ This caused a limit on the maximum length each actuator imposes on a cable.
 Max cable tension on \SB{} was designed around a maximum continuous operating tension force of \(200N\) per cable.
 The system was also designed to take intermittent forces \(50-75N\) higher than this maximum that would be caused by rolling.
 These values were obtained through evaluating the tension forces derived from Iscen et al's control work within the NASA Tensegrity Robotics Toolkit~\cite{iscen2014flop}.
-Atil used a simulated robot based on the initial design of \SB{}, which consisted of a total mass of \(18kg\) and each rod being \(1.5m\) in length. 
+Iscen used a simulated robot based on the initial design of \SB{}, which consisted of a total mass of \(18kg\) and each rod being \(1.5m\) in length. 
 Comparing these values to those in table~\ref{design_req}, the final \SB{} parameters were different than the ones used to determine the operating tensions.
-This was due to Atil's work was published quite early in the design process and not all the mechanical design aspects of the MTRs were finalized.
+This was due to Iscen's work was published quite early in the design process and not all the mechanical design aspects of the MTRs were finalized.
 This discrepancy in weight caused the actual nominal operating tension to be around \(240N\) and the maximum operational tension to be above \(400N\).
 
 The motors used in the final design of \SB{} were 100 watt Maxon motors as specified in table~\ref{motor_parameters}.
@@ -115,7 +115,7 @@ The new spindles were then reduced to a spool diameter of \(18mm\) and the new t
 
 This design still is not ideal, but is a compromise between reducing the reaction torque on the gearboxes and not reducing the actuation velocity too low.
 The torques induced onto the gearbox could still go over the rated value during maximum tension scenarios, but reduces the actuation speed to \(47\%\) of the original value set by Iscen.
-To further reduce the reaction torques applied to the gearboxes, a maximum position of cable change was set to keep the reaction torque applied my any one motor to be within the nominal spool reaction torque in equation~\ref{new_nom}.
+To further reduce the reaction torques applied to the gearboxes, a maximum position of cable change was set to keep the reaction torque applied by any one motor to be within the nominal spool reaction torque in equation~\ref{new_nom}.
 Though experimentation, the limit was found to be \(40cm\) of cable change from a pretension value in each cable of \(100N\).
 
 \subsection{Cable Material}
@@ -133,7 +133,7 @@ Figure~\ref{fig:cable_break} shows different stages of the vectran cable as it w
 \begin{figure}[thpb]
       \centering
       \includegraphics[width=0.8\columnwidth]{tex/img/broken_cable}
-      \caption{This figure shows how wear on the cable. The vectran cable's protective outer coating wears off during use which then allows for the individual fibers to break weakening the entire cable. Eventually this wear will degrade the max holding tension to the point of failure. The black cable is a new vectran cable and the cable below shows the black coating worn away and a breakage point. The bottom cable is from an actual failure on the system during a run. Since the system can absorb forces, when the cable breaks the stored energy gets distributed into the robot and no violent backlash is experienced.}
+      \caption{This figure shows wear on the cable. The vectran cable's protective outer coating wears off during use which then allows for the individual fibers to break weakening the entire cable. Eventually this wear will degrade the max holding tension to the point of failure. The black cable is a new vectran cable and the cable below shows the black coating worn away and a breakage point. The bottom cable is from an actual failure on the system during a run. Since the system can absorb forces, when the cable breaks the stored energy gets distributed into the robot and no violent backlash is experienced.}
       \label{fig:cable_break}
 \end{figure}
 
@@ -185,9 +185,9 @@ Though the lower-pretension tests show smaller changes in readings, the higher p
 \paragraph{Force Sensing Viability}
 The force reaction sensor was the only custom sensor to accurately sense the forces applied.
 However, inconsistencies in manufacturing this sensor made calibration of each sensor extremely difficult.
-This coupled with not being robust to handling, it was extremely difficult to get all twelve sensors working at one time.
+%This coupled with not being robust to handling, it was extremely difficult to get all twelve sensors working at one time.
 A single sensor could be made, calibrated and functional for about a day or two after which the sensor's strain gages would shift.
-This either would making the calibration no longer valid or be such an shift, that the sensor would no longer be functional.
+This either would make the calibration no longer valid or be such a shift, that the sensor would no longer be functional.
 Due to these set backs, the force sensors were disregarded as viable sensors to be used on the system.
 
 \section{Electrical Evaluation}
@@ -214,10 +214,10 @@ However, this feature was never utilized and in hind sight would never need to s
 
 \subsection{Motor Board}
 For the most part, all the electronic boards on \SB{} functioned as designed with only the motor control board having lasting issues that hindered the performance of the system.
-The motor board was suppose to be a low cost solution to achieve position, velocity, and torque control utilizing the Field Oriented Control (FOC) method to commutate the brushless DC motors.
+The motor board was supposed to be a low cost solution to achieve position, velocity, and torque control utilizing the Field Oriented Control (FOC) method to commutate the brushless DC motors.
 A third party start-up company was tasked with the design of the motor board.
 It took the company many attempts to get a working version for just position control, with the initial delivery causing motors to generate excessive heat due to shorting the windings during commutation.
-After a quick redesign and manufacturing new boards, position control was achieve with pretty good results.
+After a quick redesign and manufacturing new boards, position control was achieved with pretty good results.
 However, the company went out of business after their delivery of working motor control boards and never completed their implementation of the other control methods.
 This in conjunction with the issues stated in section~\ref{force_sensing_failure}, torque control was never implemented.
 
@@ -254,9 +254,9 @@ However, these fixes never solved the network connection issue.
 
 The maximum range of the system was also limited due to the budget home router used.
 Since purchasing though a government entity put limits on computer hardware, it was difficult to find a good wireless router which fit the design needs and budget.
-Therefore, a budget router was purchase and the routing feature on the wireless router was disabled.
+Therefore, a budget router was purchased and the routing feature on the wireless router was disabled.
 In its place, a Linux computer was setup as the router.
-The budge wireless router (now a wireless access point), had a very weak signal and limited the systems range to about \(\SI{12}{\meter}\) in an open space.
+The budget wireless router (now a wireless access point), had a very weak signal and limited the systems range to about \(\SI{12}{\meter}\) in an open space.
 
 % \textcolor{red}{
 %  - CAN Bus 

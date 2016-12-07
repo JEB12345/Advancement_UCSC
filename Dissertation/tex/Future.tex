@@ -2,8 +2,8 @@
 \label{conclusion}
 
 \section{Contribution}
-The contributions of this dissertation to the field of tensegrity robotics are effective state estimation from a large number of noisy senors in near real time, algorithms and methods that will control underactuated tensegrity robotic systems with limited sensor data, and implement a control policy learned entirely through simulation with no prior knowledge of system dynamics on physical hardware.
-Another smaller contribution to tensegrity robotics was the creation of the world first unteathered underactuated tensegrity robot was built.
+The contributions of this dissertation to the field of tensegrity robotics are effective state estimation from a large number of noisy senors in near real time, algorithms and methods that will control underactuated tensegrity robotic systems with limited sensor data, and implemented a control policy learned entirely through simulation with no prior knowledge of system dynamics on physical hardware.
+Another smaller contribution to tensegrity robotics was the creation of the world's first unteathered underactuated tensegrity robot capable of complex controls.
 Artificial neural networks (ANN) where the main control methodology used due to the inherent nonlinear system dynamics, since ANN are data driven controllers which do not require dynamic models.
 Several learning methods were used to train a ANN to accomplish locomotion as well as escaping from simulated craters.
 In completing these tasks, contributions were also made to the fields of machine learning and sensor fusion.
@@ -16,7 +16,7 @@ In completing these tasks, contributions were also made to the fields of machine
 It succeeded in performing and showcasing a tensegrity robot built for locomotion, though it does have its limitations.
 An evaluation of \SB{} and its limitations may be found in appendix~\ref{app:evalutation}. 
 
-To over come these limitations and to further expand the types of control polices for a \SB{} like robot, a re-design is proposed which has full cable actuation and will be more robust to large environmental impacts.
+To overcome these limitations and to further expand the types of control polices for a \SB{} like robot, a re-design is proposed which has full cable actuation and will be more robust to large environmental impacts.
 The largest limitation for the current design of \SB{} is the limited low level motor control, force sensing, and actuation stroke.
 With the advent of robotic companies producing commercial off-the-shelf (COTS) motor solutions, using a COTS motor with integrated force sensing and control would be a viable option.
 Table~\ref{cots} show a limited list of companies which offer products that could be consider for a \SB{} re-design.
@@ -37,7 +37,7 @@ Table~\ref{cots} show a limited list of companies which offer products that coul
 >{\columncolor[HTML]{FFFFFF}}c |}
 \hline
 \textbf{Company} & Dynamixel & Kinova & Muse Robotics                                                          & Hebi Robotics \\ \hline
-\textbf{Product} & MX-106    & K-58   & \begin{tabular}[c]{@{}c@{}}custom motor \\ control boards\end{tabular} & X8-3          \\ \hline
+\textbf{Product} & MX-106    & K-58   & \begin{tabular}[c]{@{}c@{}}COTS motor \\ control boards\end{tabular} & X8-3          \\ \hline
 \end{tabular}%
 }
 \end{table}
@@ -45,7 +45,7 @@ Table~\ref{cots} show a limited list of companies which offer products that coul
 From table~\ref{cots}, a likely candidate to succeed is the X8-3 from Hebi Robotics.
 This COTS actuator has position, velocity, and output torque control which utilizes a series elastic element to directly sense the output torque.
 It also supports tunable control parameters and closed loops control parameters, which all run at \(\SI{1000}{\hertz}\) and can be tuned while the system is operating.
-Thus, a initial prototype has been designed around this X8-3 motor, where single rod and end cap testing still needs to be done.
+Thus, an initial prototype has been designed around this X8-3 motor, where single rod and end cap testing still needs to be done.
 This prototype eliminates the internal springs and relies on cable stretch and motor elastic element for system passive compliance.
 Figure~\ref{fig:sbv2} shows what the new design concept looks like.
 
@@ -63,7 +63,7 @@ Figure~\ref{fig:sbv2} shows what the new design concept looks like.
   \caption{}
   \label{fig:sbv2_far}
 \end{subfigure}
-\caption{Images of initial \SB{} v2 end cap designs. (a) Close up of initial design for \SB{} v2. An omni directional cable guide can be seen which eliminates cable friction and is based on a cable routing design from Friesen \etal~\cite{}. (b) Shows the full cable routing where the cable is run over a distal pulley to increase cable length for a better effective spring constant induced by the cable stretch.}
+\caption{Images of initial \SB{} v2 MTR designs. (a) Close up of initial design for \SB{} v2. An omni directional cable guide can be seen which eliminates cable friction. (b) Full cable routing where the cable is run over a distal pulley to increase cable length for a better effective spring constant induced by the cable stretch.}
 \label{fig:sbv2}
 \end{figure}
 
@@ -105,9 +105,9 @@ Using this control method as well as the basic steering from section~\ref{sec:st
 One limitation with the controllers developed so far for \SB{} is their reliance on centralized controllers for basic locomotion.
 A computer connects to \SB{}'s network in order to receive and send data over a standard 802.11~\cite{ieee1997wireless} wireless protocol using the ROS UDP messaging protocol.
 This allows for easy communication between the robot and the control computer, however large amounts of data can be lost from this network structure.
-Hight data loss dramatically affects the performance of a controller and may even cause the controller to fail.
+High data loss dramatically affects the performance of a controller and may even cause the controller to fail.
 Utilizing a decentralized control method will allow the individual actuators to adapt without this wireless network layer.
-Mirletz \etal developed a control scheme which uses Central Pattern Generator on each actuator to achieve decentralized locomotion for a snake like tensgerity structure~\cite{mirletz2015goal}.
+Mirletz \etal developed a control scheme which uses a Central Pattern Generator on each actuator to achieve decentralized locomotion for a snake like tensgerity structure~\cite{mirletz2015goal}.
 Taking this approach and replacing the learning method with the guided policy search method shown in section~\ref{sec:mdgps}, a controller could be learned in a fraction of the time that may require no hand tuning to implement on hardware.
 This will enable \SB{} to learn gaits optimized for various terrains which requires no external centralized control input.
 
@@ -115,12 +115,12 @@ This will enable \SB{} to learn gaits optimized for various terrains which requi
 Having basic locomotion controls achieved, high level navigation and path planning techniques can be researched and demonstrated.
 The path planning method discussed in section~\ref{sec:belief}, currently relies on random actuator commands to actuate the simulated \SB{} like robot along a given path.
 The author directly states that faster and more computationally efficient paths will be generated if the algorithm can assume some level of confidence when selecting a control input~\cite{littlefieldintegrating}.
-Using a method like the guided policy search (GPS) method mentioned above, a list of control inputs for various scenarios may be compiled.
+Using a method like the guided policy search method mentioned above, a list of control inputs for various scenarios may be compiled.
 It may also be possible to integrate the GPS algorithm into the path planning method, enabling the creation of efficient gaits when new environments are encountered.
 
 \section{Conclusion}
 
-This works hopes to inform and further future research into tensegrity and highly compliant cable driven robotics, especially for use in terrestrial exploration.
+This works hopes to inform and further future research into tensegrity and highly compliant cable driven robotics, and their applications in terrestrial exploration.
 The future of terrestrial robotics will utilize passive compliance to adapt and perform in scenarios such as rocky and icy terrain, surviving high falls, and navigating through extreme conditions where it will be difficult for non-passively compliant robots to perform.
 
 % \begin{itemize}
@@ -166,4 +166,3 @@ The future of terrestrial robotics will utilize passive compliance to adapt and 
 % This shows promise that a tensegrity robot may sense changes in terrain without the need for extra sensors.
 % If a similar technique can be achieved on \SB{} in a real-time manor, then the open loop gait pattern used from \ref{open_loop} can be altered to better locomote over the sensed terrain.
 % This new locomotion gait may either be hand tuned parameters or learned behavior.
-

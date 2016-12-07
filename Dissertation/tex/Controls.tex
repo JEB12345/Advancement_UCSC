@@ -24,8 +24,8 @@ For the rest of this section, deformation is assumed to be done by actuating the
 \end{figure}
 
 % \SB{} is a tensegrity structure is the shape of an icosahedron.
-An regular convex icosahedron is a geometric shape consisting of eight equilateral triangle interlaced with twelve isosceles triangles.
-In a passively sable configuration, the bottom of an icosahedron will be resting on either an equilateral or a isosceles triangle.
+A regular convex icosahedron is a geometric shape consisting of eight equilateral triangles interlaced with twelve isosceles triangles.
+In a passively stable configuration, the bottom of an icosahedron will be resting on either an equilateral or an isosceles triangle.
 Utilizing this knowledge, the most simple method for moving the center of mass of an icosahedron can be obtained by changing the length of one side of the bottom triangle to near zero.
 This will always move the center of mass to an unstable configuration by effectively reducing the bottom triangle, as seen if figure~\ref{fig:single_flop}, which will cause the robot to transition to another face.
 However, this simple control method is not always obtainable on a real robotic system due to limitation on actuation or design methodology.
@@ -52,7 +52,7 @@ Therefore, there is a unique pattern of cables, and care is needed when choosing
     \includegraphics[width=0.8\linewidth]{tex/img/SB_RedvBlue_with_Walk}
     \vspace{-0.4in}
     \caption{
-    This image shows the actuation pattern used on \SB{}. There are 8 equilateral triangles, shown in either red or blue.
+    This is the actuation pattern used on \SB{}. There are 8 equilateral triangles, shown in either red or blue.
     Each red triangle represents a face with only one cable actuated. 
     These actuated cables are denoted by the yellow double arrows. 
     Each blue triangle represents a face with actuators on all cables. 
@@ -66,15 +66,15 @@ Therefore, there is a unique pattern of cables, and care is needed when choosing
 For \SB{}, a symmetric pattern is used where each equilateral triangle has at least one actuator associated with one of its sides.
 As stated in section~\ref{design}, \SB{} has eight equilateral triangles, so at most three triangles will have more than one actuated side.
 These triangles are evenly spaced round the surface of the robot such that there are "rings" of six equilateral triangles with the other two triangles flanking this ring.
-Forward locomotion is then achieved by transitioning the structure such that each of the six equilateral triangles on this "ring" come in complete contact with the ground at some instantaneous point in time.
-Since a symmetric pattern was desired, it was chosen to placing one actuator per "ring" triangle in such a way where the theoretical full actuation length change of that triangle side would cause the robot to transition towards the next sequential equilateral triangle on that "ring".
-The other six motors where then attached as all the side of the remaining two equilateral triangles, those not associated with the "ring".
+Forward locomotion is then achieved by transitioning the structure such that each of the six equilateral triangles on this "ring" comes in complete contact with the ground at some instantaneous point in time.
+Since a symmetric pattern was desired, it was chosen to place one actuator per "ring" triangle in such a way where the theoretical full actuation length change of that triangle side would cause the robot to transition towards the next sequential equilateral triangle on that "ring".
+The other six motors were then attached at all the side of the remaining two equilateral triangles, those not associated with the "ring".
 Figure~\ref{fig:actuator_pattern} (a) shows a graphical overlay of the actuation "ring" and the fully actuated triangles marked in red and blue, respectively.
 Figure~\ref{fig:actuator_pattern} (b) is a icosahedron rolled out to show the "walking" gait pattern achieved by rolling about the actuation "ring".
 
 \subsection{Basic Steering Controller}
 \label{sec:steering}
-THe majority of this chapter deals with how to achieve a continuous forward locomotion gait for \SB{}.
+The majority of this chapter deals with how to achieve a continuous forward locomotion gait for \SB{}.
 However, having the ability to turn makes navigation a bit more interesting and this section will discuss some preliminary results in achieving a simple left and right turning gait.
 It has been shown in literature that a simulated fully actuated (24 actuators) \SB{} like robot can achieve left and right turning gaits~\cite{kim2014rapid} as well as goal direction navigation~\cite{iscen2014flop}.
 
@@ -95,16 +95,16 @@ It has been shown in literature that a simulated fully actuated (24 actuators) \
 
 The current version of \SB{} has limited actuation as stated in section~\ref{basic_locomotion} and can not perform the published turning gaits.
 A simple solution which can be implemented with any type of forward locomotion controller involves the use of the two fully actuated equilateral triangles outlined in section~\ref{sec:pattern} and shown in figure~\ref{fig:actuator_pattern}.
-Actuating all three motors for a given triangle equal amounts (squeezing) biases the gait such that the roll performs a wide turn.
-Squeezing the triangle on the left side biases the robot left, and conversely squeezing the right triangle biases the robot right.
+Actuating all three motors for a given triangle equal amounts will bias the gait such that the roll performs a wide turn.
+This equal actuation of the triangle on the left side biases the robot left, and conversely the right triangle biases the robot right.
 This behavior can be seen in figure~\ref{fig:turning}.
 
 \section{Hand-Tuned Stepwise Controller}
 \label{hand_stepwise}
 The initial controller developed for \SB{} was a basic open loop, hand tuned controller.
-Motor position commands where systematically found through experimentation which moved the robot into a kinematically unstable configuration for each of the six faces mentioned in section~\ref{basic_locomotion}.
+Motor position commands were systematically found through experimentation which moved the robot into a kinematically unstable configuration for each of the six faces mentioned in section~\ref{basic_locomotion}.
 Under normal conditions on flat ground, when the system starts on an equilateral triangle the forward momentum of the structure after deformation will push it through the isosceles triangle and come to rest on another equilateral triangle.
-Using this assumption, only six different kinematic configurations where implemented.
+Using this assumption, only six different kinematic configurations were implemented.
 To automate this process, enabling the system to detect which face it resided on was necessary.
 A simple K-nearest neighbor algorithm was implemented on recorded IMU data for each equilateral triangle face of \SB{}.
 Since the faces are discrete enough, one hundred percent classification was found.
@@ -135,7 +135,7 @@ Figure~\ref{fig:nonlinear} shows how the tensioning on a single cable affects al
 \begin{figure}[thpb]
 \centering
 \includegraphics[width=\columnwidth]{tex/ASME-journal/results/actuate1/actuate1.eps}
-\caption{Change in length of cables when one (13th) is pulled to 0.5 meters while the others are keep at the same rest length.  Grey bars show original length, red show final length. While the robot is at the exact same orientation, the actual lengths of the cables change in a non-linear way.  Some of the cables shorten due to the tension introduced by cable 13, and some of the cables relax.}
+\caption{Change in length of cables when one (13th) is pulled to 0.5 meters while the others are kept at the same rest length.  Grey bars show original length, red show final length. While the robot is at the exact same orientation, the actual lengths of the cables change in a non-linear way.  Some of the cables shorten due to the tension introduced by cable 13, and some of the cables relax.}
 \label{fig:nonlinear}
 \end{figure}
 
@@ -155,7 +155,8 @@ Finally, the last section discusses a closed loop locomotion controller develope
 
 \subsection{Crater Escape Controller}
 \label{sec:crater}
-When designing and promoting your system as a more robust solution than current planetary rovers, there come a time in which you need to show that your system has the ability to handle scenarios which were not planned, one simple example could be getting stuck in a hole/crater.
+%When designing and promoting your system as a more robust solution than current planetary rovers, there come a time in which you need to show that your system has the ability to handle scenarios which were not planned, one simple example could be getting stuck in a hole/crater.
+This section explains a locomotion controller that actuates a simulated \SB{} like structure out of a hole/crater.
 In order to achieve a solution to this task, a two stage Monte Carlo technique is used on a simplified control space on a simulated fully actuated \SB{} in NTRT.
 The simplified control space consists of clustering each equilateral triangle, shown in section~\ref{basic_locomotion}, such that all three actuators in that cluster follow a sine wave dictated by equation~\ref{sine}
 
@@ -165,18 +166,18 @@ y = Asin(\omega t + \varphi) + D
 \end{align}
 
 Where \(A\) is amplitude, \(\omega\) is angular frequency, \(\varphi\) is phase change, and \(D\) is the DC offset.
-This makes \(32\) parameters for a policy to learn and search over (\(4 \text{parameters} \time 8 \text{clusters}\).
+This makes \(32\) parameters for a policy to learn and search over (4 parameters $\times$ 8 clusters).
 A successful policy is one where the robot moves a linear distance greater than the maximum radius of the hole/crater it starts in.
 
-There are two stages to this process, where the first stage run \(1000\) samples with evenly distributed random parameters for each sample (generation 0).
-The second stage (generation 1) filters out the successful sample from the first stage and runs \(10\) evenly distributed samples around each of the previously successful parameters such that each value is no more than \(\pm 0.05\%\)
+There are two stages to this process, where the first stage run \(1000\) samples with evenly distributed random parameters for each samples (generation 0).
+The second stage (generation 1) filters out the successful samples from the first stage and runs \(10\) evenly distributed samples around each of the previously successful parameters such that each value is no more than $\pm 0.05$\% from the initial value.
 Each sample is let run for a simulation time of \(\SI{60}{\second}\).
 This approach makes it feasible to run this simulation process in a relatively short time frame (less than 40 minutes on a 2014 or later quad core i7 or equivalent processor), enabling the system to learn a new policy based on a real time estimate of its current state.
 It should be noted that this is a simplified open loop control policy of the one used in the open loop locomotion controller found in section~\ref{sec:openLoopControl}.
 
 \subsubsection{Experiment and Results}
-Since NTRT is a numerical solver, stability issues can arise when using small numbers.
-To mitigate this, all values inside the simulator were increased by a factor of \(100\), e.g. \SB{}'s rod length increase from \(\SI{1.75}{\meter} \text{to} \SI{175}{\meter}\) and the hole/crater is increased from \(\SI{0.5}{\meter} \text{to} \SI{50}{\meter}\).
+%Since NTRT is a numerical solver, stability issues can arise when using small numbers.
+%To mitigate this, all values inside the simulator were increased by a factor of \(100\), e.g. \SB{}'s rod length increase from \(\SI{1.75}{\meter} \text{to} \SI{175}{\meter}\) and the hole/crater is increased from \(\SI{0.5}{\meter} \text{to} \SI{50}{\meter}\).
 Following the escape criterion set in the previous section, the robot escapes the hole/creater when a linear distance of \(\SI{25}{meter}\) is reached in the simulation environment.
 
 \begin{figure}
@@ -254,7 +255,7 @@ These preliminary results demonstrate that it is possible to actuate a \SB{} lik
 \subsection{Co-Evolutionary Learning for an Open Loop Controller}
 \label{sec:openLoopControl}
 This section explores an evolutionary controller on a fully actuated (24 actuators) \SB{} like robot, and all the results are based on a simulated robot in NTRT.
-However, this work shows how a controller learned through machine learning can utilize the dynamics of such a structure to find optimally consistent locomotion gaits for goal directed behavior.
+This work shows how a controller learned through machine learning can utilize the dynamics of such a structure to find optimally consistent locomotion gaits for goal directed behavior.
 The work presented in this section are summarized sections of collaborative work found in Iscen~\etal's work~\cite{iscen2015learning}.
 
 \input{tex/ASME-journal/openLoop_atil}
@@ -393,7 +394,7 @@ the accumulation of uncertainty and errors.
 However, $L$ local policies $\trajdist_i^1,\ldots,\trajdist_i^L$ can be learned for each
 initial state $i$, each optimized for $T^{\trajdist}/L$ time steps. For the
 local policies $\trajdist_i^j$, $j\in\{2,\ldots,L\}$, we set the initial state
-$\state_0^j$ to be the final state of the preceding local policy, i.e.,
+$\state_0^j$ to be the final state of the preceding local policy, i.e.
 $\state_{T^{\trajdist}/L}^{j-1}$. This amounts to training local policies in a
 sequential fashion, where the $L$ local policies together are optimized over
 $T^{\trajdist}$ time steps.
@@ -472,8 +473,8 @@ Initially, these samples are taken from the local polices, but are switched to t
 
 \subsubsection{Kinematic Constraints for Safe Actions}
 
-A challenge for machine learning techniques is that policy requirements are usually encoded into the techniques unique cost function.
-This function not only needs to guide task level objectives, such as movement, but without any other external limits the cost function must also guide hard constraints like safety.
+A challenge for machine learning techniques is that policy requirements are usually encoded into the techniques' unique cost function.
+This function not only needs to guide task level objectives, such as movement, but the cost function must also guide hard constraints like safety without any other external limits.
 Due to the fact that \SB{} only has position control, as outlined in section~\ref{sec:cable_tension}, a random sampling of motor position might cause the system to tension a cable beyond it's mechanical limit breaking the cable, the motor, or both.
 These configurations of tension limits are difficult to to embed analytically into the cost function and even harder to optimally balance with task level objectives.
 Thus, a simple global motor position safety constraint method was implemented that interfaces outside of the machine learning framework.
@@ -493,7 +494,7 @@ Thus, a simple global motor position safety constraint method was implemented th
 % policies, as it naturally embeds itself into the training procedure.
 
 Specifically, the cable tensions are estimated for a particular set of actuator positions using a simple forward kinematic model of \SB{}.
-This model is based the model outlined in section~\ref{sec:dynamic_modeling_sb} with the simplification of no gravity or ground contact.
+This model is based on the model outlined in section~\ref{sec:dynamic_modeling_sb} with the simplification of no gravity or ground contact.
 The limits are preset as a maximum tension value exerted on any cable based on a user defined maximum value.
 For \SB{}, this maximum value was experimentally found to be \SI{250}{\newton}.
 Computing the cable tensions for a given set of motor positions takes a few milliseconds using forward

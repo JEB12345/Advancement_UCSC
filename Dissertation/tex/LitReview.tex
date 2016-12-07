@@ -78,7 +78,7 @@ cost similar or less than a stationary probe.
 
 Therefore, a large fraction of the overall weight (as measured at atmospheric entry) of a tensegrity mission can be used for the scientific payload 
 due to the dual use of the structure as a lander and a rover. 
-This allows for cheaper missions and enable new forms of surface exploration that utilize the natural tolerance to impacts of tensegrities~\cite{Vytas_IPPW_2013}.
+This allows for cheaper missions and enables new forms of surface exploration that utilize the natural tolerance to impacts of tensegrities~\cite{Vytas_IPPW_2013}.
 
 \section{Tensegrities as Soft Robots with Morphological Computation Capabilities}
 \label{sec:robots}
@@ -100,7 +100,8 @@ The Input and Output layers transfer data to and from the Hidden layer, respecti
 The Hidden layer can be comprised of one ore more sub-layers and is where the input data is converted to the output data.
 Each sub-layer of the Hidden layer is comprised of a defined number of simple functions \(H_{i}\) for \(i \in n\), where \(n\) is total number of functions in a sub-layer.
 Changing how each function \(h \in H\) is connected to other functions, by the use of weights, allows for the ANN to map its inputs to a desired output~\cite{lippmann1987introduction}. For our application, machine learning is used to estimate the connection weights through the use of a cost function.
-The cost function is an equation which measures how close to a user defined goal an iteration during the learning process was able to achieve.
+The cost function is an equation which measures the success of the learning process against a user defined parameter or set of parameters.
+%The cost function is an equation which measures how close to a user defined goal an iteration during the learning process was able to achieve.
 
 \subsubsection{ANN for Locomotion}
 Robotic learning methods have previously produced successful policies for tasks
@@ -151,7 +152,7 @@ feedbacks from the robot's onboard sensors.
 \subsection{Path Planning Through a Sampling-Based Motion Planner}
 \label{sec:belief}
 
-Recently, Littlefield \etal~\cite{littlefieldintegrating} implemented a high level sampling-based motion planner on a simulated \SB{} robot in NTRT.
+Recently, Littlefield \etal~\cite{littlefieldintegrating} implemented a high level sampling-based motion planner on a simulated \SB{} robot in the NASA Tensegrity Robotics Toolkit (NTRT), explained in chapter~\ref{modeling}.
 This method, based on a kinodynamic planner published by Yanbo \etal~\cite{li2016asymptotically}, is able to converge to an asymptotically optimal solution on dynamic systems using only forward propagation and uses a novel parallel implementation to make the forward propagation step more computationally feasible.
 The whole process is done within the NTRT simulation environment, where each parallel process is a NTRT simulation of \SB{}.
 Figure~\ref{fig:particles} shows a visual representation of two forward propagation steps with their respective uncertainty shown as overlaid transparent robots.
